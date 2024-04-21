@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 /**
@@ -8,6 +10,8 @@ public class MenuFrame extends JFrame{
     private String name = "Ahmet";
     private int streak = 7;
     private int money = 28;
+    private Monthpanel monthpanel;
+    private Diary calendar = new Diary(name, this);
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
@@ -38,13 +42,15 @@ public class MenuFrame extends JFrame{
         c.weighty = 1;
         c.anchor = GridBagConstraints.NORTHWEST;
         JButton buttonprev = new JButton("Prev month");
+        buttonprev.addActionListener(new Listener2());
         JButton buttonnext = new JButton("Next month");
+        buttonnext.addActionListener(new Listener1());
         panel.add(buttonprev);
-        panel.add(new JLabel("Anan"));//Month will be displayed;
+        monthpanel = new Monthpanel();
+        panel.add(monthpanel);//Month will be displayed
         panel.add(buttonnext);
         panel.setPreferredSize(new Dimension(400,100));
         this.add(panel,c);
-        JPanel calendar = new JPanel();
         calendar.setPreferredSize(new Dimension(400, 300));
         c.gridx = 0;
         c.gridy = 1;
@@ -201,6 +207,29 @@ public class MenuFrame extends JFrame{
             g.setColor(Color.BLACK);
             g.setFont(buttonfont);
             g.drawString(name, 20, 40);
+        }
+    }
+    class Listener1 implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            calendar.MonthForwardOrBack(true);
+            monthpanel.repaint();
+        }
+    }
+    class Listener2 implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            calendar.MonthForwardOrBack(false);
+            monthpanel.repaint();
+        }
+    }
+    class Monthpanel extends JPanel
+    {
+        public void paintComponent(Graphics g)
+        {
+            g.drawString(calendar.getMonth(), 10, 15);
         }
     }
 }
