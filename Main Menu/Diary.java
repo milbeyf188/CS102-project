@@ -34,6 +34,7 @@ public class Diary extends JPanel
     private int year;
 
     private JFrame frame;
+    private ArrayList<buttonListener> currentButtons;
 
     public Diary(String profile, JFrame frame)
     {
@@ -102,6 +103,7 @@ public class Diary extends JPanel
         Calendar timeToShow = new GregorianCalendar(this.year, this.month, 1);
 
         this.removeAll();
+        this.currentButtons = new ArrayList<buttonListener>();
 
         for(int i = 0; i < Calendar.DAY_OF_WEEK; i++) 
         {
@@ -117,7 +119,9 @@ public class Diary extends JPanel
 
         for(int i = 1; i < timeToShow.getActualMaximum(Calendar.DAY_OF_MONTH) + 1; i++)
         {
-            add(new buttonListener(year, month + 1, i, this));
+            buttonListener button = new buttonListener(year, month + 1, i, this);
+            currentButtons.add(button);
+            add(button);
         }
 
         for(int i = 0; i < 35 - timeToShow.getActualMaximum(Calendar.DAY_OF_MONTH) - timeToShow.get(Calendar.DAY_OF_WEEK); i++ )
@@ -144,6 +148,11 @@ public class Diary extends JPanel
             }
         }
 
+        public void setColor()
+        {
+            this.setBackground(text.getColor());
+        }
+
         public void actionPerformed(ActionEvent e)
         {
             frame.setVisible(false);
@@ -163,11 +172,14 @@ public class Diary extends JPanel
         {
             System.out.println("cant change special day folder");
         }
+
+        updateCalendar();
     }
 
     public void removeSpecial(String date)
     {
         specialDays.remove(date);
+        updateCalendar();
     } 
 
     public String getMonth()
@@ -178,5 +190,13 @@ public class Diary extends JPanel
     public int getYear()
     {
         return year;
+    }
+
+    public void updateCalendar()
+    {
+        for(int i = 0; i < currentButtons.size(); i++)
+        {
+            currentButtons.get(i).setColor();
+        }
     }
 }

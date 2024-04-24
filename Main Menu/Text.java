@@ -5,7 +5,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -114,13 +113,6 @@ public class Text extends JPanel
     public Diary getDiary()
     {
         return diary;
-    }
-
-    public void makeSpecial()
-    {
-        isSpecial = true;
-
-        diary.addSpecial(date[0] + "_" + date[1] + "_" + date[2]);
     }
 
     public boolean setChangable()
