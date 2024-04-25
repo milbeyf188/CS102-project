@@ -12,7 +12,7 @@ public class MenuFrame extends JFrame{
     private int money = 28;
     private JLabel month;
     private JPanel monthpanel;
-    private Diary calendar = new Diary(name, this);
+    private Diary diary = new Diary(name, this);
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
@@ -50,19 +50,19 @@ public class MenuFrame extends JFrame{
         
         monthpanel = new JPanel();
         monthpanel.setLayout(new BorderLayout());
-        month = new JLabel(calendar.getMonth(),(int)JLabel.CENTER_ALIGNMENT);
+        month = new JLabel(diary.getMonth() + " / " + diary.getYear(),(int)JLabel.CENTER_ALIGNMENT);
 
         monthpanel.add(month,BorderLayout.CENTER);
         panel.add(monthpanel);//Month will be displayed
         panel.add(buttonnext);
         panel.setPreferredSize(new Dimension(400,100));
         this.add(panel,c);
-        calendar.setPreferredSize(new Dimension(400, 300));
+        diary.setPreferredSize(new Dimension(400, 300));
         c.gridx = 0;
         c.gridy = 1;
         c.weightx = 0;
         c.weighty = 1;
-        this.add(calendar,c);
+        this.add(diary,c);
         c.gridx = 0;
         c.gridy = 2;
         c.weightx = 0;
@@ -195,7 +195,7 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            Image image = Toolkit.getDefaultToolkit().getImage("FireImage.png");
+            Image image = Toolkit.getDefaultToolkit().getImage("FİreImage.png");
             super.paintComponent(g);
             setBackground(backgroundColor);
             g.drawImage(image,10,10,this);
@@ -219,16 +219,16 @@ public class MenuFrame extends JFrame{
     {
         public void actionPerformed(ActionEvent event)
         {
-            calendar.MonthForwardOrBack(true);
-            month.setText(calendar.getMonth());
+            diary.MonthForwardOrBack(true);
+            month.setText(diary.getMonth() + " / " + diary.getYear());
         }
     }
     class Listener2 implements ActionListener
     {
         public void actionPerformed(ActionEvent event)
         {
-            calendar.MonthForwardOrBack(false);
-            month.setText(calendar.getMonth());
+            diary.MonthForwardOrBack(false);
+            month.setText(diary.getMonth() + " / " + diary.getYear());
         }
     }
 }

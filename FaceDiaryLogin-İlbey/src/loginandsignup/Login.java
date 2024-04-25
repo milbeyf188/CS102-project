@@ -206,5 +206,5 @@ public class Login extends javax.swing.JFrame
     {
         char[] charArray = str.toCharArray();
         return charArray;
-    }
+    } 
 }
