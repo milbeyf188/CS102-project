@@ -10,7 +10,8 @@ public class MenuFrame extends JFrame{
     private String name = "Ahmet";
     private int streak = 7;
     private int money = 28;
-    private Monthpanel monthpanel;
+    private JLabel month;
+    private JPanel monthpanel;
     private Diary calendar = new Diary(name, this);
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
@@ -46,7 +47,12 @@ public class MenuFrame extends JFrame{
         JButton buttonnext = new JButton("Next month");
         buttonnext.addActionListener(new Listener1());
         panel.add(buttonprev);
-        monthpanel = new Monthpanel();
+        
+        monthpanel = new JPanel();
+        monthpanel.setLayout(new BorderLayout());
+        month = new JLabel(calendar.getMonth(),(int)JLabel.CENTER_ALIGNMENT);
+
+        monthpanel.add(month,BorderLayout.CENTER);
         panel.add(monthpanel);//Month will be displayed
         panel.add(buttonnext);
         panel.setPreferredSize(new Dimension(400,100));
@@ -214,7 +220,7 @@ public class MenuFrame extends JFrame{
         public void actionPerformed(ActionEvent event)
         {
             calendar.MonthForwardOrBack(true);
-            monthpanel.repaint();
+            month.setText(calendar.getMonth());
         }
     }
     class Listener2 implements ActionListener
@@ -222,14 +228,7 @@ public class MenuFrame extends JFrame{
         public void actionPerformed(ActionEvent event)
         {
             calendar.MonthForwardOrBack(false);
-            monthpanel.repaint();
-        }
-    }
-    class Monthpanel extends JPanel
-    {
-        public void paintComponent(Graphics g)
-        {
-            g.drawString(calendar.getMonth(), 10, 15);
+            month.setText(calendar.getMonth());
         }
     }
 }
