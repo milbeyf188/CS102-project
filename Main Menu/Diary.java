@@ -88,12 +88,12 @@ public class Diary extends JPanel
     {
         if(month < 0)
         {
-            month = 12;
+            month = 11;
             year--;
         }
-        else if(month > 12)
+        else if(month > 11)
         {
-            month = 1;
+            month = 0;
             year++;
         }
 
