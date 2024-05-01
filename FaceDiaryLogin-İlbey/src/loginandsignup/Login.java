@@ -1,5 +1,5 @@
-
 package loginandsignup;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -182,11 +182,12 @@ public class Login extends javax.swing.JFrame
                 }
                 if (notFound == 1 && Arrays.equals(Password, userPassword)) 
                 {
-                    Home HomeFrame = new Home();
+                    int userID = rs.getInt("ID");
+                    Home HomeFrame = new Home(userID);
                     HomeFrame.setVisible(true);
                     HomeFrame.pack();
                     HomeFrame.setLocationRelativeTo(null);
-                    this.dispose();
+                    this.dispose(); 
                 } 
                 else 
                 {

@@ -5,7 +5,8 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class SignUp extends javax.swing.JFrame
@@ -158,52 +159,61 @@ public class SignUp extends javax.swing.JFrame
         this.dispose();
     }
 
-    private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) 
-    {
+    private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {
         String fullName, email, query;
         char[] password;
         String url, userName, SPass;
         url = "jdbc:MySQL://localhost:3306/facediary";
         userName = "root";
         SPass = "";
-        try 
-        {
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, userName, SPass);
             Statement st = con.createStatement();
-            
-            if("".equals(fname.getText()))
-            {
-                JOptionPane.showMessageDialog(new JFrame(), "Full Name is require", "Error",JOptionPane.ERROR_MESSAGE);
+    
+            if ("".equals(fname.getText())) {
+                JOptionPane.showMessageDialog(new JFrame(), "Full Name is required", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if ("".equals(emailAddress.getText())) {
+                JOptionPane.showMessageDialog(new JFrame(), "Email Address is required", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if ((pass.getPassword()).length == 0) {
+                JOptionPane.showMessageDialog(new JFrame(), "Password is required", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                fullName = fname.getText();
+                email = emailAddress.getText();
+                password = pass.getPassword();
+    
+                
+                
+                int nextUserId = 1; 
+                String getMaxIdQuery = "SELECT MAX(ID) AS maxId FROM userinfo";
+                try (ResultSet rs = st.executeQuery(getMaxIdQuery)) {
+                    if (rs.next()) {
+                        int maxId = rs.getInt("maxId");
+                        nextUserId = maxId + 1;
+                    }
+                }
+    
+                
+                query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints) VALUES (?, ?, ?, ?, ?)";
+                try (PreparedStatement pst = con.prepareStatement(query)) {
+                    pst.setInt(1, nextUserId);
+                    pst.setString(2, fullName);
+                    pst.setString(3, email);
+                    pst.setString(4, String.valueOf(password));
+                    pst.setInt(5, 0);
+                    pst.executeUpdate();
+                }
+    
+                // Clear input fields
+                fname.setText("");
+                emailAddress.setText("");
+                pass.setText("");
+    
+                
+                JOptionPane.showMessageDialog(null, "New account has been created successfully!");
             }
-            else if("".equals(emailAddress.getText()))
-            {
-                JOptionPane.showMessageDialog(new JFrame(), "Email Address is require", "Error",JOptionPane.ERROR_MESSAGE);
-            }
-            else if((pass.getPassword()).length == 0)
-            {
-                JOptionPane.showMessageDialog(new JFrame(), "Password is require", "Error",JOptionPane.ERROR_MESSAGE);
-            }
-            else 
-            {
-            fullName = fname.getText(); 
-            email    = emailAddress.getText();
-            password = (pass.getPassword());
-            
-            
-            query = "INSERT INTO userinfo(Name, eMail, password,UserPoints)"+ "VALUES('"+fullName+"', '"+email+"' , '"+ String.valueOf(password)+"', '"+ 0+"')";
-            
-            st.execute(query);
-            fname.setText("");
-            emailAddress.setText("");
-            pass.setText("");
-            showMessageDialog(null, "New account has been created successfully!");
-            }
-        }
-        catch(Exception e)
-        {
-           System.out.println("Error!" + e.getMessage()); 
+        } catch (Exception e) {
+            System.out.println("Error!" + e.getMessage());
         }
     }
-}
-    
+}    
