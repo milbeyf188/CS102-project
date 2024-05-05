@@ -8,7 +8,7 @@ public class Profile
     //private Badges_Class? badges;
     //private Friends_Class? friends;
     private String birthday;
-
+    private int money;
 
     //Bu kısımda databaseden değerler classdaki değerlere atanacak. Fonksiyonlar lazım
 
@@ -16,12 +16,13 @@ public class Profile
 
 
 
-    public Profile(String name, int streak, String status, String birthday)
+    public Profile(String name, int streak, String status, String birthday,int money)
     {
         this.name = name;
         this.streak = streak;
         this.status = status;
         this.birthday = birthday;
+        this.money = money;
     }
 
 
@@ -39,7 +40,10 @@ public class Profile
     {
         return this.status;
     }
-
+    public int getMoney()
+    {
+        return money;
+    }
     /*
     public Badges getBadges()
     {

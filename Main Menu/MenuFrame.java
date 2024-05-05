@@ -6,18 +6,22 @@ import javax.swing.*;
 /**
  * MenuFrame
  */
+
+import CS_Project_Profile.Profile;
 public class MenuFrame extends JFrame{
+    private Profile profile;
     private String name = "Ahmet";
     private int streak = 7;
     private int money = 28;
     private JLabel month;
     private JPanel monthpanel;
-    private Diary diary = new Diary(name, this);
+    private Diary diary = new Diary(profile.getName(), this);
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
-    public MenuFrame()
+    public MenuFrame(Profile profile)
     {
+        this.profile = profile;
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setName("Main menu");
@@ -130,7 +134,7 @@ public class MenuFrame extends JFrame{
             g.drawImage(image,10,10,this);
             g.setFont(new Font("Comic sans", 0, 30));
             g.setColor(Color.WHITE);
-            g.drawString(String.valueOf(money),100,50);
+            g.drawString(String.valueOf(profile.getMoney()),100,50);
         }
     }
     class RoundedButton extends JButton
@@ -202,7 +206,7 @@ public class MenuFrame extends JFrame{
             Font f = buttonfont.deriveFont(50);
             g.setFont(f);
             g.setColor(Color.WHITE);
-            g.drawString(String.valueOf(streak),100,50);
+            g.drawString(String.valueOf(profile.getStreak()),100,50);
         }
     }
     class FriendPanel extends JPanel
@@ -212,7 +216,7 @@ public class MenuFrame extends JFrame{
             super.paintComponent(g);
             g.setColor(Color.BLACK);
             g.setFont(buttonfont);
-            g.drawString(name, 20, 40);
+            g.drawString(profile.getName(), 20, 40);
         }
     }
     class Listener1 implements ActionListener
