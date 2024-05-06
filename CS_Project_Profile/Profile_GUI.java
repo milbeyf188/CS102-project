@@ -6,7 +6,7 @@ import java.awt.*;
 public class Profile_GUI extends JFrame {
     public Profile_GUI() {
 
-
+        public boolean friendOrUser;
         String userName = "Yiğit";
 
 
