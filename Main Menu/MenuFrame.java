@@ -82,7 +82,7 @@ public class MenuFrame extends JFrame{
         MoneyPanel moneyPanel = new MoneyPanel();
         moneyPanel.setPreferredSize(new Dimension(400, 100));
         add(moneyPanel,c);
-        RoundedButton button = new RoundedButton(300, 75, "Badge Shop","Shopping Cart.png" );
+        RoundedButton button = new RoundedButton(300, 75, "Badge Shop","C:\\Users\\Altuner\\OneDrive\\Masaüstü\\Main Menu original\\Shopping Cart.png" );
         c.gridx = 0;
         c.gridy = 4;
         c.weighty = 1;
@@ -129,7 +129,7 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            Image image = Toolkit.getDefaultToolkit().getImage("Money Image.png");
+            Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Altuner\\OneDrive\\Masaüstü\\Main Menu original\\Money Image.png");
             super.paintComponent(g);
             setBackground(backgroundColor);
             g.drawImage(image,10,10,this);
@@ -200,7 +200,7 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            Image image = Toolkit.getDefaultToolkit().getImage("FİreImage.png");
+            Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Altuner\\OneDrive\\Masaüstü\\Main Menu original\\FireImage.png");
             super.paintComponent(g);
             setBackground(backgroundColor);
             g.drawImage(image,10,10,this);
@@ -212,12 +212,10 @@ public class MenuFrame extends JFrame{
     }
     class FriendPanel extends JPanel
     {
-        public void paintComponent(Graphics g)
+        public FriendPanel()
         {
-            super.paintComponent(g);
-            g.setColor(Color.BLACK);
-            g.setFont(buttonfont);
-            g.drawString(profile.getName(), 20, 40);
+            JLabel label = new JLabel(profile.getName());
+            label.setPreferredSize(new Dimension(75, 50));
         }
     }
     class Listener1 implements ActionListener
