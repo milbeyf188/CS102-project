@@ -15,13 +15,14 @@ public class MenuFrame extends JFrame{
     private int money = 28;
     private JLabel month;
     private JPanel monthpanel;
-    private Diary diary = new Diary(profile.getName(), this);
+    private Diary diary;
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
     public MenuFrame(Profile profile)
     {
         this.profile = profile;
+        diary = new Diary(profile.getName(), this);
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setName("Main menu");
