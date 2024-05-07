@@ -3,12 +3,10 @@ package CS_Project_Profile;
 import javax.swing.*;
 import java.awt.*;
 
-public class Profile_GUI extends JFrame 
-{
-    public boolean friendOrUser;
+public class Profile_GUI extends JFrame {
     public Profile_GUI() {
 
-        
+
         String userName = "Yiğit";
 
 

@@ -15,14 +15,13 @@ public class MenuFrame extends JFrame{
     private int money = 28;
     private JLabel month;
     private JPanel monthpanel;
-    private Diary diary;
+    private Diary diary = new Diary(profile.getName(), this);
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
     public MenuFrame(Profile profile)
     {
         this.profile = profile;
-        diary = new Diary(profile.getName(), this);
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setName("Main menu");
@@ -82,7 +81,7 @@ public class MenuFrame extends JFrame{
         MoneyPanel moneyPanel = new MoneyPanel();
         moneyPanel.setPreferredSize(new Dimension(400, 100));
         add(moneyPanel,c);
-        RoundedButton button = new RoundedButton(300, 75, "Badge Shop","C:\\Users\\Altuner\\OneDrive\\Masaüstü\\Main Menu original\\Shopping Cart.png" );
+        RoundedButton button = new RoundedButton(300, 75, "Badge Shop","Shopping Cart.png" );
         c.gridx = 0;
         c.gridy = 4;
         c.weighty = 1;
@@ -129,7 +128,7 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Altuner\\OneDrive\\Masaüstü\\Main Menu original\\Money Image.png");
+            Image image = Toolkit.getDefaultToolkit().getImage("Money Image.png");
             super.paintComponent(g);
             setBackground(backgroundColor);
             g.drawImage(image,10,10,this);
@@ -200,7 +199,7 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Altuner\\OneDrive\\Masaüstü\\Main Menu original\\FireImage.png");
+            Image image = Toolkit.getDefaultToolkit().getImage("FİreImage.png");
             super.paintComponent(g);
             setBackground(backgroundColor);
             g.drawImage(image,10,10,this);
@@ -212,10 +211,12 @@ public class MenuFrame extends JFrame{
     }
     class FriendPanel extends JPanel
     {
-        public FriendPanel()
+        public void paintComponent(Graphics g)
         {
-            JLabel label = new JLabel(profile.getName());
-            label.setPreferredSize(new Dimension(75, 50));
+            super.paintComponent(g);
+            g.setColor(Color.BLACK);
+            g.setFont(buttonfont);
+            g.drawString(profile.getName(), 20, 40);
         }
     }
     class Listener1 implements ActionListener

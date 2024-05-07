@@ -1,7 +1,5 @@
 import java.io.File;
 
-import CS_Project_Profile.Profile;
-
 public class test {
     public static String pathString;
     public static MenuFrame facediary;
@@ -9,7 +7,6 @@ public class test {
         File myfile = new File("FaceDiary");
         myfile.mkdir();
         pathString = myfile.getAbsolutePath();
-        Profile profile = new Profile("Kaçak raki", 31, "Anan", "12/08/2024", 15);
-        facediary = new MenuFrame(profile);
+        facediary = new MenuFrame();
     }
 }
