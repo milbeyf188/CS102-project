@@ -12,7 +12,13 @@ public class Profile
 
     //Bu kısımda databaseden değerler classdaki değerlere atanacak. Fonksiyonlar lazım
 
+    Controller cont = new Controller();
 
+    this.name = cont.getNameById(/*UserID?*/);
+    this.streak = cont.getUserStreakById(/*UserID?*/);
+    this.status = cont.getStatue(/*UserID?*/);
+    this.money = cont.getUserPointsById(/*UserID?*/);
+    
 
 
 
