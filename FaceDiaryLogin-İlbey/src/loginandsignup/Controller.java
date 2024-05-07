@@ -40,7 +40,7 @@ public class Controller
         }
         return fullName;
     }
-
+    
     
     public String getEmailById(int userId) 
     {
@@ -211,7 +211,31 @@ public class Controller
         }
         return names;
     }
+    public ArrayList<Integer> getIDArray()
+    {
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
 
+            int id = 0;
+            String query = "SELECT ID FROM userinfo WHERE X = 0";
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
+                //pst.setInt(1, userId);
+                try (ResultSet rs = pst.executeQuery()) 
+                {
+                    while(rs.next()) 
+                    {
+                        id = rs.getInt("ID");
+                        numbers.add(id);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving user information: " + e.getMessage());
+        }
+        return numbers;
+    }
 
     
 

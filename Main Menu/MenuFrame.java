@@ -18,6 +18,7 @@ public class MenuFrame extends JFrame{
     private JTextField searchfriend;
     private JTextField searchadd;
     private ResultPanel resultpanel;
+    private JScrollPane scrollPane;
     private JFrame frame = this;
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
@@ -177,28 +178,7 @@ public class MenuFrame extends JFrame{
             
         }
     }
-    class NewDiaryButton extends JButton
-    {
-        public void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-            setBackground(lightblue);
-            g.setColor(Color.WHITE);
-            g.setFont(buttonfont);
-            g.drawString("New Diary", 75, 50);
-        }
-    }
-    class NewGroupDiary extends JButton
-    {
-        public void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-            setBackground(lightblue);
-            g.setColor(Color.WHITE);
-            g.setFont(buttonfont);
-            g.drawString("New Group Diary", 15, 50);
-        }
-    }
+
     //proper actionlistener should be implemented
     class StreakPanel extends JPanel
     {
@@ -251,7 +231,9 @@ public class MenuFrame extends JFrame{
             panel4.add(button3,a);
             add(panel4);
             resultpanel = new ResultPanel();//result area for adding friends
-            add(resultpanel);
+            scrollPane = new JScrollPane(resultpanel);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            add(scrollPane);
             
         }
     }
@@ -284,16 +266,20 @@ public class MenuFrame extends JFrame{
             {
             Controller con = new Controller();
             ArrayList<String> search = con.getNamesArray();
+            ArrayList<Integer> number = con.getIDArray();
             ArrayList<String> result = new ArrayList<String>();
-            for(String s: search)
+            ArrayList<Integer> numberresult = new ArrayList<Integer>();
+            for(int i = 0;i<search.size();i++)
             {
-                if(s.contains(searchadd.getText()))
+                if(search.get(i).contains(searchadd.getText()))
                 {
-                    result.add(s);
+                    result.add(search.get(i));
+                    numberresult.add(number.get(i));
                 }
             }
             resultpanel.removeAll();
-            resultpanel.changeresult(result);
+            
+            resultpanel.changeresult(result,numberresult);
             resultpanel.printusers();
             }
             
@@ -302,9 +288,11 @@ public class MenuFrame extends JFrame{
     class ResultPanel extends JPanel
     {
         private ArrayList<String> results;
-        public void changeresult(ArrayList<String> arr)
+        private ArrayList<Integer> numbers;
+        public void changeresult(ArrayList<String> arr,ArrayList<Integer> arr2)
         {
             results = arr;
+            numbers = arr2;
         }
         public void printusers()
         {
@@ -315,23 +303,26 @@ public class MenuFrame extends JFrame{
             }
             else
             {
-            for(String s : results)
+            for(int i = 0;i<results.size();i++)
             {
-                add(new ProfileButton(s));
+                add(new ProfileButton(results.get(i),numbers.get(i)));
             }
+            
             frame.setVisible(true);
             }
         }
     }
-    //proper action listnener should be implemented to add friends when pressed to button
+    
     class ProfileButton extends JButton implements ActionListener
     {
         private String name;
-        public ProfileButton(String name)
+        private int ID;
+        public ProfileButton(String name,int ID)
         {
             super(name);
+            this.ID = ID;
         }
-        public void actionPerformed(ActionEvent event)
+        public void actionPerformed(ActionEvent event)//action listener for adding friends with ıd giver        
         {
             
         }
