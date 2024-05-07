@@ -1,24 +1,24 @@
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
-/**
- * MenuFrame
- */
+
 
 import CS_Project_Profile.Profile;
+import loginandsignup.Controller;
 public class MenuFrame extends JFrame{
     private Profile profile;
-    private String name = "Ahmet";
-    private int streak = 7;
-    private int money = 28;
     private JLabel month;
     private JPanel monthpanel;
     private Diary diary;
     private JTextField searchfriend;
     private JTextField searchadd;
-    private JPanel resultpanel;
+    private ResultPanel resultpanel;
+    private JFrame frame = this;
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
@@ -233,8 +233,9 @@ public class MenuFrame extends JFrame{
             JButton button1 = new JButton("Search");
             panel5.add(button1,con);
             add(panel5);
-            resultpanel = new JPanel();
-            add(resultpanel);
+            JPanel panel7 = new JPanel();//searching among friends
+            
+            add(panel7);
             JPanel panel2 = new JPanel(new GridLayout(1, 2));
             panel2.add(new JLabel("Enter a name for searching among users to add friend!"));
             
@@ -242,13 +243,15 @@ public class MenuFrame extends JFrame{
             panel2.add(searchadd);
             add(panel2);
             JButton button3 = new JButton("Search");
+            Listener3 listener3 = new Listener3();
+            button3.addActionListener(listener3);
             JPanel panel4 = new JPanel(new GridBagLayout());
             GridBagConstraints a = new GridBagConstraints();
             a.anchor = GridBagConstraints.CENTER;
             panel4.add(button3,a);
             add(panel4);
-            JPanel panel3 = new JPanel();//result area for adding friends
-            add(panel3);
+            resultpanel = new ResultPanel();//result area for adding friends
+            add(resultpanel);
             
         }
     }
@@ -266,6 +269,69 @@ public class MenuFrame extends JFrame{
         {
             diary.MonthForwardOrBack(false);
             month.setText(diary.getMonth() + " / " + diary.getYear());
+        }
+    }
+    //Action listener of friend adding searchbar
+    class Listener3 implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            if(searchadd.getText().length() == 0)
+            {
+                JOptionPane.showMessageDialog(new JFrame(), "Name cannot be empty", "Error", ERROR_MESSAGE);
+            }
+            else
+            {
+            Controller con = new Controller();
+            ArrayList<String> search = con.getNamesArray();
+            ArrayList<String> result = new ArrayList<String>();
+            for(String s: search)
+            {
+                if(s.contains(searchadd.getText()))
+                {
+                    result.add(s);
+                }
+            }
+            resultpanel.removeAll();
+            resultpanel.changeresult(result);
+            resultpanel.printusers();
+            }
+            
+        }
+    }
+    class ResultPanel extends JPanel
+    {
+        private ArrayList<String> results;
+        public void changeresult(ArrayList<String> arr)
+        {
+            results = arr;
+        }
+        public void printusers()
+        {
+            setLayout(new GridLayout(0, 1));
+            if(results.size() == 0)
+            {
+                JOptionPane.showMessageDialog(frame, "There is no such user!");
+            }
+            else
+            {
+            for(String s : results)
+            {
+                add(new ProfileButton(s));
+            }
+            frame.setVisible(true);
+            }
+        }
+    
+    }
+    //proper action listnener should be implemented to add friends when pressed to button
+    class ProfileButton extends JButton
+    {
+        private String name;
+        public ProfileButton(String name)
+        {
+            super(name);
+            setPreferredSize(new Dimension(100, 100));
         }
     }
 }
