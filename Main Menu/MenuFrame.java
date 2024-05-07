@@ -322,16 +322,18 @@ public class MenuFrame extends JFrame{
             frame.setVisible(true);
             }
         }
-    
     }
     //proper action listnener should be implemented to add friends when pressed to button
-    class ProfileButton extends JButton
+    class ProfileButton extends JButton implements ActionListener
     {
         private String name;
         public ProfileButton(String name)
         {
             super(name);
-            setPreferredSize(new Dimension(100, 100));
+        }
+        public void actionPerformed(ActionEvent event)
+        {
+            
         }
     }
 }
