@@ -134,15 +134,19 @@ public class Controller
         
         try (Connection con = DriverManager.getConnection(url, userName, password)) {
             String query = "SELECT Statue FROM userinfo WHERE ID = ?";
-            try (PreparedStatement pst = con.prepareStatement(query)) {
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
                 pst.setInt(1, userId);
-                try (ResultSet rs = pst.executeQuery()) {
+                try (ResultSet rs = pst.executeQuery()) 
+                {
                     if (rs.next()) {
                         return rs.getString("Statue");
                     }
                 }
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             System.out.println("Error retrieving user status text: " + e.getMessage());
         }
         return null; 
@@ -150,7 +154,8 @@ public class Controller
 
     public void setUserPoints(int userId, Integer currentPoints) {
         
-        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
             String query = "UPDATE userinfo SET UserPoints = ? WHERE ID = ?";
             try (PreparedStatement pst = con.prepareStatement(query)) {
                 pst.setInt(1, currentPoints);
@@ -164,14 +169,16 @@ public class Controller
 
     public void setStreak(int userId, Integer currentStreak) {
         
-        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
             String query = "UPDATE userinfo SET Streak = ? WHERE ID = ?";
             try (PreparedStatement pst = con.prepareStatement(query)) {
                 pst.setInt(1, currentStreak);
                 pst.setInt(2, userId);
                 pst.executeUpdate();
             }
-        } catch (SQLException e) {
+        } catch (SQLException e) 
+        {
             System.out.println("Error updating user status text: " + e.getMessage());
         }
     }

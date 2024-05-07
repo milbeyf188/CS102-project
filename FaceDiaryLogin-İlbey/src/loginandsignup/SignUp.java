@@ -171,36 +171,47 @@ public class SignUp extends javax.swing.JFrame
             Connection con = DriverManager.getConnection(url, userName, SPass);
             Statement st = con.createStatement();
     
-            if ("".equals(fname.getText())) {
+            if ("".equals(fname.getText())) 
+            {
                 JOptionPane.showMessageDialog(new JFrame(), "Full Name is required", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if ("".equals(emailAddress.getText())) {
+            } 
+            else if ("".equals(emailAddress.getText())) 
+            {
                 JOptionPane.showMessageDialog(new JFrame(), "Email Address is required", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if ((pass.getPassword()).length == 0) {
+            } 
+            else if ((pass.getPassword()).length == 0) 
+            {
                 JOptionPane.showMessageDialog(new JFrame(), "Password is required", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
+            } 
+            else 
+            {
                 fullName = fname.getText();
                 email = emailAddress.getText();
                 password = pass.getPassword();
     
-                
+    
                 
                 int nextUserId = 1; 
                 String getMaxIdQuery = "SELECT MAX(ID) AS maxId FROM userinfo";
                 try (ResultSet rs = st.executeQuery(getMaxIdQuery)) {
-                    if (rs.next()) {
+                    if (rs.next()) 
+                    {
                         int maxId = rs.getInt("maxId");
                         nextUserId = maxId + 1;
                     }
                 }
     
                 
-                query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints) VALUES (?, ?, ?, ?, ?)";
-                try (PreparedStatement pst = con.prepareStatement(query)) {
+                query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints, Streak, Statue) VALUES (?, ?, ?, ?, ? , ? , ?)";
+                try (PreparedStatement pst = con.prepareStatement(query)) 
+                {
                     pst.setInt(1, nextUserId);
                     pst.setString(2, fullName);
                     pst.setString(3, email);
                     pst.setString(4, String.valueOf(password));
                     pst.setInt(5, 0);
+                    pst.setInt(6,0);
+                    pst.setString(7,"New User" );
                     pst.executeUpdate();
                 }
     
@@ -212,7 +223,9 @@ public class SignUp extends javax.swing.JFrame
                 
                 JOptionPane.showMessageDialog(null, "New account has been created successfully!");
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             System.out.println("Error!" + e.getMessage());
         }
     }
