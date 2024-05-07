@@ -1,5 +1,8 @@
 package CS_Project_Profile;
 
+import loginandsignup.Controller;
+
+
 public class Profile 
 {
     private String name;
@@ -12,12 +15,17 @@ public class Profile
 
     //Bu kısımda databaseden değerler classdaki değerlere atanacak. Fonksiyonlar lazım
 
+    //kanka kod çalışmıyordu test etmek için yaptım böyle
+    public void makara()
+    {
     Controller cont = new Controller();
-
-    this.name = cont.getNameById(/*UserID?*/);
-    this.streak = cont.getUserStreakById(/*UserID?*/);
-    this.status = cont.getStatue(/*UserID?*/);
-    this.money = cont.getUserPointsById(/*UserID?*/);
+    //this.name = cont.getNameById(/*UserID?*/);
+    //this.streak = cont.getUserStreakById(/*UserID?*/);
+    //this.status = cont.getStatue(/*UserID?*/);
+    //this.money = cont.getUserPointsById(/*UserID?*/);
+    }
+    
+    
     
 
 
@@ -68,6 +76,6 @@ public class Profile
     {
         return this.birthday;
     }
-
+    
 
 }

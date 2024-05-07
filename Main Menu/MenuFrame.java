@@ -16,6 +16,9 @@ public class MenuFrame extends JFrame{
     private JLabel month;
     private JPanel monthpanel;
     private Diary diary;
+    private JTextField searchfriend;
+    private JTextField searchadd;
+    private JPanel resultpanel;
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
@@ -112,9 +115,10 @@ public class MenuFrame extends JFrame{
         FriendPanel friendPanel = new FriendPanel();
         c.gridx = 2;
         c.gridheight = 5;
-        c.anchor = GridBagConstraints.NORTHWEST;
-        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.NORTHEAST;
+        c.fill = GridBagConstraints.VERTICAL;
         add(friendPanel,c);
+        friendPanel.createPanel();
     }
     public void paintComponent(Graphics g)
     {
@@ -212,10 +216,40 @@ public class MenuFrame extends JFrame{
     }
     class FriendPanel extends JPanel
     {
-        public FriendPanel()
+        public void createPanel()
         {
-            JLabel label = new JLabel(profile.getName());
-            label.setPreferredSize(new Dimension(75, 50));
+            setLayout(new GridLayout(7,1));
+            JLabel label = new JLabel(profile.getName(),(int)JLabel.CENTER_ALIGNMENT);
+            label.setFont(buttonfont);
+            add(label);
+            JPanel panel = new JPanel(new GridLayout(1, 2));
+            panel.add(new JLabel("Enter a name for searching in your friends!"));
+            searchfriend = new JTextField(30);
+            panel.add(searchfriend);
+            add(panel);
+            JPanel panel5 = new JPanel(new GridBagLayout());
+            GridBagConstraints con = new GridBagConstraints();
+            con.anchor = GridBagConstraints.CENTER;
+            JButton button1 = new JButton("Search");
+            panel5.add(button1,con);
+            add(panel5);
+            resultpanel = new JPanel();
+            add(resultpanel);
+            JPanel panel2 = new JPanel(new GridLayout(1, 2));
+            panel2.add(new JLabel("Enter a name for searching among users to add friend!"));
+            
+            searchadd = new JTextField(30);
+            panel2.add(searchadd);
+            add(panel2);
+            JButton button3 = new JButton("Search");
+            JPanel panel4 = new JPanel(new GridBagLayout());
+            GridBagConstraints a = new GridBagConstraints();
+            a.anchor = GridBagConstraints.CENTER;
+            panel4.add(button3,a);
+            add(panel4);
+            JPanel panel3 = new JPanel();//result area for adding friends
+            add(panel3);
+            
         }
     }
     class Listener1 implements ActionListener
