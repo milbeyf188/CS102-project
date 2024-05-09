@@ -1,21 +1,29 @@
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
-/**
- * MenuFrame
- */
+
 
 import CS_Project_Profile.Profile;
+import loginandsignup.Controller;
 public class MenuFrame extends JFrame{
     private Profile profile;
-    private String name = "Ahmet";
-    private int streak = 7;
-    private int money = 28;
     private JLabel month;
     private JPanel monthpanel;
+
     private Diary diary = new Diary(profile.getName(), this);
+
+   
+    private JTextField searchfriend;
+    private JTextField searchadd;
+    private ResultPanel resultpanel;
+    private JScrollPane scrollPane;
+    private JFrame frame = this;
+
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
@@ -111,9 +119,10 @@ public class MenuFrame extends JFrame{
         FriendPanel friendPanel = new FriendPanel();
         c.gridx = 2;
         c.gridheight = 5;
-        c.anchor = GridBagConstraints.NORTHWEST;
-        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.NORTHEAST;
+        c.fill = GridBagConstraints.VERTICAL;
         add(friendPanel,c);
+        friendPanel.createPanel();
     }
     public void paintComponent(Graphics g)
     {
@@ -172,28 +181,7 @@ public class MenuFrame extends JFrame{
             
         }
     }
-    class NewDiaryButton extends JButton
-    {
-        public void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-            setBackground(lightblue);
-            g.setColor(Color.WHITE);
-            g.setFont(buttonfont);
-            g.drawString("New Diary", 75, 50);
-        }
-    }
-    class NewGroupDiary extends JButton
-    {
-        public void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-            setBackground(lightblue);
-            g.setColor(Color.WHITE);
-            g.setFont(buttonfont);
-            g.drawString("New Group Diary", 15, 50);
-        }
-    }
+
     //proper actionlistener should be implemented
     class StreakPanel extends JPanel
     {
@@ -211,12 +199,54 @@ public class MenuFrame extends JFrame{
     }
     class FriendPanel extends JPanel
     {
+
         public void paintComponent(Graphics g)
         {
             super.paintComponent(g);
             g.setColor(Color.BLACK);
             g.setFont(buttonfont);
             g.drawString(profile.getName(), 20, 40);
+        }
+        public void createPanel()
+        {
+            setLayout(new GridLayout(7,1));
+            JLabel label = new JLabel(profile.getName(),(int)JLabel.CENTER_ALIGNMENT);
+            label.setFont(buttonfont);
+            add(label);
+            JPanel panel = new JPanel(new GridLayout(1, 2));
+            panel.add(new JLabel("Enter a name for searching in your friends!"));
+            searchfriend = new JTextField(30);
+            panel.add(searchfriend);
+            add(panel);
+            JPanel panel5 = new JPanel(new GridBagLayout());
+            GridBagConstraints con = new GridBagConstraints();
+            con.anchor = GridBagConstraints.CENTER;
+            JButton button1 = new JButton("Search");
+            panel5.add(button1,con);
+            add(panel5);
+            JPanel panel7 = new JPanel();//searching among friends
+            
+            add(panel7);
+            JPanel panel2 = new JPanel(new GridLayout(1, 2));
+            panel2.add(new JLabel("Enter a name for searching among users to add friend!"));
+            
+            searchadd = new JTextField(30);
+            panel2.add(searchadd);
+            add(panel2);
+            JButton button3 = new JButton("Search");
+            Listener3 listener3 = new Listener3();
+            button3.addActionListener(listener3);
+            JPanel panel4 = new JPanel(new GridBagLayout());
+            GridBagConstraints a = new GridBagConstraints();
+            a.anchor = GridBagConstraints.CENTER;
+            panel4.add(button3,a);
+            add(panel4);
+            resultpanel = new ResultPanel();//result area for adding friends
+            scrollPane = new JScrollPane(resultpanel);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            add(scrollPane);
+            
+
         }
     }
     class Listener1 implements ActionListener
@@ -233,6 +263,80 @@ public class MenuFrame extends JFrame{
         {
             diary.MonthForwardOrBack(false);
             month.setText(diary.getMonth() + " / " + diary.getYear());
+        }
+    }
+    //Action listener of friend adding searchbar
+    class Listener3 implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            if(searchadd.getText().length() == 0)
+            {
+                JOptionPane.showMessageDialog(new JFrame(), "Name cannot be empty", "Error", ERROR_MESSAGE);
+            }
+            else
+            {
+            Controller con = new Controller();
+            ArrayList<String> search = con.getNamesArray();
+            ArrayList<Integer> number = con.getIDArray();
+            ArrayList<String> result = new ArrayList<String>();
+            ArrayList<Integer> numberresult = new ArrayList<Integer>();
+            for(int i = 0;i<search.size();i++)
+            {
+                if(search.get(i).contains(searchadd.getText()))
+                {
+                    result.add(search.get(i));
+                    numberresult.add(number.get(i));
+                }
+            }
+            resultpanel.removeAll();
+            
+            resultpanel.changeresult(result,numberresult);
+            resultpanel.printusers();
+            }
+            
+        }
+    }
+    class ResultPanel extends JPanel
+    {
+        private ArrayList<String> results;
+        private ArrayList<Integer> numbers;
+        public void changeresult(ArrayList<String> arr,ArrayList<Integer> arr2)
+        {
+            results = arr;
+            numbers = arr2;
+        }
+        public void printusers()
+        {
+            setLayout(new GridLayout(0, 1));
+            if(results.size() == 0)
+            {
+                JOptionPane.showMessageDialog(frame, "There is no such user!");
+            }
+            else
+            {
+            for(int i = 0;i<results.size();i++)
+            {
+                add(new ProfileButton(results.get(i),numbers.get(i)));
+            }
+            
+            frame.setVisible(true);
+            }
+        }
+    }
+    
+    class ProfileButton extends JButton implements ActionListener
+    {
+        private String name;
+        private int ID;
+        public ProfileButton(String name,int ID)
+        {
+            super(name);
+            this.ID = ID;
+        }
+        public void actionPerformed(ActionEvent event)//action listener for adding friends with ıd giver        
+        {
+            
         }
     }
 }

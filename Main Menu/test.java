@@ -7,6 +7,11 @@ public class test {
         File myfile = new File("FaceDiary");
         myfile.mkdir();
         pathString = myfile.getAbsolutePath();
+
         facediary = new MenuFrame();
+
+        Profile profile = new Profile("Emre", 16, "messi", "12/08/2024", 15);
+        facediary = new MenuFrame(profile);
+
     }
 }

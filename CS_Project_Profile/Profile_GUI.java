@@ -2,13 +2,32 @@ package CS_Project_Profile;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.ModuleLayer.Controller;
+
+
 
 public class Profile_GUI extends JFrame {
     public Profile_GUI() {
 
 
         String userName = "Yiğit";
+    }}
+public class Profile_GUI extends JFrame 
+{
 
+    public boolean friendOrUser;
+    //Controller cont = new Controller();
+
+    //String statue = cont.getStatue(UserID?);
+    //String userName = cont.getNameById(UserID?);
+    //int streak = cont.getUserStreakById(/*UserID?);
+    
+    public Profile_GUI() {
+
+
+
+        
+        
 
         setTitle("Profile");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,13 +43,18 @@ public class Profile_GUI extends JFrame {
 
         // 1. satır: Geri tuşu
         //setLayout(new GridLayout(1, 20));
-        JButton backButton = new JButton("Geri");
+        JButton backButton = new JButton("Back");
         backButton.setBackground(Color.RED);
-        backButton.setPreferredSize(new Dimension(60, 40)); // Geri tuşunun genişliğini ayarlar
+        backButton.setPreferredSize(new Dimension(120, 80)); // Geri tuşunun genişliğini ayarlar
+        JPanel Mainpanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        Mainpanel.setBackground(new Color(0, 0, 102));
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Geri tuşunu sola hizalar
         //backButton.setBackground(new Color(0, 0, 102));
         backButtonPanel.add(backButton);
-        add(backButtonPanel);
+        Mainpanel.add(backButtonPanel);
+    
+        
+        add(Mainpanel);
 
 
         
@@ -38,7 +62,7 @@ public class Profile_GUI extends JFrame {
         // 2. satır: İsim textbox'u
         JPanel NamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         NamePanel.setBackground(new Color(0, 0, 102));
-        JLabel NameLabel = new JLabel(userName);
+        JLabel NameLabel = new JLabel(/*userName*/);
         NameLabel.setForeground(Color.WHITE);
         NameLabel.setFont(NameLabel.getFont().deriveFont(Font.PLAIN, 5 * NameLabel.getFont().getSize()));
         NamePanel.add(NameLabel);
@@ -47,10 +71,10 @@ public class Profile_GUI extends JFrame {
         // 3. satır: Ateş image'i ve Streak yazısı
         JPanel streakPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         streakPanel.setBackground(new Color(0, 0, 102));
-        JLabel streakLabel = new JLabel("Streak");
+        JLabel streakLabel = new JLabel("Streak" /*+ streak*/);
         streakLabel.setForeground(Color.WHITE);
         streakLabel.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 5 * streakLabel.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
-        ImageIcon fireIcon = new ImageIcon("C:\\Users\\gokkh\\Desktop\\NEW_WORKSPACE\\CS_Project\\Imagess\\ProjectImages\\png-transparent-animation-fire-drawing-frie-orange-computer-wallpaper-cartoon-thumbnail.png"); // Ateş image dosyasının yolunu belirtin
+        ImageIcon fireIcon = new ImageIcon("C:\\Users\\gokkh\\Desktop\\NEW_WORKSPACE\\CS_Project_Profile\\Imagess\\ProjectImages\\Ekran görüntüsü 2024-05-07 135630.png"); // Ateş image dosyasının yolunu belirtin
         JLabel fireLabel = new JLabel(fireIcon);
         streakPanel.add(fireLabel);
         streakPanel.add(streakLabel);
@@ -90,10 +114,10 @@ public class Profile_GUI extends JFrame {
         label1.setHorizontalAlignment(JLabel.CENTER); // Metni ortalar
         statusPanel.add(label1);
 
-        JLabel label2 = new JLabel("Message");
-        label2.setForeground(Color.WHITE); // Yazı rengini beyaz yapar
+        JLabel label2 = new JLabel("MESSAGE" /*statue */);
+        label2.setForeground(Color.WHITE); // Yazı rengini beyaz yapıyoruz
         label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
-        label2.setHorizontalAlignment(JLabel.CENTER); // Metni ortalar
+        label2.setHorizontalAlignment(JLabel.CENTER); // Metni ortala
         statusPanel.add(label2);
         add(statusPanel);
         

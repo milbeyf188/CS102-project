@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 //Bu methodların çalışması için bir controller objesi oluşturup methodun başına yazın. Objenin içine bir parametre girmenize gerek yok
@@ -20,6 +21,8 @@ public class Controller
         String fullName = null;
         try (Connection con = DriverManager.getConnection(url, userName, password)) 
         {
+
+            
             String query = "SELECT Name FROM userinfo WHERE ID = ?";
             try (PreparedStatement pst = con.prepareStatement(query)) 
             {
@@ -37,7 +40,7 @@ public class Controller
         }
         return fullName;
     }
-
+    
     
     public String getEmailById(int userId) 
     {
@@ -183,6 +186,56 @@ public class Controller
         }
     }
     
+    public ArrayList<String> getNamesArray()
+    {
+        ArrayList<String> names = new ArrayList<String>();
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
+
+            String name = null;
+            String query = "SELECT Name FROM userinfo WHERE X = 0";
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
+                //pst.setInt(1, userId);
+                try (ResultSet rs = pst.executeQuery()) 
+                {
+                    while(rs.next()) 
+                    {
+                        name = rs.getString("Name");
+                        names.add(name);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving user information: " + e.getMessage());
+        }
+        return names;
+    }
+    public ArrayList<Integer> getIDArray()
+    {
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
+
+            int id = 0;
+            String query = "SELECT ID FROM userinfo WHERE X = 0";
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
+                //pst.setInt(1, userId);
+                try (ResultSet rs = pst.executeQuery()) 
+                {
+                    while(rs.next()) 
+                    {
+                        id = rs.getInt("ID");
+                        numbers.add(id);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving user information: " + e.getMessage());
+        }
+        return numbers;
+    }
 
     
 
