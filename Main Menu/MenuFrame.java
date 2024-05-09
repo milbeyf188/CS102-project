@@ -231,10 +231,9 @@ public class MenuFrame extends JFrame{
             panel4.add(button3,a);
             add(panel4);
             resultpanel = new ResultPanel();//result area for adding friends
-            scrollPane = new JScrollPane(resultpanel);
+            scrollPane = new JScrollPane();
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             add(scrollPane);
-            
         }
     }
     class Listener1 implements ActionListener
@@ -258,6 +257,7 @@ public class MenuFrame extends JFrame{
     {
         public void actionPerformed(ActionEvent event)
         {
+            scrollPane.setViewportView(null);
             if(searchadd.getText().length() == 0)
             {
                 JOptionPane.showMessageDialog(new JFrame(), "Name cannot be empty", "Error", ERROR_MESSAGE);
@@ -277,10 +277,11 @@ public class MenuFrame extends JFrame{
                     numberresult.add(number.get(i));
                 }
             }
-            resultpanel.removeAll();
             
+            resultpanel.removeAll();
             resultpanel.changeresult(result,numberresult);
             resultpanel.printusers();
+            scrollPane.setViewportView(resultpanel);
             }
             
         }
