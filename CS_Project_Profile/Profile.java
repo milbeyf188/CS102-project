@@ -15,18 +15,7 @@ public class Profile
 
     //Bu kısımda databaseden değerler classdaki değerlere atanacak. Fonksiyonlar lazım
 
-    //kanka kod çalışmıyordu test etmek için yaptım böyle
-    public void makara()
-    {
-    Controller cont = new Controller();
-    //this.name = cont.getNameById(/*UserID?*/);
-    //this.streak = cont.getUserStreakById(/*UserID?*/);
-    //this.status = cont.getStatue(/*UserID?*/);
-    //this.money = cont.getUserPointsById(/*UserID?*/);
-    }
-    
-    
-    
+
 
 
 
