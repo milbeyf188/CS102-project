@@ -18,26 +18,51 @@ import java.nio.file.Paths;
 public class Text extends JPanel
 {
     private ArrayList<String> text = new ArrayList<String>();
+    private ArrayList<String> people = new ArrayList<String>();
     private File textFile;
+    private File accessedPeopleFile;
     private boolean changeable;
-    private String specialAndGroup;
     private JTextArea textArea;
     private int[] date = new int[3];
     private JFrame frame;
+    private boolean isSpecial;
+    private boolean isGroup;
 
     public Text(int year, int month, int day, String profile)
     {
         textFile = new File(test.pathString + "\\" + profile + "\\" + year +  "_" + month + "_" + day);
+        accessedPeopleFile = new File(textFile.getAbsolutePath() + "access");
+
         date[0] = year; date[1] = month; date[2] = day;
-        
+
+
+        try {
+            Scanner accessFile = new Scanner(accessedPeopleFile);
+
+            while (accessFile.hasNextLine()) {
+                people.add(accessFile.nextLine());
+            }
+
+            accessFile.close();
+        }
+        catch(FileNotFoundException e)
+        {
+            try{
+                accessedPeopleFile.createNewFile();
+            }
+            catch(IOException a)
+            {
+                System.out.println("couldn't create access file");
+            }
+        }
+
         try{
             Scanner scan = new Scanner(textFile);
-            
-            while(scan.hasNextLine())
-            {
+
+            while(scan.hasNextLine()){
                 text.add(scan.nextLine());
             }
-            
+
             scan.close();
         }
         catch(FileNotFoundException e)
@@ -51,16 +76,28 @@ public class Text extends JPanel
             }
         }
 
-        specialAndGroup = text.size() > 0? text.get(0): "00";
-        text.set(0, specialAndGroup);
+        if(text.isEmpty())
+        {
+            text.add("00");
+        }
+
+        isSpecial = text.get(0).substring(0,1).equals("1");
+        isGroup = text.get(0).substring(1).equals("1");
+
+        setShownText();
+
         textArea = new JTextArea(getText(), 50, 50);
         textArea.setEditable(setChangeable());
         add(textArea);
         add(new buttonListener());
         add(new specialButtonListener());
-        
     }
-    
+
+    public ArrayList<String> getAccessed()
+    {
+        return people;
+    }
+
     public void setDayText(String str)
     {
         if (changeable)
@@ -68,6 +105,8 @@ public class Text extends JPanel
             Scanner scanner = new Scanner(str);
 
             text.clear();
+            text.add(isSpecial + "" + isGroup);
+            scanner.nextLine();
             while(scanner.hasNextLine()) 
             {
                 text.add(scanner.nextLine());
@@ -87,6 +126,13 @@ public class Text extends JPanel
         {
             System.out.println("not changeable");
         }
+    }
+
+    public void setGroup()
+    {
+        isGroup = true;
+        text.set(0, isSpecial + "1");
+        setDayText(textArea.getText());
     }
 
     public void setFrame(JFrame frame)
@@ -109,6 +155,35 @@ public class Text extends JPanel
         return str;
     }
 
+    public void setShownText()
+    {
+        if(isGroup && !setChangeable())
+        {
+            for(int i = 0; i < people.size(); i++)
+            {
+                text.add("\n" + people.get(i) + "\n");
+
+                try{
+                    Scanner peopleScanner = new Scanner(new File(test.pathString + "\\" + people.get(i) +
+                        "\\" + date[0] +  "_" + date[1] + "_" + date[2]));
+
+                    peopleScanner.nextLine();
+
+                    while(peopleScanner.hasNextLine())
+                    {
+                        text.add(peopleScanner.nextLine());
+                    }
+
+                }
+                catch (FileNotFoundException e)
+                {
+                    continue;
+                }
+
+            }
+        }
+    }
+
     public boolean setChangeable()
     {
         if(Diary.currentDate.compareTo(new GregorianCalendar(date[0], date[1] - 1, date[2])) == 0)
@@ -125,16 +200,9 @@ public class Text extends JPanel
 
     public boolean changeSpeciality()
     {
-        if (specialAndGroup.substring(0,1).equals("0"))
-        {
-            specialAndGroup = "1" + specialAndGroup.substring(1);
-            return true;
-        }
-        else
-        {
-            specialAndGroup = "0" + specialAndGroup.substring(1);
-            return false;
-        }
+        isSpecial = !isSpecial;
+        text.set(0, isSpecial + text.get(0).substring(1));
+        return isSpecial;
     }
 
     public Color getColor()
@@ -144,14 +212,19 @@ public class Text extends JPanel
             return Color.YELLOW;
         }
 
-        if(specialAndGroup.substring(0,1).equals("1"))
+        if(isGroup)
+        {
+            return Color.MAGENTA;
+        }
+
+        if(isSpecial)
         {
             return Color.CYAN;    
         }
 
         if(Diary.currentDate.compareTo(new GregorianCalendar(date[0], date[1] - 1, date[2])) > 0) 
         {
-            return text.size() < 1 ? Color.RED: Color.GREEN;
+            return text.isEmpty() ? Color.RED: Color.GREEN;
         }
 
         return Color.GRAY;
@@ -178,7 +251,7 @@ public class Text extends JPanel
     {
         public specialButtonListener()
         {
-            super(specialAndGroup.substring(0,1).equals("1") ? "Unmake It Special": "Make It Special");
+            super(isSpecial ? "Unmake It Special": "Make It Special");
             super.addActionListener(this);            
         }
 
