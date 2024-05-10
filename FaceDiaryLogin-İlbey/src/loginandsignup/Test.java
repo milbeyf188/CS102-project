@@ -5,7 +5,7 @@ public class Test
     public static void main(String[] args) 
     {
         Controller con = new Controller();
-        System.out.println(con.getNameById(3));
+        /* System.out.println(con.getNameById(3));
         System.out.println(con.getEmailById(2));
         System.out.println(con.getUserPointsById(1));
         System.out.println(con.getUserStreakById(3));
@@ -17,6 +17,9 @@ public class Test
         System.out.println(con.getUserStreakById(4));
         con.setStatue(4, "Ben Dördüncüyüm");
         System.out.println(con.getNamesArray());
+        con.setFriend(6, 111); */
+        //System.out.println(con.booleanToString(con.getBadgesArrayById(6)));
+        con.removeFriend(6,111);
         
     }
 }
