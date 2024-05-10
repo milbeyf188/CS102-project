@@ -15,7 +15,7 @@ public class MenuFrame extends JFrame{
     private JLabel month;
     private JPanel monthpanel;
 
-    private Diary diary = new Diary(profile.getName(), this);
+    private Diary diary; 
 
    
     private JTextField searchfriend;
@@ -30,6 +30,7 @@ public class MenuFrame extends JFrame{
     public MenuFrame(Profile profile)
     {
         this.profile = profile;
+        diary = new Diary(profile.getName(), this);
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setName("Main menu");
