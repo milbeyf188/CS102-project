@@ -6,12 +6,12 @@ import java.lang.ModuleLayer.Controller;
 
 
 
-public class Profile_GUI extends JFrame {
+/* public class Profile_GUI extends JFrame {
     public Profile_GUI() {
 
 
         String userName = "Yiğit";
-    }}
+    }} */
 public class Profile_GUI extends JFrame 
 {
 

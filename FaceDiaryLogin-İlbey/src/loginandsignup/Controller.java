@@ -235,14 +235,104 @@ public class Controller
             System.out.println("Error retrieving user information: " + e.getMessage());
         }
         return numbers;
+    
     }
 
+    public String booleanToString(boolean[] array) {
+        StringBuilder sb = new StringBuilder();
+        for (boolean value : array) {
+            sb.append(value ? '1' : '0');
+        }
+        return sb.toString();
+    }
+
+        
+    public void setFriend(int userId, int friendId) {
+        if (areAlreadyFriends(userId, friendId)) {
+            System.out.println("Error: Users are already friends.");
+            return;
+        }
+        
+        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+            String query = "INSERT INTO friends (UserID, FriendID) VALUES (?, ?), (?, ?)";
+            try (PreparedStatement pst = con.prepareStatement(query)) {
+                pst.setInt(1, userId);
+                pst.setInt(2, friendId);
+                pst.setInt(3, friendId);
+                pst.setInt(4, userId);
+                pst.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding friendship: " + e.getMessage());
+        }
+    }
+
+    public void removeFriend(int userId, int friendId) {
     
-
-
+        
+        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+            String query = "DELETE FROM friends (UserID, FriendID) VALUES (?, ?), (?, ?)";
+            try (PreparedStatement pst = con.prepareStatement(query)) {
+                pst.setInt(1, userId);
+                pst.setInt(2, friendId);
+                pst.setInt(3, friendId);
+                pst.setInt(4, userId);
+                pst.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding friendship: " + e.getMessage());
+        }
+    }
     
+    private boolean areAlreadyFriends(int userId, int friendId) {
+        boolean alreadyFriends = false;
+        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+            String query = "SELECT * FROM friends WHERE (UserID = ? AND FriendID = ?) OR (UserID = ? AND FriendID = ?)";
+            try (PreparedStatement pst = con.prepareStatement(query)) {
+                pst.setInt(1, userId);
+                pst.setInt(2, friendId);
+                pst.setInt(3, friendId);
+                pst.setInt(4, userId);
+                try (ResultSet rs = pst.executeQuery()) {
+                    alreadyFriends = rs.next();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking friendship status: " + e.getMessage());
+        }
+        return alreadyFriends;
+    }
 
-
-    
-
+    public boolean[] getBadgesArrayById(int userId) {
+        String badgesString = null;
+        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+            String query = "SELECT Badges FROM userinfo WHERE ID = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) {
+                pst.setInt(1, userId);
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) {
+                        badgesString = rs.getString("Badges");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving badges information: " + e.getMessage());
+        }
+        
+        if (badgesString != null && badgesString.matches("[01]+")) {
+            boolean[] badgesArray = new boolean[badgesString.length()];
+            for (int i = 0; i < badgesString.length(); i++) {
+                badgesArray[i] = (badgesString.charAt(i) == '1');
+            }
+            return badgesArray;
+        } 
+        else 
+        {
+            System.out.println("Error:");
+            return null;
+        }
+    }
 }
+
+
+

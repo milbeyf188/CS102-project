@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import static javax.swing.JOptionPane.showMessageDialog;
+import java.math.BigInteger;  
 
 public class SignUp extends javax.swing.JFrame
 {
@@ -166,6 +167,7 @@ public class SignUp extends javax.swing.JFrame
         url = "jdbc:MySQL://localhost:3306/facediary";
         userName = "root";
         SPass = "";
+        BigInteger bigInteger = new BigInteger("1000000000000000"); 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, userName, SPass);
@@ -202,7 +204,7 @@ public class SignUp extends javax.swing.JFrame
                 }
     
                 
-                query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints, Streak, Statue, X) VALUES (?,?, ?, ?, ?, ? , ? , ?)";
+                query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints, Streak, Statue, X,Badges) VALUES (? ,?,?, ?, ?, ?, ? , ? , ?)";
                 try (PreparedStatement pst = con.prepareStatement(query)) 
                 {
                     pst.setInt(1, nextUserId);
@@ -213,6 +215,7 @@ public class SignUp extends javax.swing.JFrame
                     pst.setInt(6,0);
                     pst.setString(7,"New User" );
                     pst.setInt(8,0);
+                    pst.setString(9,"100000000000000");
                     pst.executeUpdate();
                 }
     
