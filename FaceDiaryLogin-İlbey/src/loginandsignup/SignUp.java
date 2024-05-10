@@ -206,7 +206,7 @@ public class SignUp extends javax.swing.JFrame
                 }
     
                 
-                query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints, Streak, Statue, X,Badges) VALUES (? ,?,?, ?, ?, ?, ? , ? , ?)";
+                query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints, Streak, Statue, X,Badges,Birthday) VALUES (?,? ,?,?, ?, ?, ?, ? , ? , ?)";
                 try (PreparedStatement pst = con.prepareStatement(query)) 
                 {
                     pst.setInt(1, nextUserId);
@@ -218,6 +218,7 @@ public class SignUp extends javax.swing.JFrame
                     pst.setString(7,"New User" );
                     pst.setInt(8,0);
                     pst.setString(9,"100000000000000");
+                    pst.setString(10,"11.05.1933");
                     pst.executeUpdate();
                 }
     
