@@ -77,7 +77,7 @@ public class BadgeShopGUI extends JFrame {
         for (int i = 0; i < badgeFilenames.length; i++) {
             BufferedImage badgeImage = loadImage(badgeFilenames[i], 100, 100);
 
-            double badgePrice = ((i + 1) * 1.5) * 10; // Burada fiyat ayarlanıyor, değişebilir
+            int badgePrice = (i + 1) * 10; // Burada fiyat ayarlanıyor, değişebilir
             JLabel moneyLabel = new JLabel(new ImageIcon(moneyImage));
             JButton priceButton = new JButton("$" + badgePrice);
             priceButton.setForeground(Color.WHITE);
