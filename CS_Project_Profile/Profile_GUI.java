@@ -91,9 +91,10 @@ public class Profile_GUI extends JFrame
         add(badgesLabel);
 
         // 5. satır: 3 tane resim image
+        JPanel badgesPanel;
        if(friendOrUser == false)  //arkadaşın profili
         {
-            JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             badgesPanel.setBackground(new Color(0, 0, 102));
             ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
             ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image dosyasının yolunu belirtin
@@ -110,7 +111,7 @@ public class Profile_GUI extends JFrame
         }
         else// Kendi profilimiz
         {
-            JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             badgesPanel.setBackground(new Color(0, 0, 102));
 
 
