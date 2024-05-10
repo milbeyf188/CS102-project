@@ -57,21 +57,21 @@ public class BadgeShopGUI extends JFrame {
         BufferedImage moneyImage = loadImage("MoneyIcon.png", 30, 30);
 
         String[] badgeFilenames = {
-                "Bronze1.png",
-                "Bronze2.png",
-                "Bronze3.png",
-                "Silver1.png",
-                "Silver2.png",
-                "Silver3.png",
-                "Gold1.png",
-                "Gold2.png",
-                "Gold3.png",
-                "Diamond1.png",
-                "Diamond2.png",
-                "Diamond3.png",
-                "Immortal1.png",
-                "Immortal2.png",
-                "Immortal3.png"
+                "\\Badge PNGs\\Bronze1.png",
+                "\\Badge PNGs\\Bronze2.png",
+                "\\Badge PNGs\\Bronze3.png",
+                "\\Badge PNGs\\Silver1.png",
+                "\\Badge PNGs\\Silver2.png",
+                "\\Badge PNGs\\Silver3.png",
+                "\\Badge PNGs\\Gold1.png",
+                "\\Badge PNGs\\Gold2.png",
+                "\\Badge PNGs\\Gold3.png",
+                "\\Badge PNGs\\Diamond1.png",
+                "\\Badge PNGs\\Diamond2.png",
+                "\\Badge PNGs\\Diamond3.png",
+                "\\Badge PNGs\\Immortal1.png",
+                "\\Badge PNGs\\Immortal2.png",
+                "\\Badge PNGs\\Immortal3.png"
         };
 
         for (int i = 0; i < badgeFilenames.length; i++) {
