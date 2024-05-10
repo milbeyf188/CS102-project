@@ -266,12 +266,9 @@ public class Controller
             System.out.println("Error adding friendship: " + e.getMessage());
         }
     }
-
     public void removeFriend(int userId, int friendId) {
-    
-        
         try (Connection con = DriverManager.getConnection(url, userName, password)) {
-            String query = "DELETE FROM friends (UserID, FriendID) VALUES (?, ?), (?, ?)";
+            String query = "DELETE FROM friends WHERE (UserID = ? AND FriendID = ?) OR (UserID = ? AND FriendID = ?)";
             try (PreparedStatement pst = con.prepareStatement(query)) {
                 pst.setInt(1, userId);
                 pst.setInt(2, friendId);
@@ -280,7 +277,7 @@ public class Controller
                 pst.executeUpdate();
             }
         } catch (SQLException e) {
-            System.out.println("Error adding friendship: " + e.getMessage());
+            System.out.println("Error removing friendship: " + e.getMessage());
         }
     }
     
