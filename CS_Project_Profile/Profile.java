@@ -12,6 +12,7 @@ public class Profile
     //private Friends_Class? friends;
     private String birthday;
     private int money;
+    private int ID;
 
     //Bu kısımda databaseden değerler classdaki değerlere atanacak. Fonksiyonlar lazım
 
@@ -19,8 +20,9 @@ public class Profile
 
 
 
-    public Profile(String name, int streak, String status, String birthday,int money)
+    public Profile(int ID, String name, int streak, String status, String birthday,int money)
     {
+        this.ID = ID;
         this.name = name;
         this.streak = streak;
         this.status = status;
@@ -65,6 +67,9 @@ public class Profile
     {
         return this.birthday;
     }
-    
+    public int getID()
+    {
+        return this.ID;
+    }
 
 }
