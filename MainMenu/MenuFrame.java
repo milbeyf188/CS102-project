@@ -22,8 +22,10 @@ public class MenuFrame extends JFrame{
     private JTextField searchfriend;
     private JTextField searchadd;
     private ResultPanel resultpanel;
+    private FriendPanel2 friendPanel2;
     private JScrollPane scrollPane;
-    private static FDController con = new FDController();
+    private JScrollPane scrollPane2;
+    private static Controller con = new Controller();
     private JFrame frame = this;
 
     protected Color lightblue = new Color(62, 128, 168);
@@ -92,7 +94,7 @@ public class MenuFrame extends JFrame{
         MoneyPanel moneyPanel = new MoneyPanel();
         moneyPanel.setPreferredSize(new Dimension(400, 100));
         add(moneyPanel,c);
-        RoundedButton button = new RoundedButton(300, 75, "Badge Shop","Shopping Cart.png" );
+        RoundedButton button = new RoundedButton(300, 75, "Badge Shop","/MainMenu/Shopping Cart.png" );
         c.gridx = 0;
         c.gridy = 4;
         c.weighty = 1;
@@ -140,14 +142,16 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            Image image = Toolkit.getDefaultToolkit().getImage("Money Image.png");
+            ImageIcon image = new ImageIcon(getClass().getResource("/MainMenu/Money Image.png"));
             super.paintComponent(g);
             setBackground(backgroundColor);
-            g.drawImage(image,10,10,this);
+            Graphics2D g2d = (Graphics2D) g;
+            image.paintIcon(this, g2d, 10, 10);
             g.setFont(new Font("Comic sans", 0, 30));
             g.setColor(Color.WHITE);
             g.drawString(String.valueOf(profile.getMoney()),100,50);
         }
+         
     }
     class RoundedButton extends JButton
     {
@@ -190,26 +194,20 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            Image image = Toolkit.getDefaultToolkit().getImage("FİreImage.png");
+            ImageIcon image =  new ImageIcon(getClass().getResource("/MainMenu/FireImage.png"));
             super.paintComponent(g);
             setBackground(backgroundColor);
-            g.drawImage(image,10,10,this);
+            Graphics2D g2d = (Graphics2D) g;
+            image.paintIcon(this, g2d, 10,10 );
             Font f = buttonfont.deriveFont(50);
             g.setFont(f);
             g.setColor(Color.WHITE);
             g.drawString(String.valueOf(profile.getStreak()),100,50);
         }
     }
-    class FriendPanel extends JPanel
+    class FriendPanel extends JPanel//A general panel at the right of the screen
     {
 
-        public void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-            g.setColor(Color.BLACK);
-            g.setFont(buttonfont);
-            g.drawString(profile.getName(), 20, 40);
-        }
         public void createPanel()
         {
             setLayout(new GridLayout(7,1));
@@ -225,11 +223,13 @@ public class MenuFrame extends JFrame{
             GridBagConstraints con = new GridBagConstraints();
             con.anchor = GridBagConstraints.CENTER;
             JButton button1 = new JButton("Search");
+            button1.addActionListener(new Listener4());
             panel5.add(button1,con);
             add(panel5);
-            JPanel panel7 = new JPanel();//searching among friends
-            
-            add(panel7);
+            friendPanel2 = new FriendPanel2();
+            scrollPane2 = new JScrollPane(friendPanel2);//searching among friends
+            scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            add(scrollPane2);
             JPanel panel2 = new JPanel(new GridLayout(1, 2));
             panel2.add(new JLabel("Enter a name for searching among users to add friend!"));
             
@@ -343,5 +343,65 @@ public class MenuFrame extends JFrame{
             con.setFriend(profile.getID(), ID);
         }
     }
+    class FriendButton extends JButton implements ActionListener
+    {
+        private int ID;
+        public FriendButton(String s,int id)
+        {
+            super(s);
+            this.ID = id;
+        }
+        public void actionPerformed(ActionEvent e) {//yiğitin profil guisine gidecek
+            Profile profile = new Profile(ID,con.getNameById(ID) , con.getUserStreakById(ID), con.getStatue(ID), con.getBirthday(ID),con.getUserPointsById(ID));
+            Profile_GUI profilepage =  new Profile_GUI(false, profile);
+        }
+    }
+    
+    public class FriendPanel2 extends JPanel
+    {
+        private ArrayList<Integer> results;
+        private JFrame displayframe;
+        public void changeresult(ArrayList<Integer> arr)
+        {
+            results = arr;
+        }
+        public void printusers()
+        {
+            displayframe = frame;
+            setLayout(new GridLayout(0,1));
+            if(results.size() == 0)
+            {
+                JOptionPane.showMessageDialog(displayframe, "You haven't got any friends yet.");
+            }
+            for(int i = 0;i<results.size();i++)
+            {
+                add(new FriendButton(con.getNameById(results.get(i)),results.get(i)));
+            }
+            frame.setVisible(true);
+        }   
+        
+    }
+    class Listener4 implements ActionListener//Action listener for searching user among friends
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            scrollPane2.setViewportView(null);
+            ArrayList<Integer> friends = con.getFriendsArray(profile.getID());
+            ArrayList<Integer> results = new ArrayList<Integer>();
+            for(int i = 0;i<friends.size();i++)
+            {
+                if(con.getNameById(friends.get(i)).contains(searchfriend.getText()))
+                {
+                    results.add(friends.get(i));
+                }
+            }
+            friendPanel2.removeAll();
+            friendPanel2.changeresult(results);
+            friendPanel2.printusers();
+            scrollPane2.setViewportView(friendPanel2);
+
+        }
+    }
+
 }
 

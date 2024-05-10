@@ -366,14 +366,14 @@ public class Controller
         }
     }
 
-    public ArrayList<String> getFriendsArray(int userID)
+    public ArrayList<Integer> getFriendsArray(int userID)
     {
-        ArrayList<String> friends = new ArrayList<String>();
+        ArrayList<Integer> friends = new ArrayList<Integer>();
         try (Connection con = DriverManager.getConnection(url, userName, password)) 
         {
 
-            String name = null;
-            String query = "SELECT FriendID FROM userinfo WHERE UserID = ?";
+            Integer ID = null;
+            String query = "SELECT FriendID FROM friends WHERE UserID = ?";
             try (PreparedStatement pst = con.prepareStatement(query)) 
             {
                 pst.setInt(1, userID);
@@ -381,8 +381,8 @@ public class Controller
                 {
                     while(rs.next()) 
                     {
-                        name = rs.getString("Name");
-                        friends.add(name);
+                        ID = rs.getInt("FriendID");
+                        friends.add(ID);
                     }
                 }
             }
