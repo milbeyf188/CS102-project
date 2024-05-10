@@ -3,27 +3,23 @@ package CS_Project_Profile;
 import javax.swing.*;
 import java.awt.*;
 import java.lang.ModuleLayer.Controller;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
-
-/* public class Profile_GUI extends JFrame {
-    public Profile_GUI() {
-
-
-        String userName = "Yiğit";
-    }} */
-public class Profile_GUI extends JFrame 
+public class Profile_GUI extends JFrame
 {
 
-    public boolean friendOrUser;
+    new Controller cont = new Controller();
+
+    //public boolean friendOrUser = false;
     //Controller cont = new Controller();
 
     //String statue = cont.getStatue(UserID?);
     //String userName = cont.getNameById(UserID?);
     //int streak = cont.getUserStreakById(/*UserID?);
     
-    public Profile_GUI() {
-
+    public Profile_GUI(boolean friendOrUser , profile profile ) {
 
 
         
@@ -62,7 +58,7 @@ public class Profile_GUI extends JFrame
         // 2. satır: İsim textbox'u
         JPanel NamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         NamePanel.setBackground(new Color(0, 0, 102));
-        JLabel NameLabel = new JLabel(/*userName*/);
+        JLabel NameLabel = new JLabel(profile.getName());
         NameLabel.setForeground(Color.WHITE);
         NameLabel.setFont(NameLabel.getFont().deriveFont(Font.PLAIN, 5 * NameLabel.getFont().getSize()));
         NamePanel.add(NameLabel);
@@ -71,7 +67,7 @@ public class Profile_GUI extends JFrame
         // 3. satır: Ateş image'i ve Streak yazısı
         JPanel streakPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         streakPanel.setBackground(new Color(0, 0, 102));
-        JLabel streakLabel = new JLabel("Streak" /*+ streak*/);
+        JLabel streakLabel = new JLabel("Streak" /*+ profile.getStreak()*/);
         streakLabel.setForeground(Color.WHITE);
         streakLabel.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 5 * streakLabel.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
         ImageIcon fireIcon = new ImageIcon("C:\\Users\\gokkh\\Desktop\\NEW_WORKSPACE\\CS_Project_Profile\\Imagess\\ProjectImages\\Ekran görüntüsü 2024-05-07 135630.png"); // Ateş image dosyasının yolunu belirtin
@@ -89,20 +85,103 @@ public class Profile_GUI extends JFrame
         add(badgesLabel);
 
         // 5. satır: 3 tane resim image
-        JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        badgesPanel.setBackground(new Color(0, 0, 102));
-        ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
-        ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image dosyasının yolunu belirtin
-        ImageIcon badge3Icon = new ImageIcon("badge3.png"); // Badge 3 image dosyasının yolunu belirtin
-        JLabel badge1Label = new JLabel(badge1Icon);
-        JLabel badge2Label = new JLabel(badge2Icon);
-        JLabel badge3Label = new JLabel(badge3Icon);
-        badgesPanel.add(badge1Label);
-        badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
-        badgesPanel.add(badge2Label);
-        badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
-        badgesPanel.add(badge3Label);
-        add(badgesPanel);
+        if(friendOrUser == false)
+        {
+            JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            badgesPanel.setBackground(new Color(0, 0, 102));
+            ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
+            ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image dosyasının yolunu belirtin
+            ImageIcon badge3Icon = new ImageIcon("badge3.png"); // Badge 3 image dosyasının yolunu belirtin
+            JLabel badge1Label = new JLabel(badge1Icon);
+            JLabel badge2Label = new JLabel(badge2Icon);
+            JLabel badge3Label = new JLabel(badge3Icon);
+            badgesPanel.add(badge1Label);
+            badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
+            badgesPanel.add(badge2Label);
+            badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
+            badgesPanel.add(badge3Label);
+            add(badgesPanel);
+        }
+        else
+        {
+            JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            badgesPanel.setBackground(new Color(0, 0, 102));
+            ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
+            ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image dosyasının yolunu belirtin
+            ImageIcon badge3Icon = new ImageIcon("badge3.png"); // Badge 3 image dosyasının yolunu belirtin
+            JLabel badge1Label = new JLabel(badge1Icon);
+            JLabel badge2Label = new JLabel(badge2Icon);
+            JLabel badge3Label = new JLabel(badge3Icon);
+            badgesPanel.add(badge1Label);
+            badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
+            badgesPanel.add(badge2Label);
+            badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
+            badgesPanel.add(badge3Label);
+
+            JButton editButton = new JButton("EDİT");
+            editButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Edit butonuna tıklandığında badgePanel'i gizle ve yeniPanel'i göster
+                    setVisible(false);
+                    createNewPanel();
+                        
+                }
+            });
+
+            editButton.setBackground(Color.GREEN);
+            editButton.setPreferredSize(new Dimension(120, 80)); // Geri tuşunun genişliğini ayarlar
+            badgesPanel.add(editButton);
+
+            add(badgesPanel);
+        }
+
+
+        
+
+        /* 
+        private void createNewPanel() 
+        {
+            JPanel newPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            newPanel.setBackground(new Color(0, 0, 102));
+    
+            // Örnek olarak 5 resmi burada ekleyebilirsiniz
+            ImageIcon image4 = new ImageIcon("image4.png");
+            ImageIcon image5 = new ImageIcon("image5.png");
+            ImageIcon image6 = new ImageIcon("image6.png");
+            ImageIcon image7 = new ImageIcon("image7.png");
+            ImageIcon image8 = new ImageIcon("image8.png");
+    
+            JLabel label4 = new JLabel(image4);
+            JLabel label5 = new JLabel(image5);
+            JLabel label6 = new JLabel(image6);
+            JLabel label7 = new JLabel(image7);
+            JLabel label8 = new JLabel(image8);
+    
+            newPanel.add(label4);
+            newPanel.add(label5);
+            newPanel.add(label6);
+            newPanel.add(label7);
+            newPanel.add(label8);
+    
+            JButton kaydetButton = new JButton("Kaydet");
+            kaydetButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Kaydet butonuna tıklandığında yeniPanel'i gizle ve badgePanel'i göster
+                    newPanel.setVisible(false);
+                    currentPanel.setVisible(true);
+                }
+            });
+            newPanel.add(kaydetButton);
+    
+            add(newPanel);
+    
+            // Yeni paneli currentPanel'e atayarak sakla
+            currentPanel = newPanel;
+        }
+        */
+        
 
         // 6. satır: Status textbox'u ve altındaki status message textbox'u
         JPanel statusPanel = new JPanel(new GridLayout(2, 1));
@@ -114,17 +193,69 @@ public class Profile_GUI extends JFrame
         label1.setHorizontalAlignment(JLabel.CENTER); // Metni ortalar
         statusPanel.add(label1);
 
-        JLabel label2 = new JLabel("MESSAGE" /*statue */);
-        label2.setForeground(Color.WHITE); // Yazı rengini beyaz yapıyoruz
-        label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
-        label2.setHorizontalAlignment(JLabel.CENTER); // Metni ortala
-        statusPanel.add(label2);
+        if(friendOrUser == false) // arkadaşın profiline giriyorsak
+        {
+            JLabel label2 = new JLabel("MESSAGE" /*profile.getStatus */);
+            label2.setForeground(Color.WHITE); // Yazı rengini beyaz yapıyoruz
+            label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
+            label2.setHorizontalAlignment(JLabel.CENTER); // Metni ortala
+            statusPanel.add(label2);
+        }
+        else //kendi profilimize giriyoruz yani statusu güncelleyebiliyoruz
+        {
+            JTextField statusMessageTextBox = new JTextField("Status Message"  + profile.getStatus);
+            statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
+            statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN, 5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
+            JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            Mainpanel2.setBackground(new Color(0, 0, 102));
+            Mainpanel2.add(statusMessageTextBox);
+            statusPanel.add(Mainpanel2);
+
+
+            //Burada Yeni statusu kaydetmemiz lazım
+            String newStatus = statusMessageTextBox.getText();
+            cont.setStatue(profile.getId, newStatus);
+
+
+        }
+        
         add(statusPanel);
         
         setVisible(true);
     }
 
+
+    private void createNewPanel() 
+        {
+            JFrame newFrame = new JFrame("EDIT BADGES");
+            newFrame.setLayout(new FlowLayout());
+    
+            // Adding 5 images to the new frame
+            for (int i = 1; i <= 5; i++) {
+                ImageIcon icon = new ImageIcon("path/to/your/image" + i + ".jpg");
+                JLabel imageLabel = new JLabel(icon);
+                newFrame.add(imageLabel);
+            }
+    
+            JButton saveButton = new JButton("SAVE");
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    newFrame.setVisible(false);
+                    setVisible(true);
+                }
+            });
+    
+            newFrame.add(saveButton);
+            newFrame.setSize(600, 400);
+            newFrame.setLocationRelativeTo(null);
+            newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            newFrame.setVisible(true);
+        }
+
+    /*
     public static void main(String[] args) {
-        new Profile_GUI();
+        new Profile_GUI(true);
     }
+    */
 }

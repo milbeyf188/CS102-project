@@ -22,6 +22,7 @@ public class MenuFrame extends JFrame{
     private JTextField searchadd;
     private ResultPanel resultpanel;
     private JScrollPane scrollPane;
+    private static Controller con = new Controller();
     private JFrame frame = this;
 
     protected Color lightblue = new Color(62, 128, 168);
@@ -338,7 +339,7 @@ public class MenuFrame extends JFrame{
         }
         public void actionPerformed(ActionEvent event)//action listener for adding friends with ıd giver        
         {
-            
+            con.setFriend(profile.getID(), ID);
         }
     }
 }
