@@ -13,7 +13,7 @@ public class BadgeShopGUI extends JFrame {
     private JButton backButton;
     private JPanel badgePanel;
     private JTextField moneyTextField;
-    private static ArrayList<Badge> badgeList;
+    static ArrayList<Badge> badgeList;
 
     public BadgeShopGUI() {
         badgeList = new ArrayList<>();
