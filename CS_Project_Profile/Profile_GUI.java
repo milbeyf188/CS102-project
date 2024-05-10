@@ -118,42 +118,11 @@ public class Profile_GUI extends JFrame
             ArrayList<Badge> sortedBadgeList = bubbleSort(BadgeShopGUI.badgeList);
             displayBadgeList(sortedBadgeList);
 
-            public void displayBadgeList(ArrayList<Badge> badgeListToDisplay) {
-                if(badgeListToDisplay.size() < 3) 
-                {
-                    for(int i = 0; i < badgeListToDisplay.size(); i++)
-                    {
-                        badgesPanel.add(badgeListToDisplay.get(i).getPhoto());
-                        
-                    }
-
-
-                    //display here
-                }
-                else 
-                {
-                    for(int i = 0; i < 3; i++)
-                    {
-                        badgesPanel.add(badgeListToDisplay.get(i).getPhoto());
-                        
-                    }
-                }
+            
             
         
         
-            private ArrayList<Badge> bubbleSort(ArrayList<Badge> list) {
-                int n = list.size();
-                for (int i = 0; i < n - 1; i++) {
-                    for (int j = 0; j < n - i - 1; j++) {
-                        if (list.get(j).getPrice() > list.get(j + 1).getPrice()) {
-                            Badge temp = list.get(j);
-                            list.set(j, list.get(j + 1));
-                            list.set(j + 1, temp);
-                        }
-                    }
-                }
-                return list;
-            }
+            
             
 
 
@@ -322,6 +291,47 @@ public class Profile_GUI extends JFrame
             return null;
         }
     }
+
+
+    private ArrayList<Badge> bubbleSort(ArrayList<Badge> list) 
+                {
+                    int n = list.size();
+                    for (int i = 0; i < n - 1; i++) {
+                        for (int j = 0; j < n - i - 1; j++) {
+                            if (list.get(j).getPrice() > list.get(j + 1).getPrice()) {
+                                Badge temp = list.get(j);
+                                list.set(j, list.get(j + 1));
+                                list.set(j + 1, temp);
+                            }
+                        }
+                    }
+                    return list;
+                }
+
+
+
+    public void displayBadgeList(ArrayList<Badge> badgeListToDisplay) 
+            {
+                if(badgeListToDisplay.size() < 3) 
+                {
+                    for(int i = 0; i < badgeListToDisplay.size(); i++)
+                    {
+                        badgesPanel.add(badgeListToDisplay.get(i).getPhoto());
+                        
+                    }
+
+
+                    //display here
+                }
+                else 
+                {
+                    for(int i = 0; i < 3; i++)
+                    {
+                        badgesPanel.add(badgeListToDisplay.get(i).getPhoto());
+                        
+                    }
+                }
+            }
 
     /*
     public static void main(String[] args) {
