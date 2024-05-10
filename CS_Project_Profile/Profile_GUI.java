@@ -1,8 +1,14 @@
 package CS_Project_Profile;
 
-import loginandsignup.FDController;
+import FaceDiaryLoginIlbey.*;
+import FaceDiaryLoginIlbey.src.loginandsignup.FDController;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import MainMenu.Badge;
+import MainMenu.BadgeShopGUI;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +16,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import FaceDiaryLoginIlbey.*;
 
 
 public class Profile_GUI extends JFrame
 {
-
-    loginandsignup.FDController cont = new FDController();
+    private JPanel badgesPanel;
+    FDController cont = new FDController();
 
     //public boolean friendOrUser = false;
     //Controller cont = new Controller();
@@ -91,7 +97,6 @@ public class Profile_GUI extends JFrame
         add(badgesLabel);
 
         // 5. satır: 3 tane resim image
-        JPanel badgesPanel;
        if(friendOrUser == false)  //arkadaşın profili
         {
             badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -111,7 +116,7 @@ public class Profile_GUI extends JFrame
         }
         else// Kendi profilimiz
         {
-            badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             badgesPanel.setBackground(new Color(0, 0, 102));
 
 

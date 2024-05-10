@@ -1,3 +1,5 @@
+package MainMenu;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +15,7 @@ public class BadgeShopGUI extends JFrame {
     private JButton backButton;
     private JPanel badgePanel;
     private JTextField moneyTextField;
-    static ArrayList<Badge> badgeList;
+    public static ArrayList<Badge> badgeList;
 
     public BadgeShopGUI() {
         badgeList = new ArrayList<>();

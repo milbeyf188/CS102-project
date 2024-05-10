@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
-
 import CS_Project_Profile.*;
-import loginandsignup.FDController;
+import FaceDiaryLoginIlbey.src.loginandsignup.*;
+
 public class MenuFrame extends JFrame{
     private Profile profile;
     private JLabel month;
