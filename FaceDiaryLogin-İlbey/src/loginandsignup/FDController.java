@@ -1,5 +1,6 @@
 package loginandsignup;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 
 //Bu methodların çalışması için bir controller objesi oluşturup methodun başına yazın. Objenin içine bir parametre girmenize gerek yok
-public class Controller 
+public class FDController 
 {
     
     private final String url = "jdbc:mysql://localhost:3306/facediary";

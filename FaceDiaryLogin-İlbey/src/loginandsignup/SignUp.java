@@ -1,10 +1,12 @@
-
 package loginandsignup;
+
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import static javax.swing.JOptionPane.showMessageDialog;

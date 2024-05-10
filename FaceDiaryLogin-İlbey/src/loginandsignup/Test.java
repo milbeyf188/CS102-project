@@ -1,10 +1,11 @@
 package loginandsignup;
+
 public class Test 
 {
     
     public static void main(String[] args) 
     {
-        Controller con = new Controller();
+        FDController con = new FDController();
         /* System.out.println(con.getNameById(3));
         System.out.println(con.getEmailById(2));
         System.out.println(con.getUserPointsById(1));

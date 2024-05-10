@@ -1,8 +1,9 @@
 package CS_Project_Profile;
+import FaceDiary.*;
+import loginandsignup.FDController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.ModuleLayer.Controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
 public class Profile_GUI extends JFrame
 {
 
-    new Controller cont = new Controller();
+    loginandsignup.FDController cont = new FDController();
 
     //public boolean friendOrUser = false;
     //Controller cont = new Controller();
@@ -19,7 +20,7 @@ public class Profile_GUI extends JFrame
     //String userName = cont.getNameById(UserID?);
     //int streak = cont.getUserStreakById(/*UserID?);
     
-    public Profile_GUI(boolean friendOrUser , profile profile ) {
+    public Profile_GUI(boolean friendOrUser , Profile profile ) {
 
 
         
@@ -203,7 +204,7 @@ public class Profile_GUI extends JFrame
         }
         else //kendi profilimize giriyoruz yani statusu güncelleyebiliyoruz
         {
-            JTextField statusMessageTextBox = new JTextField("Status Message"  + profile.getStatus);
+            JTextField statusMessageTextBox = new JTextField("Status Message"  + profile.getStatus());
             statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN, 5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
             JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -214,7 +215,7 @@ public class Profile_GUI extends JFrame
 
             //Burada Yeni statusu kaydetmemiz lazım
             String newStatus = statusMessageTextBox.getText();
-            cont.setStatue(profile.getId, newStatus);
+            cont.setStatue(profile.getID(), newStatus);
 
 
         }
