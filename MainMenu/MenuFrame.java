@@ -201,7 +201,7 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            ImageIcon image =  new ImageIcon(getClass().getResource("/MainMenu/FireImage.png"));
+            ImageIcon image =  new ImageIcon(getClass().getResource("/MainMenu/FireImage.png"));//DENİZ KOD BURDA
             super.paintComponent(g);
             setBackground(backgroundColor);
             Graphics2D g2d = (Graphics2D) g;
