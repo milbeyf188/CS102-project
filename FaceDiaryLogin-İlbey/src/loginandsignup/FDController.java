@@ -367,6 +367,32 @@ public class FDController
         }
     }
 
+    public ArrayList<String> getFriendsArray(int userID)
+    {
+        ArrayList<String> friends = new ArrayList<String>();
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
+
+            String name = null;
+            String query = "SELECT FriendID FROM userinfo WHERE UserID = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
+                pst.setInt(1, userID);
+                try (ResultSet rs = pst.executeQuery()) 
+                {
+                    while(rs.next()) 
+                    {
+                        name = rs.getString("Name");
+                        friends.add(name);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving user information: " + e.getMessage());
+        }
+        return friends;
+    }
+
     
 
 }

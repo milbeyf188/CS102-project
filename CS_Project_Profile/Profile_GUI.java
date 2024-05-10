@@ -1,5 +1,5 @@
 package CS_Project_Profile;
-import FaceDiary.*;
+
 import loginandsignup.FDController;
 
 import javax.swing.*;
