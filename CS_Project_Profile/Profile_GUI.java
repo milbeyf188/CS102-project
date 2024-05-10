@@ -17,7 +17,7 @@ public class Profile_GUI extends JFrame
     //String userName = cont.getNameById(UserID?);
     //int streak = cont.getUserStreakById(/*UserID?);
     
-    public Profile_GUI(boolean friendOrUser /*, profile profile */) {
+    public Profile_GUI(boolean friendOrUser , profile profile ) {
 
 
         
@@ -56,7 +56,7 @@ public class Profile_GUI extends JFrame
         // 2. satır: İsim textbox'u
         JPanel NamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         NamePanel.setBackground(new Color(0, 0, 102));
-        JLabel NameLabel = new JLabel(/*profile.getName()*/);
+        JLabel NameLabel = new JLabel(profile.getName());
         NameLabel.setForeground(Color.WHITE);
         NameLabel.setFont(NameLabel.getFont().deriveFont(Font.PLAIN, 5 * NameLabel.getFont().getSize()));
         NamePanel.add(NameLabel);
@@ -201,7 +201,7 @@ public class Profile_GUI extends JFrame
         }
         else //kendi profilimize giriyoruz yani statusu güncelleyebiliyoruz
         {
-            JTextField statusMessageTextBox = new JTextField("Status Message"  /* + ESKİ STAtus profile.getStatus */);
+            JTextField statusMessageTextBox = new JTextField("Status Message"  + profile.getStatus);
             statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN, 5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
             JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -251,8 +251,9 @@ public class Profile_GUI extends JFrame
             newFrame.setVisible(true);
         }
 
-    
+    /*
     public static void main(String[] args) {
         new Profile_GUI(true);
     }
+    */
 }
