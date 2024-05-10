@@ -86,7 +86,7 @@ public class Profile_GUI extends JFrame
         add(badgesLabel);
 
         // 5. satır: 3 tane resim image
-        if(friendOrUser == false)
+       if(friendOrUser == false)  //arkadaşın profili
         {
             JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             badgesPanel.setBackground(new Color(0, 0, 102));
@@ -103,10 +103,55 @@ public class Profile_GUI extends JFrame
             badgesPanel.add(badge3Label);
             add(badgesPanel);
         }
-        else
+        else// Kendi profilimiz
         {
             JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             badgesPanel.setBackground(new Color(0, 0, 102));
+
+
+
+            ArrayList<Badge> sortedBadgeList = bubbleSort(BadgeShopGUI.badgeList);
+            displayBadgeList(sortedBadgeList);
+
+            public void displayBadgeList(ArrayList<Badge> badgeListToDisplay) {
+                if(badgeListToDisplay.size() < 3) 
+                {
+                    for(int i = 0; i < badgeListToDisplay.size(); i++)
+                    {
+                        badgesPanel.add(badgeListToDisplay.get(i).getPhoto());
+                        
+                    }
+
+
+                    //display here
+                }
+                else 
+                {
+                    for(int i = 0; i < 3; i++)
+                    {
+                        badgesPanel.add(badgeListToDisplay.get(i).getPhoto());
+                        
+                    }
+                }
+            
+        
+        
+            private ArrayList<Badge> bubbleSort(ArrayList<Badge> list) {
+                int n = list.size();
+                for (int i = 0; i < n - 1; i++) {
+                    for (int j = 0; j < n - i - 1; j++) {
+                        if (list.get(j).getPrice() > list.get(j + 1).getPrice()) {
+                            Badge temp = list.get(j);
+                            list.set(j, list.get(j + 1));
+                            list.set(j + 1, temp);
+                        }
+                    }
+                }
+                return list;
+            }
+            
+
+
             ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
             ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image dosyasının yolunu belirtin
             ImageIcon badge3Icon = new ImageIcon("badge3.png"); // Badge 3 image dosyasının yolunu belirtin
@@ -119,6 +164,7 @@ public class Profile_GUI extends JFrame
             badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
             badgesPanel.add(badge3Label);
 
+            /*
             JButton editButton = new JButton("EDİT");
             editButton.addActionListener(new ActionListener() {
                 @Override
@@ -133,6 +179,7 @@ public class Profile_GUI extends JFrame
             editButton.setBackground(Color.GREEN);
             editButton.setPreferredSize(new Dimension(120, 80)); // Geri tuşunun genişliğini ayarlar
             badgesPanel.add(editButton);
+            */
 
             add(badgesPanel);
         }
@@ -225,7 +272,7 @@ public class Profile_GUI extends JFrame
         setVisible(true);
     }
 
-
+    /*
     private void createNewPanel() 
         {
             JFrame newFrame = new JFrame("EDIT BADGES");
@@ -253,6 +300,23 @@ public class Profile_GUI extends JFrame
             newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             newFrame.setVisible(true);
         }
+        */
+
+
+        private BufferedImage loadImage(String filename, int width, int height) 
+     {
+        try {
+            BufferedImage originalImage = ImageIO.read(new File(filename));
+            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = resizedImage.createGraphics();
+            g.drawImage(originalImage, 0, 0, width, height, null);
+            g.dispose();
+            return resizedImage;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /*
     public static void main(String[] args) {
