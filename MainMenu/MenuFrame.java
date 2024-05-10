@@ -113,6 +113,13 @@ public class MenuFrame extends JFrame{
         c.weightx = 0;
         c.anchor = GridBagConstraints.NORTHWEST;
         add(button3,c);
+        c.gridx = 1;
+        c.gridy = 3;
+        c.weightx = 0;
+        c.weighty = 0;
+        RoundedButton button4 = new RoundedButton(300, 75, "Remove Friend", null);
+        button4.addActionListener(new Listener5());
+        add(button4,c);
         StreakPanel streakPanel = new StreakPanel();
         streakPanel.setPreferredSize(new Dimension(200, 100));
         c.gridx = 1;
@@ -211,9 +218,11 @@ public class MenuFrame extends JFrame{
         public void createPanel()
         {
             setLayout(new GridLayout(7,1));
-            JLabel label = new JLabel(profile.getName(),(int)JLabel.CENTER_ALIGNMENT);
-            label.setFont(buttonfont);
-            add(label);
+            
+            FriendButton button4 = new FriendButton(profile.getName(), profile.getID(), true);
+            button4.setPreferredSize(new Dimension(75, 25));
+            button4.setFont(buttonfont);
+            add(button4);//button to return our profile
             JPanel panel = new JPanel(new GridLayout(1, 2));
             panel.add(new JLabel("Enter a name for searching in your friends!"));
             searchfriend = new JTextField(30);
@@ -331,12 +340,12 @@ public class MenuFrame extends JFrame{
     
     class ProfileButton extends JButton implements ActionListener
     {
-        private String name;
         private int ID;
         public ProfileButton(String name,int ID)
         {
             super(name);
             this.ID = ID;
+            addActionListener(this);
         }
         public void actionPerformed(ActionEvent event)//action listener for adding friends with ıd giver        
         {
@@ -346,14 +355,19 @@ public class MenuFrame extends JFrame{
     class FriendButton extends JButton implements ActionListener
     {
         private int ID;
-        public FriendButton(String s,int id)
+        private boolean isuser;
+        public FriendButton(String s,int id, boolean isuser)
         {
             super(s);
             this.ID = id;
+            this.isuser = isuser;
+            addActionListener(this);
         }
         public void actionPerformed(ActionEvent e) {//yiğitin profil guisine gidecek
             Profile profile = new Profile(ID,con.getNameById(ID) , con.getUserStreakById(ID), con.getStatue(ID), con.getBirthday(ID),con.getUserPointsById(ID));
-            Profile_GUI profilepage =  new Profile_GUI(false, profile);
+            Profile_GUI profilepage =  new Profile_GUI(isuser, profile);
+            frame.setVisible(false);
+            profilepage.setVisible(true);
         }
     }
     
@@ -375,7 +389,7 @@ public class MenuFrame extends JFrame{
             }
             for(int i = 0;i<results.size();i++)
             {
-                add(new FriendButton(con.getNameById(results.get(i)),results.get(i)));
+                add(new FriendButton(con.getNameById(results.get(i)),results.get(i),false));
             }
             frame.setVisible(true);
         }   
@@ -402,6 +416,15 @@ public class MenuFrame extends JFrame{
 
         }
     }
+    class Listener5 implements ActionListener//Action listener of removeframe buttton
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            RemoveFrame frame2 = new RemoveFrame(profile.getID());
+            frame2.setVisible(true);
+            frame.setVisible(false);
 
+        }
+    }
 }
 

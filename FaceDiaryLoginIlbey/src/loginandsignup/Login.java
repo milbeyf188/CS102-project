@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import java.util.*;
-
+import MainMenu.*;
 
 public class Login extends javax.swing.JFrame 
 {
@@ -191,10 +191,10 @@ public class Login extends javax.swing.JFrame
                     int userID = rs.getInt("ID");
                     Profile prof = new Profile(userID, cont.getNameById(userID), cont.getUserStreakById(userID),cont.getStatue(userID),cont.getBirthday(userID),cont.getUserPointsById(userID));
                     System.out.println("ANAN");
-                    //MenuFrame MenuFrame = new MenuFrame(prof);
-                    //MenuFrame.setVisible(true);
-                    //MenuFrame.pack();
-                    //MenuFrame.setLocationRelativeTo(null); 
+                    //BURASI
+                    MenuFrame MenuFrame = new MenuFrame(prof);
+                    MenuFrame.setVisible(true);
+                    MenuFrame.pack();
                     this.dispose(); 
                 } 
                 else 
