@@ -1,4 +1,7 @@
 package loginandsignup;
+import CS_Project_Profile.Profile;
+
+import MainMenu.MainFrame;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -152,6 +155,7 @@ public class Login extends javax.swing.JFrame
         SPass = "";
         int notFound = 0;
         char[] userPassword = null; 
+        Controller cont = new Controller();
     
         try 
         {
@@ -182,11 +186,13 @@ public class Login extends javax.swing.JFrame
                 }
                 if (notFound == 1 && Arrays.equals(Password, userPassword)) 
                 {
+                    
                     int userID = rs.getInt("ID");
-                    Home HomeFrame = new Home(userID);
-                    HomeFrame.setVisible(true);
-                    HomeFrame.pack();
-                    HomeFrame.setLocationRelativeTo(null);
+                    Profile prof = new Profile(userID, cont.getNameById(userID), cont.getUserStreakById(userID),cont.getStatue(userID),cont.getBirthday(userID),cont.getUserPointsById(userID));
+                    MenuFrame MenuFrame = new MenuFrame(prof);
+                    MenuFrame.setVisible(true);
+                    MenuFrame.pack();
+                    MenuFrame.setLocationRelativeTo(null);
                     this.dispose(); 
                 } 
                 else 

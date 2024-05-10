@@ -329,7 +329,55 @@ public class Controller
             return null;
         }
     }
+
+    public String getBirthday(int userId) {
+        
+        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+            String query = "SELECT Statue FROM userinfo WHERE ID = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
+                pst.setInt(1, userId);
+                try (ResultSet rs = pst.executeQuery()) 
+                {
+                    if (rs.next()) {
+                        return rs.getString("Birthday");
+                    }
+                }
+            }
+        } 
+        catch (SQLException e) 
+        {
+            System.out.println("Error retrieving user status text: " + e.getMessage());
+        }
+        return null; 
+    }
+
+    public void setBirthday(int userId, String birthday) {
+        
+        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+            String query = "UPDATE userinfo SET Birthday = ? WHERE ID = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) {
+                pst.setString(1, birthday);
+                pst.setInt(2, userId);
+                pst.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating user status text: " + e.getMessage());
+        }
+    }
+
+    
+
 }
+
+
+
+
+
+
+
+
+
 
 
 

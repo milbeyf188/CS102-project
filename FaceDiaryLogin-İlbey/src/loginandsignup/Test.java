@@ -16,10 +16,10 @@ public class Test
         con.setStreak(4,15);
         System.out.println(con.getUserStreakById(4));
         con.setStatue(4, "Ben Dördüncüyüm");
-        System.out.println(con.getNamesArray());
-        con.setFriend(6, 111); */
+        System.out.println(con.getNamesArray()); */
+        //con.setFriend(6, 111);
         //System.out.println(con.booleanToString(con.getBadgesArrayById(6)));
-        con.removeFriend(6, 5);
+        con.removeFriend(6,111);
         
     }
 }

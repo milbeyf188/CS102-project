@@ -19,7 +19,7 @@ public class Profile
 
 
 
-    public Profile(String name, int streak, String status, String birthday,int money)
+    public Profile(int ID,String name, int streak, String status, String birthday,int money)
     {
         this.name = name;
         this.streak = streak;
