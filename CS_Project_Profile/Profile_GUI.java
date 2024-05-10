@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 public class Profile_GUI extends JFrame
 {
 
+    new Controller cont = new Controller();
+
     //public boolean friendOrUser = false;
     //Controller cont = new Controller();
 
@@ -212,7 +214,7 @@ public class Profile_GUI extends JFrame
 
             //Burada Yeni statusu kaydetmemiz lazım
             String newStatus = statusMessageTextBox.getText();
-            //profile.setStatus(newStatus);
+            cont.setStatue(profile.getId, newStatus);
 
 
         }
