@@ -1,3 +1,6 @@
+package MainMenu;
+
+import java.awt.Component;
 import java.awt.image.BufferedImage;
 
 public class Badge {
@@ -13,7 +16,7 @@ public class Badge {
         return this.price;
     }
 
-    public BufferedImage getPhoto() {
+    public Component getPhoto() {
         return this.photo;
     }
 }

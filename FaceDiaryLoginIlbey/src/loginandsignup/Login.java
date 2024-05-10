@@ -1,4 +1,4 @@
-package loginandsignup;
+package FaceDiaryLoginIlbey.src.loginandsignup;
 
 import CS_Project_Profile.Profile;
 

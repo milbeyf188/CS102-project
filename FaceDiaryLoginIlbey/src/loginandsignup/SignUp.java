@@ -1,4 +1,4 @@
-package loginandsignup;
+package FaceDiaryLoginIlbey.src.loginandsignup;
 
 
 import java.sql.Connection;
