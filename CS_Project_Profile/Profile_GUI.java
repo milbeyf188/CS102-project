@@ -31,7 +31,7 @@ public class Profile_GUI extends JFrame
     //String userName = cont.getNameById(UserID?);
     //int streak = cont.getUserStreakById(/*UserID?);
     
-    public Profile_GUI(boolean friendOrUser , Profile profile ) {
+    public Profile_GUI(boolean friendOrUser , Profile profile , ,JFrame Menuframe ) {
 
 
         
@@ -54,6 +54,20 @@ public class Profile_GUI extends JFrame
         JButton backButton = new JButton("Back");
         backButton.setBackground(Color.RED);
         backButton.setPreferredSize(new Dimension(120, 80)); // Geri tuşunun genişliğini ayarlar
+
+        backButton.addActionListener(new ActionListener() 
+            {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
+                    setVisible(false);
+                    Menuframe.setVisible(true);
+                        
+                }
+            });
+
+
+        
         JPanel Mainpanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         Mainpanel.setBackground(new Color(0, 0, 102));
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Geri tuşunu sola hizalar
