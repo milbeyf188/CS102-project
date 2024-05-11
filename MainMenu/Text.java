@@ -95,6 +95,7 @@ public class Text extends JPanel
         add(textArea);
         add(new buttonListener());
         add(new specialButtonListener());
+        add(new accessButton());
     }
 
     public ArrayList<String> getAccessed()
@@ -109,8 +110,7 @@ public class Text extends JPanel
             Scanner scanner = new Scanner(str);
 
             text.clear();
-            text.add(isSpecial + "" + isGroup);
-            scanner.nextLine();
+            text.add((isSpecial? "1": "0") + (isGroup? "1": "0"));
             while(scanner.hasNextLine()) 
             {
                 text.add(scanner.nextLine());
@@ -186,6 +186,30 @@ public class Text extends JPanel
 
             }
         }
+        setText(getText());
+    }
+
+    private void setText(String str)
+    {
+        Scanner scanner = new Scanner(str);
+
+        text.clear();
+        text.add((isSpecial? "1": "0") + (isGroup? "1": "0"));
+
+        while(scanner.hasNextLine())
+        {
+            text.add(scanner.nextLine());
+        }
+
+        try{
+            Files.write(Paths.get(textFile.getAbsolutePath()), text, StandardCharsets.UTF_8);
+        }
+        catch(IOException e)
+        {
+            System.out.println("error on text to file operation");
+        }
+
+        scanner.close();
     }
 
     public boolean setChangeable()
@@ -205,7 +229,8 @@ public class Text extends JPanel
     public boolean changeSpeciality()
     {
         isSpecial = !isSpecial;
-        text.set(0, isSpecial + text.get(0).substring(1));
+        text.set(0, (isSpecial? "1": "0") + text.get(0).substring(1));
+        setText(getText());
         return isSpecial;
     }
 
@@ -233,7 +258,7 @@ public class Text extends JPanel
 
         if(Diary.currentDate.compareTo(new GregorianCalendar(date[0], date[1] - 1, date[2])) > 0) 
         {
-            return hasWritten() ? Color.RED: Color.GREEN;
+            return hasWritten() ? Color.GREEN: Color.RED;
         }
 
         return Color.GRAY;
@@ -267,6 +292,22 @@ public class Text extends JPanel
         public void actionPerformed(ActionEvent e)
         {
             super.setText(changeSpeciality() ? "Unmake It Special": "Make It Special");
+        }
+    }
+
+    class accessButton extends JButton implements ActionListener
+    {
+        public
+        accessButton()
+        {
+            super("...");
+            super.setAlignmentY(TOP_ALIGNMENT);
+            super.addActionListener(this);
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+
         }
     }
 }
