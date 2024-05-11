@@ -94,7 +94,7 @@ public class MenuFrame extends JFrame{
         MoneyPanel moneyPanel = new MoneyPanel();
         moneyPanel.setPreferredSize(new Dimension(400, 100));
         add(moneyPanel,c);
-        RoundedButton button = new RoundedButton(300, 75, "Badge Shop","/MainMenu/Shopping Cart.png" );
+        RoundedButton button = new RoundedButton(300, 75, "Badge Shop",null );
         c.gridx = 0;
         c.gridy = 4;
         c.weighty = 1;
@@ -149,11 +149,11 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            ImageIcon image = new ImageIcon(getClass().getResource("/MainMenu/Money Image.png"));
+            //ImageIcon image = new ImageIcon(getClass().getResource("/MainMenu/Money Image.png"));
             super.paintComponent(g);
             setBackground(backgroundColor);
             Graphics2D g2d = (Graphics2D) g;
-            image.paintIcon(this, g2d, 10, 10);
+            //image.paintIcon(this, g2d, 10, 10);
             g.setFont(new Font("Comic sans", 0, 30));
             g.setColor(Color.WHITE);
             g.drawString(String.valueOf(profile.getMoney()),100,50);
@@ -201,11 +201,11 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            ImageIcon image =  new ImageIcon(getClass().getResource("/CS_Project_Profile/Imagess/ProjectImages/Ekran görüntüsü 2024-05-07 135630."));//DENİZ KOD BURDA
+            //ImageIcon image =  new ImageIcon(getClass().getResource("/CS_Project_Profile/Imagess/ProjectImages/Ekran görüntüsü 2024-05-07 135630."));//DENİZ KOD BURDA
             super.paintComponent(g);
             setBackground(backgroundColor);
             Graphics2D g2d = (Graphics2D) g;
-            image.paintIcon(this, g2d, 10,10 );
+            //image.paintIcon(this, g2d, 10,10 );
             Font f = buttonfont.deriveFont(50);
             g.setFont(f);
             g.setColor(Color.WHITE);
@@ -350,6 +350,7 @@ public class MenuFrame extends JFrame{
         public void actionPerformed(ActionEvent event)//action listener for adding friends with ıd giver        
         {
             con.setFriend(profile.getID(), ID);
+            JOptionPane.showMessageDialog(frame, "User is added successfully", "Friend adding", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     class FriendButton extends JButton implements ActionListener
@@ -385,7 +386,7 @@ public class MenuFrame extends JFrame{
             setLayout(new GridLayout(0,1));
             if(results.size() == 0)
             {
-                JOptionPane.showMessageDialog(displayframe, "You haven't got any friends yet.");
+                JOptionPane.showMessageDialog(displayframe, "You haven't got such friend!");
             }
             for(int i = 0;i<results.size();i++)
             {
@@ -463,6 +464,11 @@ public class MenuFrame extends JFrame{
         {
             public void actionPerformed(ActionEvent event)
             {
+            result.removeAll();
+            if(searcharea.getText().length()==0)
+            {
+                JOptionPane.showMessageDialog(frame, "Searchbar cannot be empty", "Error", ERROR_MESSAGE);
+            }
             ArrayList<Integer> friends = con.getFriendsArray(profile.getID());
             ArrayList<Integer> results = new ArrayList<Integer>();
             for(int i = 0;i<friends.size();i++)
@@ -472,9 +478,11 @@ public class MenuFrame extends JFrame{
                     results.add(friends.get(i));
                 }
             }
-            result.removeAll();
+            
+            
             result.changeresult(results);
             result.printusers();
+            popUp.setVisible(true);
         }
         }
         class ResultPanel extends JPanel
@@ -486,6 +494,11 @@ public class MenuFrame extends JFrame{
             }
             public void printusers()
             {
+            if(results.size()==0)
+            {
+                JOptionPane.showMessageDialog(frame, "User cannot found!", "Error", ERROR_MESSAGE);
+                return;
+            }
                 setLayout(new GridLayout(0, 1));
                 for(int i = 0;i<results.size();i++)
                 {
@@ -505,6 +518,7 @@ public class MenuFrame extends JFrame{
             public void actionPerformed(ActionEvent event)
             {
                 con.removeFriend(profile.getID(), ID);
+                JOptionPane.showMessageDialog(frame, "Friend removed successfully", "Friend removal",JOptionPane.INFORMATION_MESSAGE );
             }
         }
         class Listener7 implements ActionListener//Action listener for closing pop with cancel button
