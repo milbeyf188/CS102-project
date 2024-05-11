@@ -1,3 +1,5 @@
+package MainMenu;
+
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 import java.awt.*;

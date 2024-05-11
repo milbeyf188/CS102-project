@@ -1,3 +1,5 @@
+package MainMenu;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -205,6 +207,11 @@ public class Text extends JPanel
         return isSpecial;
     }
 
+    public boolean hasWritten()
+    {
+        return text.size() > 1;
+    }
+
     public Color getColor()
     {
         if(setChangeable())
@@ -224,7 +231,7 @@ public class Text extends JPanel
 
         if(Diary.currentDate.compareTo(new GregorianCalendar(date[0], date[1] - 1, date[2])) > 0) 
         {
-            return text.isEmpty() ? Color.RED: Color.GREEN;
+            return hasWritten() ? Color.RED: Color.GREEN;
         }
 
         return Color.GRAY;
