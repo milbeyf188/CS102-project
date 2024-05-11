@@ -5,7 +5,7 @@ public class Test
     
     public static void main(String[] args) 
     {
-        FDController con = new FDController();
+        Controller con = new Controller();
         /* System.out.println(con.getNameById(3));
         System.out.println(con.getEmailById(2));
         System.out.println(con.getUserPointsById(1));
@@ -22,6 +22,7 @@ public class Test
         //System.out.println(con.booleanToString(con.getBadgesArrayById(6)));
         //con.removeFriend(6,111);
         //con.changePassword(2, "yenişifre");
+        //con.badgeBought(6,9);
         
     }
 }

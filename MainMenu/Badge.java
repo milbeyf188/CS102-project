@@ -1,4 +1,4 @@
-/* package MainMenu;
+package MainMenu;
 
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -16,7 +16,7 @@ public class Badge {
         return this.price;
     }
 
-    public Component getPhoto() {
+     public BufferedImage getPhoto() {
         return this.photo;
-    }
-} */
+    } 
+} 

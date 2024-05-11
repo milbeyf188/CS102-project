@@ -119,30 +119,38 @@ public class Controller
         return userStreak;
     }
 
-    public void setStatue(int userId, String statue) {
+    public void setStatue(int userId, String statue) 
+    {
         
-        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
             String query = "UPDATE userinfo SET Statue = ? WHERE ID = ?";
-            try (PreparedStatement pst = con.prepareStatement(query)) {
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
                 pst.setString(1, statue);
                 pst.setInt(2, userId);
                 pst.executeUpdate();
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             System.out.println("Error updating user status text: " + e.getMessage());
         }
     }
 
-    public String getStatue(int userId) {
+    public String getStatue(int userId) 
+    {
         
-        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
             String query = "SELECT Statue FROM userinfo WHERE ID = ?";
             try (PreparedStatement pst = con.prepareStatement(query)) 
             {
                 pst.setInt(1, userId);
                 try (ResultSet rs = pst.executeQuery()) 
                 {
-                    if (rs.next()) {
+                    if (rs.next()) 
+                    {
                         return rs.getString("Statue");
                     }
                 }
@@ -160,27 +168,33 @@ public class Controller
         try (Connection con = DriverManager.getConnection(url, userName, password)) 
         {
             String query = "UPDATE userinfo SET UserPoints = ? WHERE ID = ?";
-            try (PreparedStatement pst = con.prepareStatement(query)) {
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
                 pst.setInt(1, currentPoints);
                 pst.setInt(2, userId);
                 pst.executeUpdate();
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             System.out.println("Error updating user status text: " + e.getMessage());
         }
     }
 
-    public void setStreak(int userId, Integer currentStreak) {
+    public void setStreak(int userId, Integer currentStreak) 
+    {
         
         try (Connection con = DriverManager.getConnection(url, userName, password)) 
         {
             String query = "UPDATE userinfo SET Streak = ? WHERE ID = ?";
-            try (PreparedStatement pst = con.prepareStatement(query)) {
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
                 pst.setInt(1, currentStreak);
                 pst.setInt(2, userId);
                 pst.executeUpdate();
             }
-        } catch (SQLException e) 
+        } 
+        catch (SQLException e) 
         {
             System.out.println("Error updating user status text: " + e.getMessage());
         }
@@ -211,6 +225,7 @@ public class Controller
         }
         return names;
     }
+   
     public ArrayList<Integer> getIDArray()
     {
         ArrayList<Integer> numbers = new ArrayList<Integer>();
@@ -231,24 +246,30 @@ public class Controller
                     }
                 }
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             System.out.println("Error retrieving user information: " + e.getMessage());
         }
         return numbers;
     
     }
 
-    public String booleanToString(boolean[] array) {
+    public String booleanToString(boolean[] array) 
+    {
         StringBuilder sb = new StringBuilder();
-        for (boolean value : array) {
+        for (boolean value : array) 
+        {
             sb.append(value ? '1' : '0');
         }
         return sb.toString();
     }
 
         
-    public void setFriend(int userId, int friendId) {
-        if (areAlreadyFriends(userId, friendId)) {
+    public void setFriend(int userId, int friendId) 
+    {
+        if (areAlreadyFriends(userId, friendId)) 
+        {
             System.out.println("Error: Users are already friends.");
             return;
         }
@@ -262,10 +283,13 @@ public class Controller
                 pst.setInt(4, userId);
                 pst.executeUpdate();
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) 
+        {
             System.out.println("Error adding friendship: " + e.getMessage());
         }
     }
+    
     public void removeFriend(int userId, int friendId) {
         try (Connection con = DriverManager.getConnection(url, userName, password)) {
             String query = "DELETE FROM friends WHERE (UserID = ? AND FriendID = ?) OR (UserID = ? AND FriendID = ?)";
@@ -281,9 +305,11 @@ public class Controller
         }
     }
     
-    private boolean areAlreadyFriends(int userId, int friendId) {
+    private boolean areAlreadyFriends(int userId, int friendId)
+    {
         boolean alreadyFriends = false;
-        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
             String query = "SELECT * FROM friends WHERE (UserID = ? AND FriendID = ?) OR (UserID = ? AND FriendID = ?)";
             try (PreparedStatement pst = con.prepareStatement(query)) {
                 pst.setInt(1, userId);
@@ -294,31 +320,42 @@ public class Controller
                     alreadyFriends = rs.next();
                 }
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             System.out.println("Error checking friendship status: " + e.getMessage());
         }
         return alreadyFriends;
     }
 
-    public boolean[] getBadgesArrayById(int userId) {
+    public boolean[] getBadgesArrayById(int userId) 
+    {
         String badgesString = null;
-        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
             String query = "SELECT Badges FROM userinfo WHERE ID = ?";
-            try (PreparedStatement pst = con.prepareStatement(query)) {
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
                 pst.setInt(1, userId);
-                try (ResultSet rs = pst.executeQuery()) {
-                    if (rs.next()) {
+                try (ResultSet rs = pst.executeQuery()) 
+                {
+                    if (rs.next()) 
+                    {
                         badgesString = rs.getString("Badges");
                     }
                 }
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             System.out.println("Error retrieving badges information: " + e.getMessage());
         }
         
-        if (badgesString != null && badgesString.matches("[01]+")) {
+        if (badgesString != null && badgesString.matches("[01]+")) 
+        {
             boolean[] badgesArray = new boolean[badgesString.length()];
-            for (int i = 0; i < badgesString.length(); i++) {
+            for (int i = 0; i < badgesString.length(); i++) 
+            {
                 badgesArray[i] = (badgesString.charAt(i) == '1');
             }
             return badgesArray;
@@ -330,9 +367,11 @@ public class Controller
         }
     }
 
-    public String getBirthday(int userId) {
+    public String getBirthday(int userId) 
+    {
         
-        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
             String query = "SELECT Statue FROM userinfo WHERE ID = ?";
             try (PreparedStatement pst = con.prepareStatement(query)) 
             {
@@ -386,25 +425,63 @@ public class Controller
                     }
                 }
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             System.out.println("Error retrieving user information: " + e.getMessage());
         }
         return friends;
     }
 
-    public void changePassword(int userID, String newPassword) {
+    public void changePassword(int userID, String newPassword) 
+    {
         
-        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
             String query = "UPDATE userinfo SET Password = ? WHERE ID = ?";
-            try (PreparedStatement pst = con.prepareStatement(query)) {
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
                 pst.setString(1, newPassword);
                 pst.setInt(2, userID);
                 pst.executeUpdate();
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) 
+        {
             System.out.println("Error updating user status text: " + e.getMessage());
         }
     }
+
+    public void badgeBought(int userID, int badegNumber)
+    {
+        boolean[] badges = getBadgesArrayById(userID);
+        badges[badegNumber] = true;
+        String badgeString = booleanToString(badges);
+
+
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
+            String query = "UPDATE userinfo SET Badges = ? WHERE ID = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
+                pst.setString(1, badgeString);
+                pst.setInt(2, userID);
+                pst.executeUpdate();
+            }
+        } 
+        catch (SQLException e) 
+        {
+            System.out.println("Error updating user status text: " + e.getMessage());
+        }
+
+    }
+
+    /* public String booleanArrToString(int userID,boolean[] badgesArr)
+    {
+        String badges = null;
+
+        return badges;
+    } */
 
     
 
