@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import MainMenu.*;
-import MainMenu.BadgeShopGUI;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +20,9 @@ import java.util.ArrayList;
 
 public class Profile_GUI extends JFrame
 {
+    protected Color backgroundColor = new Color(8, 32, 45);
     private JPanel badgesPanel;
+    private Profile profile;
     FDController cont = new FDController();
 
     //public boolean friendOrUser = true;
@@ -31,12 +32,12 @@ public class Profile_GUI extends JFrame
     //String userName = cont.getNameById(UserID?);
     //int streak = cont.getUserStreakById(/*UserID?);
     
-    public Profile_GUI(boolean friendOrUser , Profile profile , ,JFrame Menuframe ) {
+    public Profile_GUI(boolean friendOrUser , Profile profile ,JFrame Menuframe ) {
 
 
         
         
-
+        this.profile = profile;
         setTitle("Profile");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
@@ -121,10 +122,10 @@ public class Profile_GUI extends JFrame
         // 3. satır: Ateş image'i ve Streak yazısı
         JPanel streakPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         streakPanel.setBackground(new Color(0, 0, 102));
-        JLabel streakLabel = new JLabel("Streak" /*+ profile.getStreak()*/);
+        JLabel streakLabel = new JLabel("Streak: " + profile.getStreak());
         streakLabel.setForeground(Color.WHITE);
         streakLabel.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 5 * streakLabel.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
-        ImageIcon fireIcon = new ImageIcon("C:\\Users\\gokkh\\Desktop\\NEW_WORKSPACE\\CS_Project_Profile\\Imagess\\ProjectImages\\Ekran görüntüsü 2024-05-07 135630.png"); // Ateş image dosyasının yolunu belirtin
+        ImageIcon fireIcon = new ImageIcon("/CS_Project_Profile/Imagess/ProjectImages/Ekran görüntüsü 2024-05-07 135630.png"); // Ateş image dosyasının yolunu belirtin
         JLabel fireLabel = new JLabel(fireIcon);
         streakPanel.add(fireLabel);
         streakPanel.add(streakLabel);
@@ -265,7 +266,7 @@ public class Profile_GUI extends JFrame
 
         if(friendOrUser == false) // arkadaşın profiline giriyorsak
         {
-            JLabel label2 = new JLabel("MESSAGE" /*profile.getStatus */);
+            JLabel label2 = new JLabel(profile.getStatus());
             label2.setForeground(Color.WHITE); // Yazı rengini beyaz yapıyoruz
             label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
             label2.setHorizontalAlignment(JLabel.CENTER); // Metni ortala
@@ -273,7 +274,7 @@ public class Profile_GUI extends JFrame
         }
         else //kendi profilimize giriyoruz yani statusu güncelleyebiliyoruz
         {
-            JTextField statusMessageTextBox = new JTextField("Status Message"  + profile.getStatus());
+            JTextField statusMessageTextBox = new JTextField(profile.getStatus());
             statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN, 5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
             JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -404,7 +405,7 @@ public class Profile_GUI extends JFrame
         saveButton.addActionListener(new ActionListener() { // Butona basıldığında ne yapılacağını tanımlayan ActionListener
             public void actionPerformed(ActionEvent e) {
                 String text = textField.getText(); // Metin kutusundaki metni alıyor
-                cont.changePassword(profile.getID, text);
+                cont.changePassword(profile.getID(), text);
                 newFrame.setVisible(false);
                 setVisible(true);
                  

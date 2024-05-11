@@ -201,7 +201,7 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            ImageIcon image =  new ImageIcon(getClass().getResource("/MainMenu/FireImage.png"));//DENİZ KOD BURDA
+            ImageIcon image =  new ImageIcon(getClass().getResource("/CS_Project_Profile/Imagess/ProjectImages/Ekran görüntüsü 2024-05-07 135630."));//DENİZ KOD BURDA
             super.paintComponent(g);
             setBackground(backgroundColor);
             Graphics2D g2d = (Graphics2D) g;
@@ -365,7 +365,7 @@ public class MenuFrame extends JFrame{
         }
         public void actionPerformed(ActionEvent e) {//yiğitin profil guisine gidecek
             Profile profile = new Profile(ID,con.getNameById(ID) , con.getUserStreakById(ID), con.getStatue(ID), con.getBirthday(ID),con.getUserPointsById(ID));
-            Profile_GUI profilepage =  new Profile_GUI(isuser, profile);
+            Profile_GUI profilepage =  new Profile_GUI(isuser, profile,frame);
             frame.setVisible(false);
             profilepage.setVisible(true);
         }
@@ -442,6 +442,7 @@ public class MenuFrame extends JFrame{
             GridBagConstraints a = new GridBagConstraints();
             a.anchor = GridBagConstraints.CENTER;
             searchButton = new JButton("search");
+            searchButton.addActionListener(new Listener6());
             panel2.add(searchButton,a);
             panel.add(panel2);
             result = new ResultPanel();
