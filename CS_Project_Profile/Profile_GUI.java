@@ -45,7 +45,7 @@ public class Profile_GUI extends JFrame
         //setBackground(new Color(0, 0, 102));
 
         JPanel contentPane = new JPanel();
-        contentPane.setBackground(new Color(0, 0, 102)); // Panelin arka planını koyu mavi yapar
+        contentPane.setBackground(backgroundColor); // Panelin arka planını koyu mavi yapar
         setContentPane(contentPane);
 
         setLayout(new GridLayout(6, 1));
@@ -70,7 +70,7 @@ public class Profile_GUI extends JFrame
 
         
         JPanel Mainpanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        Mainpanel.setBackground(new Color(0, 0, 102));
+        Mainpanel.setBackground(backgroundColor);
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Geri tuşunu sola hizalar
         //backButton.setBackground(new Color(0, 0, 102));
 
@@ -78,7 +78,7 @@ public class Profile_GUI extends JFrame
         if(friendOrUser == true)
         {
             JPanel changePasPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            changePasPanel.setBackground(new Color(0, 0, 102));
+            changePasPanel.setBackground(backgroundColor);
 
             JButton PasswordButton = new JButton("Change Password");
             PasswordButton.setBackground(Color.GREEN);
@@ -112,7 +112,7 @@ public class Profile_GUI extends JFrame
 
         // 2. satır: İsim textbox'u
         JPanel NamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        NamePanel.setBackground(new Color(0, 0, 102));
+        NamePanel.setBackground(backgroundColor);
         JLabel NameLabel = new JLabel(profile.getName());
         NameLabel.setForeground(Color.WHITE);
         NameLabel.setFont(NameLabel.getFont().deriveFont(Font.PLAIN, 5 * NameLabel.getFont().getSize()));
@@ -121,7 +121,7 @@ public class Profile_GUI extends JFrame
 
         // 3. satır: Ateş image'i ve Streak yazısı
         JPanel streakPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        streakPanel.setBackground(new Color(0, 0, 102));
+        streakPanel.setBackground(backgroundColor);
         JLabel streakLabel = new JLabel("Streak: " + profile.getStreak());
         streakLabel.setForeground(Color.WHITE);
         streakLabel.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 5 * streakLabel.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
@@ -143,7 +143,7 @@ public class Profile_GUI extends JFrame
        if(friendOrUser == false)  //arkadaşın profili
         {
             badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            badgesPanel.setBackground(new Color(0, 0, 102));
+            badgesPanel.setBackground(backgroundColor);
             ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
             ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image dosyasının yolunu belirtin
             ImageIcon badge3Icon = new ImageIcon("badge3.png"); // Badge 3 image dosyasının yolunu belirtin
@@ -160,7 +160,7 @@ public class Profile_GUI extends JFrame
         else// Kendi profilimiz
         {
             JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            badgesPanel.setBackground(new Color(0, 0, 102));
+            badgesPanel.setBackground(backgroundColor);
 
 
 
@@ -256,9 +256,9 @@ public class Profile_GUI extends JFrame
 
         // 6. satır: Status textbox'u ve altındaki status message textbox'u
         JPanel statusPanel = new JPanel(new GridLayout(2, 1));
-        statusPanel.setBackground(new Color(0, 0, 102));
+        statusPanel.setBackground(backgroundColor);
         JLabel label1 = new JLabel("Status");
-        label1.setBackground(new Color(0, 0, 102));
+        label1.setBackground(backgroundColor);
         label1.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
         label1.setForeground(Color.WHITE); // Yazı rengini beyaz yapar
         label1.setHorizontalAlignment(JLabel.CENTER); // Metni ortalar
@@ -278,7 +278,7 @@ public class Profile_GUI extends JFrame
             statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN, 5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
             JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            Mainpanel2.setBackground(new Color(0, 0, 102));
+            Mainpanel2.setBackground(backgroundColor);
             Mainpanel2.add(statusMessageTextBox);
             statusPanel.add(Mainpanel2);
 
