@@ -483,6 +483,76 @@ public class Controller
         return badges;
     } */
 
+    public void shareDay(int userID, int friendID, String sharedDay) 
+    {
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
+            String query = "SELECT SharedDays FROM friends WHERE UserID = ? AND FriendID = ?";
+            try (PreparedStatement pstSelect = con.prepareStatement(query)) 
+            {
+                pstSelect.setInt(1, userID);
+                pstSelect.setInt(2, friendID);
+                try (ResultSet rs = pstSelect.executeQuery()) 
+                {
+                    if (rs.next()) 
+                    {
+                        String existingSharedDays = rs.getString("SharedDays");
+                        if (existingSharedDays != null && !existingSharedDays.isEmpty()) 
+                        {
+                            sharedDay = existingSharedDays + "/" + sharedDay;
+                        }
+                    }
+                }
+            }
+            
+            query = "UPDATE friends SET SharedDays = ? WHERE UserID = ? AND FriendID = ?";
+            try (PreparedStatement pstUpdate = con.prepareStatement(query)) 
+            {
+                pstUpdate.setString(1, sharedDay);
+                pstUpdate.setInt(2, userID);
+                pstUpdate.setInt(3, friendID);
+                int rowsAffected = pstUpdate.executeUpdate();
+                if (rowsAffected > 0) 
+                {
+                    System.out.println("Shared day updated successfully.");
+                } 
+                else 
+                {
+                    System.out.println("No rows were updated. Check if the friendship exists.");
+                }
+            }
+        } 
+        catch (SQLException e) 
+        {
+            System.out.println("Error updating shared day: " + e.getMessage());
+        }
+    }
+    
+    public String getSharedDaysArray(int userID, int friendID) 
+    {
+        String sharedDays = null;
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
+            String query = "SELECT SharedDays FROM friends WHERE UserID = ? AND FriendID = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) {
+                pst.setInt(2, userID);
+                pst.setInt(1, friendID);
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) 
+                    {
+                    sharedDays = rs.getString("SharedDays");
+                        
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving shared days: " + e.getMessage());
+        }
+        return sharedDays;
+    }
+    
+    
+
     
 
     
