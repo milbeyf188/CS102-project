@@ -18,7 +18,12 @@ public class Test
         System.out.println(con.getUserStreakById(4));
         con.setStatue(4, "Ben Dördüncüyüm");
         System.out.println(con.getNamesArray()); */
+<<<<<<< HEAD
         //con.setFriend(11, 3);
+=======
+        con.setFriend(6, 10);
+        con.setFriend(5, 7);
+>>>>>>> fc9df0f4532ca2570b99af870176423222d7fbe5
         //System.out.println(con.booleanToString(con.getBadgesArrayById(6)));
         //con.removeFriend(6,111);
         //con.changePassword(2, "yenişifre");
