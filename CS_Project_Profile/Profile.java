@@ -1,6 +1,6 @@
 package CS_Project_Profile;
 
-import loginandsignup.Controller;
+import loginandsignup.FDController;
 
 
 public class Profile 

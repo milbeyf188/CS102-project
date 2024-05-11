@@ -1,7 +1,6 @@
 package loginandsignup;
-import CS_Project_Profile.Profile;
 
-import MainMenu.MainFrame;
+import CS_Project_Profile.Profile;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
 import java.util.*;
+
 
 public class Login extends javax.swing.JFrame 
 {
@@ -155,7 +156,7 @@ public class Login extends javax.swing.JFrame
         SPass = "";
         int notFound = 0;
         char[] userPassword = null; 
-        Controller cont = new Controller();
+        FDController cont = new FDController();
     
         try 
         {
@@ -178,7 +179,7 @@ public class Login extends javax.swing.JFrame
                 query = "SELECT * FROM userinfo WHERE email= '" + Email + "'";
     
                 ResultSet rs = st.executeQuery(query);
-                while (rs.next()) 
+                if (rs.next()) 
                 {
                     userPassword = stringToCharArray(rs.getString("password")); 
                     Name = rs.getString("Name");
@@ -189,10 +190,11 @@ public class Login extends javax.swing.JFrame
                     
                     int userID = rs.getInt("ID");
                     Profile prof = new Profile(userID, cont.getNameById(userID), cont.getUserStreakById(userID),cont.getStatue(userID),cont.getBirthday(userID),cont.getUserPointsById(userID));
-                    MenuFrame MenuFrame = new MenuFrame(prof);
-                    MenuFrame.setVisible(true);
-                    MenuFrame.pack();
-                    MenuFrame.setLocationRelativeTo(null);
+                    System.out.println("ANAN");
+                    //MenuFrame MenuFrame = new MenuFrame(prof);
+                    //MenuFrame.setVisible(true);
+                    //MenuFrame.pack();
+                    //MenuFrame.setLocationRelativeTo(null); 
                     this.dispose(); 
                 } 
                 else 
