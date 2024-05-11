@@ -25,10 +25,7 @@ public class Diary extends JPanel
     public static String[] MONTHS = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
     ArrayList<Text> days = new ArrayList<Text>();
-    ArrayList<String> specialDays = new ArrayList<String>();
-    private String profile; 
-
-    private File speciaFile;
+    private String profile;
 
     private int month;
     private int year;
@@ -42,28 +39,6 @@ public class Diary extends JPanel
         File textFolder = new File(test.pathString + "\\" + profile);
         textFolder.mkdirs();
         this.frame = frame;
-        this.speciaFile = new File(test.pathString + "\\" + profile + "\\special");
-
-        try{
-            Scanner specialScanner = new Scanner(this.speciaFile);
-
-            while (specialScanner.hasNextLine()) 
-            {
-                specialDays.add(specialScanner.nextLine());
-            }
-
-            specialScanner.close();
-        }
-        catch(FileNotFoundException e)
-        {
-            try{
-                this.speciaFile.createNewFile();
-            }
-            catch(IOException io)
-            {
-                System.out.println("F");
-            }
-        }
 
         this.setLayout(new GridLayout(6,7));
 
@@ -119,7 +94,7 @@ public class Diary extends JPanel
 
         for(int i = 1; i < timeToShow.getActualMaximum(Calendar.DAY_OF_MONTH) + 1; i++)
         {
-            buttonListener button = new buttonListener(year, month + 1, i, this);
+            buttonListener button = new buttonListener(year, month + 1, i);
             currentButtons.add(button);
             add(button);
         }
@@ -134,12 +109,12 @@ public class Diary extends JPanel
     {
         private Text text;
 
-        public buttonListener(int year, int month, int day, Diary diary)
+        public buttonListener(int year, int month, int day)
         {
             super(day + "");
             super.addActionListener(this);
 
-            text = new Text(year, month, day, profile, diary, specialDays.contains(year + "_" + month + "_" + day));
+            text = new Text(year, month, day, profile);
             this.setBackground(text.getColor());
 
             if(!days.contains(text)) 
@@ -160,27 +135,6 @@ public class Diary extends JPanel
             text.setFrame(textFrame);
         }
     }
-
-    public void addSpecial(String date)
-    {
-        specialDays.add(date);
-
-        try{
-            Files.write(Paths.get(speciaFile.getAbsolutePath()), specialDays, StandardCharsets.UTF_8);
-        }
-        catch(IOException ex)
-        {
-            System.out.println("cant change special day folder");
-        }
-
-        updateCalendar();
-    }
-
-    public void removeSpecial(String date)
-    {
-        specialDays.remove(date);
-        updateCalendar();
-    } 
 
     public String getMonth()
     {

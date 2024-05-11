@@ -19,19 +19,16 @@ public class Text extends JPanel
 {
     private ArrayList<String> text = new ArrayList<String>();
     private File textFile;
-    private boolean changable;
-    private Diary diary;
-    private boolean isSpecial;
+    private boolean changeable;
+    private String specialAndGroup;
     private JTextArea textArea;
     private int[] date = new int[3];
     private JFrame frame;
 
-    public Text(int year, int month, int day, String profile, Diary diary, boolean isSpecial)
+    public Text(int year, int month, int day, String profile)
     {
         textFile = new File(test.pathString + "\\" + profile + "\\" + year +  "_" + month + "_" + day);
-        this.diary = diary;
         date[0] = year; date[1] = month; date[2] = day;
-        this.isSpecial = isSpecial;
         
         try{
             Scanner scan = new Scanner(textFile);
@@ -54,8 +51,10 @@ public class Text extends JPanel
             }
         }
 
+        specialAndGroup = text.size() > 0? text.get(0): "00";
+        text.set(0, specialAndGroup);
         textArea = new JTextArea(getText(), 50, 50);
-        textArea.setEditable(setChangable());
+        textArea.setEditable(setChangeable());
         add(textArea);
         add(new buttonListener());
         add(new specialButtonListener());
@@ -64,7 +63,7 @@ public class Text extends JPanel
     
     public void setDayText(String str)
     {
-        if (changable) 
+        if (changeable)
         {
             Scanner scanner = new Scanner(str);
 
@@ -86,7 +85,7 @@ public class Text extends JPanel
         }
         else
         {
-            System.out.println("not changable");
+            System.out.println("not changeable");
         }
     }
 
@@ -102,7 +101,7 @@ public class Text extends JPanel
     {
         String str = "";
 
-        for(int i = 0; i < text.size(); i++)
+        for(int i = 1; i < text.size(); i++)
         {
             str += text.get(i) + "\n";
         }
@@ -110,49 +109,42 @@ public class Text extends JPanel
         return str;
     }
 
-    public Diary getDiary()
-    {
-        return diary;
-    }
-
-    public boolean setChangable()
+    public boolean setChangeable()
     {
         if(Diary.currentDate.compareTo(new GregorianCalendar(date[0], date[1] - 1, date[2])) == 0)
         {
-            changable = true;
+            changeable = true;
         }
         else
         {
-            changable = false;
+            changeable = false;
         }
 
-        return changable;
+        return changeable;
     }
 
     public boolean changeSpeciality()
     {
-        if (isSpecial) 
+        if (specialAndGroup.substring(0,1).equals("0"))
         {
-            isSpecial = false;
-            diary.removeSpecial(date[0] +  "_" + date[1] + "_" + date[2]);
+            specialAndGroup = "1" + specialAndGroup.substring(1);
+            return true;
         }
         else
         {
-            isSpecial = true;
-            diary.addSpecial(date[0] +  "_" + date[1] + "_" + date[2]);
+            specialAndGroup = "0" + specialAndGroup.substring(1);
+            return false;
         }
-
-        return isSpecial;
     }
 
     public Color getColor()
     {
-        if(setChangable()) 
+        if(setChangeable())
         {
             return Color.YELLOW;
         }
 
-        if(isSpecial) 
+        if(specialAndGroup.substring(0,1).equals("1"))
         {
             return Color.CYAN;    
         }
@@ -186,7 +178,7 @@ public class Text extends JPanel
     {
         public specialButtonListener()
         {
-            super(isSpecial ? "Unmake It Special": "Make It Special");
+            super(specialAndGroup.substring(0,1).equals("1") ? "Unmake It Special": "Make It Special");
             super.addActionListener(this);            
         }
 

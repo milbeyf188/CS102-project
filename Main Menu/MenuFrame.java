@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-
 import CS_Project_Profile.Profile;
 import loginandsignup.Controller;
 public class MenuFrame extends JFrame{
