@@ -20,7 +20,8 @@ public class Test
         System.out.println(con.getNamesArray()); */
         //con.setFriend(6, 111);
         //System.out.println(con.booleanToString(con.getBadgesArrayById(6)));
-        con.removeFriend(6,111);
+        //con.removeFriend(6,111);
+        //con.changePassword(2, "yenişifre");
         
     }
 }

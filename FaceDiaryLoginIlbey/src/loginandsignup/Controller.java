@@ -392,6 +392,22 @@ public class Controller
         return friends;
     }
 
+    public void changePassword(int userID, String newPassword) {
+        
+        try (Connection con = DriverManager.getConnection(url, userName, password)) {
+            String query = "UPDATE userinfo SET Password = ? WHERE ID = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) {
+                pst.setString(1, newPassword);
+                pst.setInt(2, userID);
+                pst.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating user status text: " + e.getMessage());
+        }
+    }
+
+    
+
     
 
 }
