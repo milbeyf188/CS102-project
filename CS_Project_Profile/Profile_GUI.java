@@ -58,6 +58,34 @@ public class Profile_GUI extends JFrame
         Mainpanel.setBackground(new Color(0, 0, 102));
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Geri tuşunu sola hizalar
         //backButton.setBackground(new Color(0, 0, 102));
+
+
+        if(friendOrUser == true)
+        {
+            JPanel changePasPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            changePasPanel.setBackground(new Color(0, 0, 102));
+
+            JButton PasswordButton = new JButton("Change Password");
+            PasswordButton.setBackground(Color.GREEN);
+            PasswordButton.setPreferredSize(new Dimension(120, 80));
+
+            PasswordButton.addActionListener(new ActionListener() 
+            {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
+                    setVisible(false);
+                    createNewPanel();
+                        
+                }
+            });
+
+            changePasPanel.add(PasswordButton);
+            Mainpanel.add(changePasPanel);
+        }
+
+
+        
         backButtonPanel.add(backButton);
         Mainpanel.add(backButtonPanel);
     
@@ -344,4 +372,39 @@ public class Profile_GUI extends JFrame
         new Profile_GUI(true);
     }
     */
+
+     private void createNewPanel() 
+    {
+          
+        JFrame newFrame = new JFrame("Change Password");
+        newFrame.setLayout(new FlowLayout()); // İçerikleri düzenlemek için FlowLayout kullanılıyor
+
+        // Metin kutusu ekleniyor
+        JTextField textField = new JTextField(20); // 20 sütun genişliğinde bir metin kutusu
+        newFrame.add(textField); // Frame'e metin kutusu ekleniyor
+
+        // "Save" butonu ekleniyor
+        JButton saveButton = new JButton("Save");
+        saveButton.setBackground(new Color(0, 255, 0)); // Butonun arka plan rengi yeşil olarak ayarlanıyor
+
+        saveButton.addActionListener(new ActionListener() { // Butona basıldığında ne yapılacağını tanımlayan ActionListener
+            public void actionPerformed(ActionEvent e) {
+                String text = textField.getText(); // Metin kutusundaki metni alıyor
+                cont.changePassword(profile.getID, text);
+                newFrame.setVisible(false);
+                setVisible(true);
+                 
+            }
+        });
+        newFrame.add(saveButton); // Frame'e buton ekleniyor
+
+        // Frame ayarları
+        newFrame.setSize(300, 100); // Frame'in boyutu ayarlanıyor
+        newFrame.setLocationRelativeTo(null); // Frame ekranın ortasında konumlandırılıyor
+        newFrame.setVisible(true); // Frame görünür hale getiriliyor
+        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+
+
+    }
 }
