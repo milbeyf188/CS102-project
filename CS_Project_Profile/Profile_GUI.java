@@ -6,7 +6,7 @@ import FaceDiaryLoginIlbey.src.loginandsignup.FDController;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import MainMenu.Badge;
+import MainMenu.*;
 import MainMenu.BadgeShopGUI;
 
 import java.awt.*;
@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import FaceDiaryLoginIlbey.*;
+
 
 
 public class Profile_GUI extends JFrame

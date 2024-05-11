@@ -65,7 +65,7 @@ public class Login extends javax.swing.JFrame
         Right.setBackground(new java.awt.Color(0, 102, 102));
         Right.setPreferredSize(new java.awt.Dimension(400, 500));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/logo.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("logo.png"))); // NOI18N
         
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("FACEDIARY");
