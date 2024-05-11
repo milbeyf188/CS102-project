@@ -528,7 +528,7 @@ public class Controller
         }
     }
     
-    public String getSharedDaysArray(int userID, int friendID) 
+    public String[] getSharedDaysArray(int userID, int friendID)
     {
         String sharedDays = null;
         try (Connection con = DriverManager.getConnection(url, userName, password)) 
@@ -540,15 +540,15 @@ public class Controller
                 try (ResultSet rs = pst.executeQuery()) {
                     if (rs.next()) 
                     {
-                    sharedDays = rs.getString("SharedDays");
-                        
+                        sharedDays = rs.getString("SharedDays");
                     }
                 }
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving shared days: " + e.getMessage());
         }
-        return sharedDays;
+
+        return sharedDays.split("/");
     }
     
     

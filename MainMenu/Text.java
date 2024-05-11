@@ -98,6 +98,11 @@ public class Text extends JPanel
         add(new accessButton());
     }
 
+    public Text(String date, String profile)
+    {
+        this(Integer.parseInt(date.split("_")[0]), Integer.parseInt(date.split("_")[1]), Integer.parseInt(date.split("_")[2]), profile);
+    }
+
     public ArrayList<String> getAccessed()
     {
         return people;

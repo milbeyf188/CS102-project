@@ -6,15 +6,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -168,5 +162,17 @@ public class Diary extends JPanel
                 return;
             }
         }
+    }
+
+    public static ArrayList<Text> getDaysOf(String profile, String[] days)
+    {
+        ArrayList<Text> daysOf = new ArrayList<>();
+
+        for (int i = 0; i < days.length; i++)
+        {
+            daysOf.add(new Text(days[i], profile));
+        }
+
+        return daysOf;
     }
 }
