@@ -24,7 +24,7 @@ public class Profile_GUI extends JFrame
     private JPanel badgesPanel;
     FDController cont = new FDController();
 
-    //public boolean friendOrUser = false;
+    //public boolean friendOrUser = true;
     //Controller cont = new Controller();
 
     //String statue = cont.getStatue(UserID?);
