@@ -54,7 +54,7 @@ public class RemoveFrame extends JFrame {
             panel2.add(button, c);
             add(panel2);
             JPanel panel3 = new JPanel(new GridLayout(1, 3));
-            SpecialButton button2 = new SpecialButton("Remove from friends");
+            JButton button2 = new JButton("Remove from friends");
             //JButton button2 = new JButton("Remove from friends");
             panel3.add(button2);
             resultBox = new ResultBox();

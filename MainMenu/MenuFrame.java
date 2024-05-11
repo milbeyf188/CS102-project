@@ -426,5 +426,25 @@ public class MenuFrame extends JFrame{
 
         }
     }
+    class PopUp extends JDialog
+    {
+        private JFrame frame;
+        private JTextField searcharea;
+        private JButton cancel;
+        private JButton remove;
+        private JPanel result;
+        private JButton searchButton;
+        public PopUp(JFrame parent)
+        {
+            super(parent, "Custom Popup", true);
+            JPanel panel = new JPanel(new GridLayout(3,1));
+            searcharea = new JTextField(20);
+            panel.add(searcharea);
+            JPanel panel2 = new JPanel(new GridBagLayout());
+            
+
+
+        }
+    }
 }
 
