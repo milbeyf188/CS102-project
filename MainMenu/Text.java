@@ -2,17 +2,18 @@ package MainMenu;
 
 
 
-import java.awt.Color;
+import CS_Project_Profile.Profile;
+import FaceDiaryLoginIlbey.src.loginandsignup.Controller;
+import FaceDiaryLoginIlbey.src.loginandsignup.FDController;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -26,19 +27,20 @@ public class Text extends JPanel
     private File textFile;
     private File accessedPeopleFile;
     private boolean changeable;
-    private JTextArea textArea;
+    private JTextPane textArea;
     private int[] date = new int[3];
     private JFrame frame;
     private boolean isSpecial;
     private boolean isGroup;
+    private Profile profile;
 
-    public Text(int year, int month, int day, String profile)
+    public Text(int year, int month, int day, Profile profile)
     {
-        textFile = new File(test.pathString + "\\" + profile + "\\" + year +  "_" + month + "_" + day);
+        textFile = new File(test.pathString + "\\" + profile.getName() + "\\" + year +  "_" + month + "_" + day);
         accessedPeopleFile = new File(textFile.getAbsolutePath() + "access");
 
         date[0] = year; date[1] = month; date[2] = day;
-
+        this.profile = profile;
 
         try {
             Scanner accessFile = new Scanner(accessedPeopleFile);
@@ -90,15 +92,18 @@ public class Text extends JPanel
 
         setShownText();
 
-        textArea = new JTextArea(getText(), 50, 50);
+        textArea = new JTextPane();
+        textArea.setText(getText());
+        textArea.setPreferredSize(new Dimension(800,600));
         textArea.setEditable(setChangeable());
-        add(textArea);
+        JScrollPane scrollbar = new JScrollPane(textArea);
+        add(scrollbar);
         add(new buttonListener());
         add(new specialButtonListener());
         add(new accessButton());
     }
 
-    public Text(String date, String profile)
+    public Text(String date, Profile profile)
     {
         this(Integer.parseInt(date.split("_")[0]), Integer.parseInt(date.split("_")[1]), Integer.parseInt(date.split("_")[2]), profile);
     }
@@ -191,7 +196,6 @@ public class Text extends JPanel
 
             }
         }
-        setText(getText());
     }
 
     private void setText(String str)
@@ -302,7 +306,8 @@ public class Text extends JPanel
 
     class accessButton extends JButton implements ActionListener
     {
-        public
+        checkBoxFrame frame;
+
         accessButton()
         {
             super("...");
@@ -312,7 +317,106 @@ public class Text extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
+            if(frame != null)
+            {
+                frame.disable();
+            }
+            else
+            {
+                Controller con = new Controller();
+                ArrayList<Integer> friendIDs = con.getFriendsArray(profile.getID());
 
+                ArrayList<String> friends = new ArrayList<>();
+
+                for (int i = 0; i < friendIDs.size(); i++)
+                {
+                    friends.add(con.getNameById(friendIDs.get(i)));
+                }
+
+                frame = new checkBoxFrame(friends,this,new Dimension(10,10));
+            }
+        }
+    }
+
+    class checkBoxFrame extends JPanel
+    {
+        JPanel panel;
+        JScrollPane scrollPane;
+        ArrayList<JCheckBox> checkBoxes;
+        JComponent location;
+        Dimension offSet;
+        Timer timer;
+
+        checkBoxFrame(ArrayList<String> strings, JComponent component, Dimension offSet)
+        {
+            location = component;
+            this.offSet = offSet;
+
+            super.setPreferredSize(new Dimension(100,500));
+            panel = new JPanel();
+            panel.setPreferredSize(new Dimension(100, strings.size() > 5 ? 50: strings.size() * 10));
+            panel.setLayout(new GridLayout(0,1));
+            scrollPane = new JScrollPane(panel);
+            this.add(scrollPane);
+
+            checkBoxSetUp(strings);
+
+            panel.add(new ButtonListener());
+            setVisible(true);
+        }
+
+        private void checkBoxSetUp(ArrayList<String> strings)
+        {
+            checkBoxes = new ArrayList<>();
+            for (int i = 0; i < strings.size(); i++)
+            {
+                JCheckBox checkBox = new JCheckBox(strings.get(i));
+                panel.add(checkBox);
+                checkBoxes.add(checkBox);
+            }
+        }
+
+        private ArrayList<String> GetSelected()
+        {
+            ArrayList<String> returns = new ArrayList<String>();
+
+            for (int i = 0; i < checkBoxes.size(); i++)
+            {
+                if (checkBoxes.get(i).isSelected())
+                {
+                    returns.add(checkBoxes.get(i).getText());
+                }
+            }
+
+            return returns;
+        }
+
+        class TimerListener implements ActionListener
+        {
+            JFrame frame;
+            TimerListener(JFrame frame)
+            {
+                this.frame = frame;
+            }
+
+            public void actionPerformed(ActionEvent e)
+            {
+                Point finalLocation = new Point(location.getLocationOnScreen().x + (int)offSet.getWidth(), location.getLocationOnScreen().y + (int)offSet.getHeight());
+                frame.setLocation(finalLocation);
+            }
+        }
+
+        class ButtonListener extends JButton implements ActionListener
+        {
+            ButtonListener()
+            {
+                super("Make Group Diary");
+            }
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
         }
     }
 }

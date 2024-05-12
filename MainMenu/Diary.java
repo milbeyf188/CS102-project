@@ -2,6 +2,8 @@ package MainMenu;
 
 
 
+import CS_Project_Profile.Profile;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +25,7 @@ public class Diary extends JPanel
     public static String[] MONTHS = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
     ArrayList<Text> days = new ArrayList<Text>();
-    private String profile;
+    private Profile profile;
 
     private int month;
     private int year;
@@ -31,7 +33,7 @@ public class Diary extends JPanel
     private JFrame frame;
     private ArrayList<buttonListener> currentButtons;
 
-    public Diary(String profile, JFrame frame)
+    public Diary(Profile profile, JFrame frame)
     {
         this.profile = profile;
         File textFolder = new File(test.pathString + "\\" + profile);
@@ -164,7 +166,7 @@ public class Diary extends JPanel
         }
     }
 
-    public static ArrayList<Text> getDaysOf(String profile, String[] days)
+    public static ArrayList<Text> getDaysOf(Profile profile, String[] days)
     {
         ArrayList<Text> daysOf = new ArrayList<>();
 

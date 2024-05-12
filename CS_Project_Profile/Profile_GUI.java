@@ -1,6 +1,6 @@
 package CS_Project_Profile;
 
-import FaceDiaryLoginIlbey.*;
+//import FaceDiaryLoginIlbey.*;
 import FaceDiaryLoginIlbey.src.loginandsignup.FDController;
 
 import javax.imageio.ImageIO;
@@ -165,7 +165,7 @@ public class Profile_GUI extends JFrame
 
 
             ArrayList<Badge> sortedBadgeList = bubbleSort(BadgeShopGUI.badgeList);
-            displayBadgeList(sortedBadgeList);
+            //displayBadgeList(sortedBadgeList);
 
             
             
@@ -359,7 +359,7 @@ public class Profile_GUI extends JFrame
 
 
 
-    public void displayBadgeList(ArrayList<Badge> badgeListToDisplay) 
+    /*public void displayBadgeList(ArrayList<Badge> badgeListToDisplay)
             {
                 if(badgeListToDisplay.size() < 3) 
                 {
@@ -380,7 +380,7 @@ public class Profile_GUI extends JFrame
                         
                     }
                 }
-            }
+            }*/
 
     /*
     public static void main(String[] args) {
