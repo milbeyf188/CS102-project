@@ -13,7 +13,7 @@ public class BadgeShopGUI extends JFrame {
     private JButton backButton;
     private JPanel badgePanel;
     private JTextField moneyTextField;
-    public static ArrayList<Badge> badgeList;
+    public static ArrayList<Badge> badgeList = new ArrayList<Badge>();
     public static MenuFrame menuFrame;
     static Profile profile;
     private static Controller cont = new Controller();
@@ -25,7 +25,6 @@ public class BadgeShopGUI extends JFrame {
 
     public void createComponents(MenuFrame frame, Profile profile) {
 
-        badgeList = new ArrayList<>();
         menuFrame = frame;
         this.profile = profile;
         remainingMoney = profile.getMoney();
