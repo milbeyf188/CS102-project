@@ -338,7 +338,7 @@ public class Text extends JPanel
         }
     }
 
-    class checkBoxFrame extends JPanel
+    class checkBoxFrame extends JFrame
     {
         JPanel panel;
         JScrollPane scrollPane;
