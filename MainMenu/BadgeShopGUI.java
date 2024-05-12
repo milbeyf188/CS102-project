@@ -20,11 +20,15 @@ public class BadgeShopGUI extends JFrame {
     private int remainingMoney;
 
     public BadgeShopGUI(MenuFrame frame, Profile profile) {
+        createComponents(frame, profile);
+    }
+
+    public void createComponents(MenuFrame frame, Profile profile) {
+
         badgeList = new ArrayList<>();
         menuFrame = frame;
         this.profile = profile;
         remainingMoney = profile.getMoney();
-        // Bu satıra ve üstündekine bak
 
         setTitle("Badge Shop");
         setSize(800, 600);
@@ -85,7 +89,6 @@ public class BadgeShopGUI extends JFrame {
                 "/MainMenu/Badge PNGs/Immortal3.png"
         };
 
-        // boolean[] booleanArray = cont.getBadgesArrayById(profile.getID());
         Badge[] allBadges = new Badge[16];
         allBadges[0] = null;
 
@@ -173,7 +176,4 @@ public class BadgeShopGUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        new BadgeShopGUI(menuFrame, profile);
-    }
 }
