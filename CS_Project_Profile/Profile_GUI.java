@@ -367,9 +367,9 @@ public class Profile_GUI extends JFrame
             }
 
     
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         new Profile_GUI(true);
-    }
+    }*/
     
 
      private void createNewPanel() 

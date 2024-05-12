@@ -1,7 +1,5 @@
 package MainMenu;
 
-
-
 import CS_Project_Profile.Profile;
 import FaceDiaryLoginIlbey.src.loginandsignup.Controller;
 import FaceDiaryLoginIlbey.src.loginandsignup.FDController;
@@ -142,11 +140,55 @@ public class Text extends JPanel
         }
     }
 
-    public void setGroup()
+    public void setGroup(ArrayList<String> people)
     {
         isGroup = true;
         text.set(0, isSpecial + "1");
         setDayText(textArea.getText());
+
+        for(int i = 0; i < people.size(); i++)
+        {
+            try{
+                File friendFile = new File(MenuFrame.pathString + "\\" + people.get(i) + "\\" + date[0] +  "_" + date[1] + "_" + date[2] + "access");
+                Scanner peopleScanner = new Scanner(friendFile);
+
+                boolean hasPerson = false;
+
+                while(peopleScanner.hasNextLine())
+                {
+                    if(peopleScanner.nextLine().equals(profile.getName()))
+                    {
+                        hasPerson = true;
+                    }
+                }
+
+                if (!hasPerson)
+                {
+                    ArrayList<String> friendAccess = new ArrayList<>();
+
+                    while(peopleScanner.hasNextLine())
+                    {
+                        friendAccess.add(peopleScanner.nextLine());
+                    }
+                    
+                    friendAccess.add(profile.getName());
+
+                    try{
+                        Files.write(Paths.get(friendFile.getAbsolutePath()), friendAccess, StandardCharsets.UTF_8);
+                    }
+                    catch(IOException e)
+                    {
+                        System.out.println("error on text to file operation");
+                    }
+                }
+
+            }
+            catch (FileNotFoundException e)
+            {
+                continue;
+            }
+
+        }
     }
 
     public void setFrame(JFrame frame)
@@ -286,6 +328,7 @@ public class Text extends JPanel
         {
             setDayText(textArea.getText());
             MenuFrame.facediary.setVisible(true);
+    //        MenuFrame.facediary.getDiary().updateColor();
             frame.dispose();
         }
     }
@@ -319,7 +362,8 @@ public class Text extends JPanel
         {
             if(frame != null)
             {
-                frame.disable();
+                frame.getPopUp().hide();
+                frame = null;
             }
             else
             {
@@ -333,37 +377,47 @@ public class Text extends JPanel
                     friends.add(con.getNameById(friendIDs.get(i)));
                 }
 
-                frame = new checkBoxFrame(friends,this,new Dimension(10,10));
+                frame = new checkBoxFrame(friends,this,new Dimension(100,100));
+                frame.getPopUp().show();
             }
         }
     }
 
-    class checkBoxFrame extends JFrame
+    class checkBoxFrame
     {
-        JPanel panel;
+        JPanel bigPanel = new JPanel();
+        JPanel panel = new JPanel();
         JScrollPane scrollPane;
         ArrayList<JCheckBox> checkBoxes;
         JComponent location;
         Dimension offSet;
-        Timer timer;
+        Popup popup;
+
+        PopupFactory factory;
 
         checkBoxFrame(ArrayList<String> strings, JComponent component, Dimension offSet)
+        {
+            PopupFactory factory = new PopupFactory();
+            setContent(strings, component, offSet);
+            popup = factory.getPopup(component, bigPanel, offSet.width, offSet.height);
+        }
+
+        public void setContent(ArrayList<String> strings, JComponent component, Dimension offSet)
         {
             location = component;
             this.offSet = offSet;
 
-            setSize(new Dimension(500,500));
-            setLocation(500, 500);
             panel = new JPanel();
-            panel.setPreferredSize(new Dimension(100, strings.size() > 5 ? 50: strings.size() * 10));
             panel.setLayout(new GridLayout(0,1));
             scrollPane = new JScrollPane(panel);
-            this.add(scrollPane);
-
+            bigPanel.add(scrollPane);
             checkBoxSetUp(strings);
-
             panel.add(new ButtonListener());
-            setVisible(true);
+        }
+
+        public Popup getPopUp()
+        {
+            return popup;
         }
 
         private void checkBoxSetUp(ArrayList<String> strings)
@@ -392,26 +446,11 @@ public class Text extends JPanel
             return returns;
         }
 
-        class TimerListener implements ActionListener
-        {
-            JFrame frame;
-            TimerListener(JFrame frame)
-            {
-                this.frame = frame;
-            }
-
-            public void actionPerformed(ActionEvent e)
-            {
-                Point finalLocation = new Point(location.getLocationOnScreen().x + (int)offSet.getWidth(), location.getLocationOnScreen().y + (int)offSet.getHeight());
-                frame.setLocation(finalLocation);
-            }
-        }
-
         class ButtonListener extends JButton implements ActionListener
         {
             ButtonListener()
             {
-                super("Make Group Diary");
+                super("give access");
             }
 
             public void actionPerformed(ActionEvent e)
