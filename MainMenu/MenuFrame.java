@@ -26,7 +26,7 @@ public class MenuFrame extends JFrame{
     private JScrollPane scrollPane;
     private JScrollPane scrollPane2;
     private static Controller con = new Controller();
-    private JFrame frame = this;
+    private MenuFrame frame = this;
 
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
@@ -34,7 +34,7 @@ public class MenuFrame extends JFrame{
     public MenuFrame(Profile profile)
     {
         this.profile = profile;
-        diary = new Diary(profile.getName(), this);
+        diary = new Diary(profile.getName(), this);//Diary burda çağrılıyor
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setName("Main menu");
@@ -537,7 +537,7 @@ public class MenuFrame extends JFrame{
             public void actionPerformed(ActionEvent event)
             {
                 frame.setVisible(false);
-                new BadgeShopGUI();
+                new BadgeShopGUI(frame, profile);
             }
         }
 
