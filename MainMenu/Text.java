@@ -113,7 +113,7 @@ public class Text extends JPanel
 
     public void setDayText(String str)
     {
-        if (changeable)
+        if (setChangeable())
         {
             Scanner scanner = new Scanner(str);
 
@@ -140,6 +140,41 @@ public class Text extends JPanel
         }
     }
 
+    public void giveAccess(String friend)
+    {
+        try {
+            Scanner scan = new Scanner(accessedPeopleFile);
+
+            boolean hasGiven = false;
+
+            while (scan.hasNextLine())
+            {
+                if (scan.nextLine().equals(profile.getName()))
+                {
+                    hasGiven = true;
+                    break;
+                }
+            }
+
+            if (!hasGiven)
+            {
+                people.add(friend);
+
+                try {
+                    Files.write(Paths.get(accessedPeopleFile.getAbsolutePath()), people, StandardCharsets.UTF_8);
+                }
+                catch(IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public void setGroup(ArrayList<String> people)
     {
         isGroup = true;
@@ -148,46 +183,28 @@ public class Text extends JPanel
 
         for(int i = 0; i < people.size(); i++)
         {
-            try{
-                File friendFile = new File(MenuFrame.pathString + "\\" + people.get(i) + "\\" + date[0] +  "_" + date[1] + "_" + date[2] + "access");
-                Scanner peopleScanner = new Scanner(friendFile);
+            giveAccess(people.get(i));
 
-                boolean hasPerson = false;
+            Text friendText = new Text(date[0], date[1], date[2], new Controller().getProfilebyName());
 
-                while(peopleScanner.hasNextLine())
-                {
-                    if(peopleScanner.nextLine().equals(profile.getName()))
-                    {
-                        hasPerson = true;
-                    }
-                }
+            friendText.giveAccess(profile.getName());
+            friendText.makeGroup();
+        }
+    }
 
-                if (!hasPerson)
-                {
-                    ArrayList<String> friendAccess = new ArrayList<>();
+    public void makeGroup()
+    {
+        if(text.get(0).substring(1).equals("0"))
+        {
+            text.set(0, text.get(0).substring(0,1) + "1");
 
-                    while(peopleScanner.hasNextLine())
-                    {
-                        friendAccess.add(peopleScanner.nextLine());
-                    }
-                    
-                    friendAccess.add(profile.getName());
-
-                    try{
-                        Files.write(Paths.get(friendFile.getAbsolutePath()), friendAccess, StandardCharsets.UTF_8);
-                    }
-                    catch(IOException e)
-                    {
-                        System.out.println("error on text to file operation");
-                    }
-                }
-
+            try {
+                Files.write(Paths.get(textFile.getAbsolutePath()), text, StandardCharsets.UTF_8);
             }
-            catch (FileNotFoundException e)
+            catch(IOException e)
             {
-                continue;
+                e.printStackTrace();
             }
-
         }
     }
 
@@ -217,18 +234,36 @@ public class Text extends JPanel
         {
             for(int i = 0; i < people.size(); i++)
             {
-                text.add("\n" + people.get(i) + "\n");
 
                 try{
-                    Scanner peopleScanner = new Scanner(new File(MenuFrame.pathString + "\\" + people.get(i) +
-                        "\\" + date[0] +  "_" + date[1] + "_" + date[2]));
+                        Scanner accessScanner = new Scanner(new File(MenuFrame.pathString + "\\" +
+                                people.get(i) + "\\" + date[0] +  "_" + date[1] + "_" + date[2] + "access"));
 
-                    peopleScanner.nextLine();
+                        while(accessScanner.hasNextLine())
+                        {
+                            if (accessScanner.nextLine().equals(profile.getName()))
+                            {
+                                text.add("\n" + people.get(i) + "\n");
 
-                    while(peopleScanner.hasNextLine())
-                    {
-                        text.add(peopleScanner.nextLine());
-                    }
+                                try{
+                                    Scanner peopleScanner = new Scanner(new File(MenuFrame.pathString + "\\" +
+                                            people.get(i) + "\\" + date[0] +  "_" + date[1] + "_" + date[2]));
+
+                                    if (peopleScanner.nextLine().substring(1).equals("1"))
+                                    {
+                                        while(peopleScanner.hasNextLine())
+                                        {
+                                            text.add(peopleScanner.nextLine());
+                                        }
+                                    }
+                                }
+                                catch (FileNotFoundException e)
+                                {
+                                    continue;
+                                }
+
+                            }
+                        }
 
                 }
                 catch (FileNotFoundException e)
@@ -389,8 +424,6 @@ public class Text extends JPanel
         JPanel panel = new JPanel();
         JScrollPane scrollPane;
         ArrayList<JCheckBox> checkBoxes;
-        JComponent location;
-        Dimension offSet;
         Popup popup;
 
         PopupFactory factory;
@@ -404,9 +437,6 @@ public class Text extends JPanel
 
         public void setContent(ArrayList<String> strings, JComponent component, Dimension offSet)
         {
-            location = component;
-            this.offSet = offSet;
-
             panel = new JPanel();
             panel.setLayout(new GridLayout(0,1));
             scrollPane = new JScrollPane(panel);
@@ -451,11 +481,17 @@ public class Text extends JPanel
             ButtonListener()
             {
                 super("give access");
+                this.addActionListener(this);
             }
 
             public void actionPerformed(ActionEvent e)
             {
+                for (String people: GetSelected())
+                {
+                    giveAccess(people);
 
+                    getPopUp().hide();
+                }
             }
         }
     }

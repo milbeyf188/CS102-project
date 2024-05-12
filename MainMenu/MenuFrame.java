@@ -666,6 +666,8 @@ public class MenuFrame extends JFrame{
         }
     }
 class checkBoxFrame
+
+    class checkBoxFrame
     {
         JPanel bigPanel = new JPanel();
         JPanel panel = new JPanel();
@@ -733,11 +735,13 @@ class checkBoxFrame
             ButtonListener()
             {
                 super("give access");
+                this.addActionListener(this);
             }
 
             public void actionPerformed(ActionEvent e)
             {
                 diary.GroupDiary(GetSelected());
+                getPopUp().hide();
             }
         }
     }
