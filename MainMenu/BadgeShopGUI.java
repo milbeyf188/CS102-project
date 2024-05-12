@@ -14,7 +14,7 @@ public class BadgeShopGUI extends JFrame {
     private JPanel badgePanel;
     private JTextField moneyTextField;
     public static ArrayList<Badge> badgeList;
-    static MenuFrame menuFrame;
+    public static MenuFrame menuFrame;
     static Profile profile;
     private static Controller cont = new Controller();
     private int remainingMoney;
@@ -84,6 +84,19 @@ public class BadgeShopGUI extends JFrame {
                 "/MainMenu/Badge PNGs/Immortal3.png"
         };
 
+        
+        //boolean[] booleanArray = cont.getBadgesArrayById(profile.getID());
+        Badge[] allBadges = new Badge[16];
+        allBadges[0] = null;
+
+        for(int i = 1; i < badgeFilenames.length; i++) {
+            ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[i]));
+            Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
+            ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+            int badgePrice = (badgePanel.getComponentCount() + 1) * 10;
+            allBadges[i] = new Badge(badgePrice, scaledBadgeIcon);
+        }
+
         for (String badgeFilename : badgeFilenames) {
             ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilename));
             Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
@@ -91,6 +104,9 @@ public class BadgeShopGUI extends JFrame {
             int badgePrice = (badgePanel.getComponentCount() + 1) * 10;
 
             JLabel moneyLabel = new JLabel(scaledMoneyIcon);
+            if(badgeList.contains(new Badge(badgePrice, scaledBadgeIcon))) {
+                moneyLabel.setText("Bought");
+            }
             JButton priceButton = new JButton("$" + badgePrice);
             priceButton.setForeground(Color.WHITE);
             priceButton.setBackground(Color.BLACK);
@@ -111,15 +127,24 @@ public class BadgeShopGUI extends JFrame {
 
             priceButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if (buy(new Badge(badgePrice, badgeImage))) {
+                    if (buy(new Badge(badgePrice, scaledBadgeIcon))) {
+
                         priceButton.setVisible(false);
                         moneyLabel.setIcon(null);
                         moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
                         moneyLabel.setText("Bought");
-                        setVisible(true);
+
+                        for(int k = 1; k <= allBadges.length; k++) {
+                            if(new Badge(badgePrice, scaledBadgeIcon) == allBadges[k]) {
+                                cont.badgeBought(profile.getID(), k);
+                                break;
+                            } 
+                        }
+
                     }
                 }
             });
+            
         }
 
         moneyTextField = new JTextField("Remaining Money: " + remainingMoney, 15);
@@ -139,9 +164,8 @@ public class BadgeShopGUI extends JFrame {
             int profID = profile.getID();
             remainingMoney = profile.getMoney() - badgePrice;
             profile.setMoney(remainingMoney);
-
             cont.setUserPoints(profID, remainingMoney);
-            moneyTextField.setText("Remaining money: " + remainingMoney);
+            moneyTextField.setText("Remaining Money: " + remainingMoney);
             return true;
         } else {
             JOptionPane.showMessageDialog(this, "You don't have enough money to buy this badge!", "Error",
@@ -149,7 +173,6 @@ public class BadgeShopGUI extends JFrame {
             return false;
         }
     }
-    
 
     public static void main(String[] args) {
         new BadgeShopGUI(menuFrame, profile);
