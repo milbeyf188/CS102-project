@@ -209,6 +209,25 @@ public class SignUp extends javax.swing.JFrame
                         return; 
                     }
                 }
+
+                String checkNameQuery = "SELECT COUNT(*) AS count FROM userinfo WHERE Name = ?";
+                try (PreparedStatement checkNameStmt = con.prepareStatement(checkNameQuery)) {
+                   
+                    checkNameStmt.setString(1, fullName);
+                    
+                    ResultSet nameResult = checkNameStmt.executeQuery();
+                    
+                    nameResult.next();
+                   
+                    int nameCount = nameResult.getInt("count");
+                    
+                    if (nameCount > 0) {
+                        
+                        JOptionPane.showMessageDialog(new JFrame(), "This Name is already taken", "Error", JOptionPane.ERROR_MESSAGE);
+                       
+                        return; 
+                    }
+                }
     
                 int nextUserId = 1; 
                 String getMaxIdQuery = "SELECT MAX(ID) AS maxId FROM userinfo";

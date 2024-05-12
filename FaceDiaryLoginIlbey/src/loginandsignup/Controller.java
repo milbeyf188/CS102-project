@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import CS_Project_Profile.*;
 
 
 //Bu methodların çalışması için bir controller objesi oluşturup methodun başına yazın. Objenin içine bir parametre girmenize gerek yok
@@ -595,13 +596,35 @@ public class Controller
         }
     }
 
-    
-    
-
-    
-
-    
-
+    public Profile getProfileByName(String name) 
+    {
+        Profile profile = null;
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
+            String query = "SELECT * FROM userinfo WHERE Name = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
+                pst.setString(1, name);
+                try (ResultSet rs = pst.executeQuery()) 
+                {
+                    if (rs.next()) 
+                    {
+                        int ID = rs.getInt("ID");
+                        int streak = rs.getInt("Streak");
+                        String status = rs.getString("Statue");
+                        String birthday = rs.getString("Birthday");
+                        int money = rs.getInt("UserPoints");
+                        profile = new Profile(ID, name, streak, status, birthday, money);
+                    }
+                }
+            }
+        } 
+        catch (SQLException e) 
+        {
+            System.out.println("Error retrieving profile: " + e.getMessage());
+        }
+        return profile;
+    }
 }
 
 
