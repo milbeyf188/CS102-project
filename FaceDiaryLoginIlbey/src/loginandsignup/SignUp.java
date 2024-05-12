@@ -162,15 +162,17 @@ public class SignUp extends javax.swing.JFrame
         this.dispose();
     }
 
-    private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {
+    private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) 
+    {
         String fullName, email, query;
         char[] password;
         String url, userName, SPass;
         url = "jdbc:MySQL://localhost:3306/facediary";
         userName = "root";
         SPass = "";
-        BigInteger bigInteger = new BigInteger("1000000000000000"); 
-        try {
+       
+        try 
+        {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, userName, SPass);
             Statement st = con.createStatement();
@@ -193,11 +195,25 @@ public class SignUp extends javax.swing.JFrame
                 email = emailAddress.getText();
                 password = pass.getPassword();
     
-    
                 
+                String checkEmailQuery = "SELECT COUNT(*) AS count FROM userinfo WHERE eMail = ?";
+                try (PreparedStatement checkEmailStmt = con.prepareStatement(checkEmailQuery)) 
+                {
+                    checkEmailStmt.setString(1, email);
+                    ResultSet emailResult = checkEmailStmt.executeQuery();
+                    emailResult.next();
+                    int emailCount = emailResult.getInt("count");
+                    if (emailCount > 0) 
+                    {
+                        JOptionPane.showMessageDialog(new JFrame(), "This email is already in use", "Error", JOptionPane.ERROR_MESSAGE);
+                        return; 
+                    }
+                }
+    
                 int nextUserId = 1; 
                 String getMaxIdQuery = "SELECT MAX(ID) AS maxId FROM userinfo";
-                try (ResultSet rs = st.executeQuery(getMaxIdQuery)) {
+                try (ResultSet rs = st.executeQuery(getMaxIdQuery)) 
+                {
                     if (rs.next()) 
                     {
                         int maxId = rs.getInt("maxId");
@@ -205,7 +221,6 @@ public class SignUp extends javax.swing.JFrame
                     }
                 }
     
-                
                 query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints, Streak, Statue, X,Badges,Birthday) VALUES (?,? ,?,?, ?, ?, ?, ? , ? , ?)";
                 try (PreparedStatement pst = con.prepareStatement(query)) 
                 {
@@ -227,7 +242,6 @@ public class SignUp extends javax.swing.JFrame
                 emailAddress.setText("");
                 pass.setText("");
     
-                
                 JOptionPane.showMessageDialog(null, "New account has been created successfully!");
             }
         } 
