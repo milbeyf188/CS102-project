@@ -13,15 +13,6 @@ import java.util.ArrayList;
 
 public class checkBoxFrame extends JPanel
 {
-    public static void main(String[] args)
-    {
-        ArrayList<String> str = new ArrayList<String>();
-        str.add("sds");
-        str.add("sdsa");
-        str.add("sdsss");
-
-        new checkBoxFrame(str, null, new Dimension(0,0));
-    }
     JPanel panel;
     JScrollPane scrollPane;
     ArrayList<JCheckBox> checkBoxes;

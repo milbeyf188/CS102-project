@@ -21,7 +21,7 @@ public class MenuFrame extends JFrame{
 
     public static String pathString;
     public static MenuFrame facediary;
-   
+    private RoundedButton groupdiarybutton; 
     private JTextField searchfriend;
     private JTextField searchadd;
     private ResultPanel resultpanel;
@@ -35,7 +35,7 @@ public class MenuFrame extends JFrame{
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
-    
+
     public MenuFrame(Profile profile)
     {
         facediary = this;
@@ -117,13 +117,14 @@ public class MenuFrame extends JFrame{
         c.gridy = 1;
         c.anchor = GridBagConstraints.WEST;
         add(button2, c);
-        RoundedButton button3 = new RoundedButton(300, 75, "New Group Diary", null);
+        groupdiarybutton = new RoundedButton(300, 75, "New Group Diary", null);
+        groupdiarybutton.addActionListener(new Listener9());
         c.gridx = 1;
         c.gridy = 2;
         c.weighty = 0;
         c.weightx = 0;
         c.anchor = GridBagConstraints.NORTHWEST;
-        add(button3,c);
+        add(groupdiarybutton,c);
         c.gridx = 1;
         c.gridy = 3;
         c.weightx = 0;
@@ -153,10 +154,91 @@ public class MenuFrame extends JFrame{
         this.setBackground(backgroundColor);
     }
     }
+    class badgePanel extends JPanel//A panel for displaying badges
+    {
+        public badgePanel()
+        {
+            createcomponents();
+        }
+        boolean[] badges = con.getBadgesArrayById(profile.getID());
+        String[] badgeFilenames = {
+            "",
+            "/MainMenu/Badge PNGs/Bronze1.png",
+            "/MainMenu/Badge PNGs/Bronze2.png",
+            "/MainMenu/Badge PNGs/Bronze3.png",
+            "/MainMenu/Badge PNGs/Silver1.png",
+            "/MainMenu/Badge PNGs/Silver2.png",
+            "/MainMenu/Badge PNGs/Silver3.png",
+            "/MainMenu/Badge PNGs/Gold1.png",
+            "/MainMenu/Badge PNGs/Gold2.png",
+            "/MainMenu/Badge PNGs/Gold3.png",
+            "/MainMenu/Badge PNGs/Diamond1.png",
+            "/MainMenu/Badge PNGs/Diamond2.png",
+            "/MainMenu/Badge PNGs/Diamond3.png",
+            "/MainMenu/Badge PNGs/Immortal1.png",
+            "/MainMenu/Badge PNGs/Immortal2.png",
+            "/MainMenu/Badge PNGs/Immortal3.png"
+    };
+        private void createcomponents()
+        {
+        int counter = 0;
+        ArrayList<Integer> results = new ArrayList<Integer>();
+        for(int i = badges.length-1;i>0;i--)
+        {
+            if(badges[i])
+            {
+                counter++;
+                results.add(i);
+            }
+        }
+        if(counter == 0)
+        {
+            return;
+        }    
+        else if(counter<=3)
+        {
+            setLayout(new GridLayout(1, counter));
+            ArrayList<JLabel> labels = new ArrayList<JLabel>();
+            
+            for(int i = 0;i<counter;i++)
+            {
+                labels.add(new JLabel());
+            }
+            for(int i = 0;i<counter;i++)
+            {
+                ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(i)]));
+                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+                ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+                labels.get(i).setIcon(scaledBadgeIcon);
+            }
+        }
+        else if(counter > 3)
+        {
+            ArrayList<JLabel> labels = new ArrayList<JLabel>();
+            for(int i = 0;i<3;i++)
+            {
+                labels.add(new JLabel());
+            }
+            for(int i = 0;i<3;i++)
+            {
+                ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(i)]));
+                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+                ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+                labels.get(i).setIcon(scaledBadgeIcon);
+            }
+        }
+    }
+        
+    }
+    
+    
     /*
      * overrides Jpanel class to add money image and display money amount of user in main menu
      */
-    class MoneyPanel extends JPanel
+    
+    
+    
+     class MoneyPanel extends JPanel
     {
         public void paintComponent(Graphics g)
         {
@@ -542,14 +624,117 @@ public class MenuFrame extends JFrame{
         
     
     }
+    public Diary getDiary()
+    {
+        return diary;
+    }
     class Listener8 implements ActionListener//Listener of badgeshop button
+    {
+        public void actionPerformed(ActionEvent event)
         {
-            public void actionPerformed(ActionEvent event)
+            frame.setVisible(false);
+            new BadgeShopGUI(frame, profile);
+        }
+    }
+    class Listener9 implements ActionListener//Listener for groupdiary button
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            ArrayList<String> arr = new ArrayList<String>();
+            for(int i : con.getFriendsArray(profile.getID()))
             {
-                frame.setVisible(false);
-                new BadgeShopGUI(frame, profile);
+                arr.add(con.getNameById(i));
+            }
+           checkBoxFrame anan = new checkBoxFrame(arr, groupdiarybutton, new Dimension(0,0));
+           anan.setVisible(true);
+        }
+    }
+    class checkBoxFrame extends JFrame
+{
+    JPanel panel;
+    JScrollPane scrollPane;
+    ArrayList<JCheckBox> checkBoxes;
+    JComponent location;
+    Dimension offSet;
+    Timer timer;
+
+    checkBoxFrame(ArrayList<String> strings, JComponent component, Dimension offSet)
+    {
+        location = component;
+        this.offSet = offSet;
+
+        super.setSize(new Dimension(200,500));
+        panel = new JPanel();
+        panel.setPreferredSize(new Dimension(100, strings.size() > 5 ? 50: strings.size() * 10));
+        panel.setLayout(new GridLayout(0,1));
+        scrollPane = new JScrollPane(panel);
+        this.add(scrollPane);
+
+        checkBoxSetUp(strings);
+
+        panel.add(new ButtonListener());
+        setVisible(true);
+
+        timer = new Timer(1, new TimerListener(this));
+        timer.start();
+    }
+
+    private void checkBoxSetUp(ArrayList<String> strings)
+    {
+        checkBoxes = new ArrayList<>();
+        for (int i = 0; i < strings.size(); i++)
+        {
+            JCheckBox checkBox = new JCheckBox(strings.get(i));
+            panel.add(checkBox);
+            checkBoxes.add(checkBox);
+        }
+    }
+
+    private ArrayList<String> GetSelected()
+    {
+        ArrayList<String> returns = new ArrayList<String>();
+
+        for (int i = 0; i < checkBoxes.size(); i++)
+        {
+            if (checkBoxes.get(i).isSelected())
+            {
+                returns.add(checkBoxes.get(i).getText());
             }
         }
+
+        return returns;
+    }
+
+    class TimerListener implements ActionListener
+    {
+        JFrame frame;
+        TimerListener(JFrame frame)
+        {
+            this.frame = frame;
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+            Point finalLocation = new Point(location.getLocation().x + (int)offSet.getWidth(), location.getLocation().y + (int)offSet.getHeight());
+            frame.setLocation(finalLocation);
+        }
+    }
+
+    class ButtonListener extends JButton implements ActionListener
+    {
+        ButtonListener()
+        {
+            super("Make Group Diary");
+            addActionListener(this);
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+            diary.GroupDiary(GetSelected());
+        }
+    }
+}
+
 
 }
 
