@@ -36,7 +36,7 @@ public class Diary extends JPanel
     public Diary(Profile profile, JFrame frame)
     {
         this.profile = profile;
-        File textFolder = new File(test.pathString + "\\" + profile);
+        File textFolder = new File(MenuFrame.pathString + "\\" + profile.getName());
         textFolder.mkdirs();
         this.frame = frame;
 

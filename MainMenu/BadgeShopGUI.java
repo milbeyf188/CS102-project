@@ -116,6 +116,7 @@ public class BadgeShopGUI extends JFrame {
                         moneyLabel.setIcon(null);
                         moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
                         moneyLabel.setText("Bought");
+                        setVisible(true);
                     }
                 }
             });
@@ -138,7 +139,9 @@ public class BadgeShopGUI extends JFrame {
             int profID = profile.getID();
             remainingMoney = profile.getMoney() - badgePrice;
             profile.setMoney(remainingMoney);
+
             cont.setUserPoints(profID, remainingMoney);
+            moneyTextField.setText("Remaining money: " + remainingMoney);
             return true;
         } else {
             JOptionPane.showMessageDialog(this, "You don't have enough money to buy this badge!", "Error",
@@ -146,6 +149,7 @@ public class BadgeShopGUI extends JFrame {
             return false;
         }
     }
+    
 
     public static void main(String[] args) {
         new BadgeShopGUI(menuFrame, profile);

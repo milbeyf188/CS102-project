@@ -5,6 +5,7 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -18,6 +19,8 @@ public class MenuFrame extends JFrame{
 
     private Diary diary; 
 
+    public static String pathString;
+    public static MenuFrame facediary;
    
     private JTextField searchfriend;
     private JTextField searchadd;
@@ -26,15 +29,22 @@ public class MenuFrame extends JFrame{
     private JScrollPane scrollPane;
     private JScrollPane scrollPane2;
     private static Controller con = new Controller();
+
     private MenuFrame frame = this;
 
     protected Color lightblue = new Color(62, 128, 168);
     protected Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
+    
     public MenuFrame(Profile profile)
     {
+        facediary = this;
+        File myfile = new File("FaceDiary");
+        myfile.mkdir();
+        pathString = myfile.getAbsolutePath();
+
         this.profile = profile;
-        diary = new Diary(profile.getName(), this);//Diary burda çağrılıyor
+        diary = new Diary(profile, this);//Diary burda çağrılıyor
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setName("Main menu");

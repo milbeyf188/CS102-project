@@ -36,7 +36,7 @@ public class Text extends JPanel
 
     public Text(int year, int month, int day, Profile profile)
     {
-        textFile = new File(test.pathString + "\\" + profile.getName() + "\\" + year +  "_" + month + "_" + day);
+        textFile = new File(MenuFrame.pathString + "\\" + profile.getName() + "\\" + year +  "_" + month + "_" + day);
         accessedPeopleFile = new File(textFile.getAbsolutePath() + "access");
 
         date[0] = year; date[1] = month; date[2] = day;
@@ -58,7 +58,7 @@ public class Text extends JPanel
             }
             catch(IOException a)
             {
-                System.out.println("couldn't create access file");
+                a.printStackTrace();
             }
         }
 
@@ -178,7 +178,7 @@ public class Text extends JPanel
                 text.add("\n" + people.get(i) + "\n");
 
                 try{
-                    Scanner peopleScanner = new Scanner(new File(test.pathString + "\\" + people.get(i) +
+                    Scanner peopleScanner = new Scanner(new File(MenuFrame.pathString + "\\" + people.get(i) +
                         "\\" + date[0] +  "_" + date[1] + "_" + date[2]));
 
                     peopleScanner.nextLine();
@@ -285,7 +285,7 @@ public class Text extends JPanel
         public void actionPerformed(ActionEvent e) 
         {
             setDayText(textArea.getText());
-            test.facediary.setVisible(true);
+            MenuFrame.facediary.setVisible(true);
             frame.dispose();
         }
     }
@@ -352,7 +352,8 @@ public class Text extends JPanel
             location = component;
             this.offSet = offSet;
 
-            super.setPreferredSize(new Dimension(100,500));
+            setSize(new Dimension(500,500));
+            setLocation(500, 500);
             panel = new JPanel();
             panel.setPreferredSize(new Dimension(100, strings.size() > 5 ? 50: strings.size() * 10));
             panel.setLayout(new GridLayout(0,1));

@@ -190,7 +190,7 @@ public class Login extends javax.swing.JFrame
                     
                     int userID = rs.getInt("ID");
                     Profile prof = new Profile(userID, cont.getNameById(userID), cont.getUserStreakById(userID),cont.getStatue(userID),cont.getBirthday(userID),cont.getUserPointsById(userID));
-                    System.out.println("ANAN");
+                    
                     //BURASI
                     MenuFrame MenuFrame = new MenuFrame(prof);
                     MenuFrame.setVisible(true);
