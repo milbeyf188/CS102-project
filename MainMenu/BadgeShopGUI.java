@@ -67,6 +67,7 @@ public class BadgeShopGUI extends JFrame {
         ImageIcon scaledMoneyIcon = new ImageIcon(scaledMoneyImage);
 
         String[] badgeFilenames = {
+                "",
                 "/MainMenu/Badge PNGs/Bronze1.png",
                 "/MainMenu/Badge PNGs/Bronze2.png",
                 "/MainMenu/Badge PNGs/Bronze3.png",
@@ -84,12 +85,11 @@ public class BadgeShopGUI extends JFrame {
                 "/MainMenu/Badge PNGs/Immortal3.png"
         };
 
-        
-        //boolean[] booleanArray = cont.getBadgesArrayById(profile.getID());
+        // boolean[] booleanArray = cont.getBadgesArrayById(profile.getID());
         Badge[] allBadges = new Badge[16];
         allBadges[0] = null;
 
-        for(int i = 1; i < badgeFilenames.length; i++) {
+        for (int i = 1; i < badgeFilenames.length; i++) {
             ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[i]));
             Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
             ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
@@ -97,14 +97,14 @@ public class BadgeShopGUI extends JFrame {
             allBadges[i] = new Badge(badgePrice, scaledBadgeIcon);
         }
 
-        for (String badgeFilename : badgeFilenames) {
-            ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilename));
+        for (int m = 1; m < badgeFilenames.length; m++) {
+            ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[m]));
             Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
             ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
             int badgePrice = (badgePanel.getComponentCount() + 1) * 10;
 
             JLabel moneyLabel = new JLabel(scaledMoneyIcon);
-            if(badgeList.contains(new Badge(badgePrice, scaledBadgeIcon))) {
+            if (badgeList.contains(new Badge(badgePrice, scaledBadgeIcon))) {
                 moneyLabel.setText("Bought");
             }
             JButton priceButton = new JButton("$" + badgePrice);
@@ -134,17 +134,17 @@ public class BadgeShopGUI extends JFrame {
                         moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
                         moneyLabel.setText("Bought");
 
-                        for(int k = 1; k <= allBadges.length; k++) {
-                            if(new Badge(badgePrice, scaledBadgeIcon) == allBadges[k]) {
+                        for (int k = 1; k <= allBadges.length; k++) {
+                            if (new Badge(badgePrice, scaledBadgeIcon) == allBadges[k]) {
                                 cont.badgeBought(profile.getID(), k);
                                 break;
-                            } 
+                            }
                         }
 
                     }
                 }
             });
-            
+
         }
 
         moneyTextField = new JTextField("Remaining Money: " + remainingMoney, 15);

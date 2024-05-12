@@ -160,7 +160,7 @@ public class Diary extends JPanel
         {
             if(days.get(i).setChangeable())
             {
-                days.get(i).setGroup();
+                days.get(i).setGroup(people);
                 return;
             }
         }
