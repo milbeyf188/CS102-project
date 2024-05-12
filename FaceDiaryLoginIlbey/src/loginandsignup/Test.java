@@ -25,6 +25,9 @@ public class Test
         //con.badgeBought(6,9);
         //con.shareDay(11, 3, "2021_02_09");
         //System.out.println(con.getSharedDaysArray(3,11));
+        con.setLastDay(5,"2111_11_04");
+        System.out.println(con.getLastDay(5));
+
         
     }
 }

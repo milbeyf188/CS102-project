@@ -550,6 +550,51 @@ public class Controller
 
         return sharedDays.split("/");
     }
+
+    public String getLastDay(int userId) 
+    {
+        String fullName = null;
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
+
+            
+            String query = "SELECT LastEnteredDay FROM userinfo WHERE ID = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
+                pst.setInt(1, userId);
+                try (ResultSet rs = pst.executeQuery()) 
+                {
+                    if (rs.next()) 
+                    {
+                        fullName = rs.getString("LastEnteredDay");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving user information: " + e.getMessage());
+        }
+        return fullName;
+    }
+
+    public void setLastDay(int userId, String lastDay) 
+    {
+        
+        try (Connection con = DriverManager.getConnection(url, userName, password)) 
+        {
+            String query = "UPDATE userinfo SET LastEnteredDay = ? WHERE ID = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) 
+            {
+                pst.setString(1, lastDay);
+                pst.setInt(2, userId);
+                pst.executeUpdate();
+            }
+        } 
+        catch (SQLException e) 
+        {
+            System.out.println("Error updating user status text: " + e.getMessage());
+        }
+    }
+
     
     
 

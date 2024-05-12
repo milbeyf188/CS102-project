@@ -165,7 +165,7 @@ public class Profile_GUI extends JFrame
 
 
             ArrayList<Badge> sortedBadgeList = bubbleSort(BadgeShopGUI.badgeList);
-            //displayBadgeList(sortedBadgeList);
+            displayBadgeList(sortedBadgeList);
 
             
             
@@ -175,7 +175,7 @@ public class Profile_GUI extends JFrame
             
 
 
-            ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
+            /*ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
             ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image dosyasının yolunu belirtin
             ImageIcon badge3Icon = new ImageIcon("badge3.png"); // Badge 3 image dosyasının yolunu belirtin
             JLabel badge1Label = new JLabel(badge1Icon);
@@ -187,7 +187,7 @@ public class Profile_GUI extends JFrame
             badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
             badgesPanel.add(badge3Label);
 
-            /*
+            */
             JButton editButton = new JButton("EDİT");
             editButton.addActionListener(new ActionListener() {
                 @Override
@@ -202,7 +202,7 @@ public class Profile_GUI extends JFrame
             editButton.setBackground(Color.GREEN);
             editButton.setPreferredSize(new Dimension(120, 80)); // Geri tuşunun genişliğini ayarlar
             badgesPanel.add(editButton);
-            */
+            
 
             add(badgesPanel);
         }
@@ -326,22 +326,6 @@ public class Profile_GUI extends JFrame
         */
 
 
-        private BufferedImage loadImage(String filename, int width, int height) 
-     {
-        try {
-            BufferedImage originalImage = ImageIO.read(new File(filename));
-            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g = resizedImage.createGraphics();
-            g.drawImage(originalImage, 0, 0, width, height, null);
-            g.dispose();
-            return resizedImage;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
     private ArrayList<Badge> bubbleSort(ArrayList<Badge> list) 
                 {
                     int n = list.size();
@@ -359,13 +343,13 @@ public class Profile_GUI extends JFrame
 
 
 
-    /*public void displayBadgeList(ArrayList<Badge> badgeListToDisplay)
+    public void displayBadgeList(ArrayList<Badge> badgeListToDisplay)
             {
                 if(badgeListToDisplay.size() < 3) 
                 {
                     for(int i = 0; i < badgeListToDisplay.size(); i++)
                     {
-                        badgesPanel.add(badgeListToDisplay.get(i).getPhoto());
+                        badgesPanel.add(new JLabel(badgeListToDisplay.get(i).getPhoto()));
                         
                     }
 
@@ -376,17 +360,17 @@ public class Profile_GUI extends JFrame
                 {
                     for(int i = 0; i < 3; i++)
                     {
-                        badgesPanel.add(badgeListToDisplay.get(i).getPhoto());
+                        badgesPanel.add(new JLabel(badgeListToDisplay.get(i).getPhoto()));
                         
                     }
                 }
-            }*/
+            }
 
-    /*
+    
     public static void main(String[] args) {
         new Profile_GUI(true);
     }
-    */
+    
 
      private void createNewPanel() 
     {

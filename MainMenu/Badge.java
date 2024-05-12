@@ -14,6 +14,10 @@ public class Badge {
     public int getPrice() {
         return this.price;
     }
+
+    public ImageIcon getPhoto() {
+        return this.photo;
+    }
 }
 
 
