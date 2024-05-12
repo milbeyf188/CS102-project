@@ -133,9 +133,9 @@ public class BadgeShopGUI extends JFrame {
                         moneyLabel.setIcon(null);
                         moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
                         moneyLabel.setText("Bought");
-
+                        Badge tryBadge = new Badge(badgePrice, scaledBadgeIcon);
                         for (int k = 1; k <= allBadges.length; k++) {
-                            if (new Badge(badgePrice, scaledBadgeIcon) == allBadges[k]) {
+                            if (allBadges[k] == tryBadge) {
                                 cont.badgeBought(profile.getID(), k);
                                 break;
                             }
