@@ -95,6 +95,7 @@ public class MenuFrame extends JFrame{
         moneyPanel.setPreferredSize(new Dimension(400, 100));
         add(moneyPanel,c);
         RoundedButton button = new RoundedButton(300, 75, "Badge Shop",null );
+        button.addActionListener(new Listener8());
         c.gridx = 0;
         c.gridy = 4;
         c.weighty = 1;
@@ -149,11 +150,11 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            //ImageIcon image = new ImageIcon(getClass().getResource("/MainMenu/Money Image.png"));
+            ImageIcon image = new ImageIcon(getClass().getResource("/MainMenu/Money Image.png"));
             super.paintComponent(g);
             setBackground(backgroundColor);
             Graphics2D g2d = (Graphics2D) g;
-            //image.paintIcon(this, g2d, 10, 10);
+            image.paintIcon(this, g2d, 10, 10);
             g.setFont(new Font("Comic sans", 0, 30));
             g.setColor(Color.WHITE);
             g.drawString(String.valueOf(profile.getMoney()),100,50);
@@ -205,7 +206,7 @@ public class MenuFrame extends JFrame{
             super.paintComponent(g);
             setBackground(backgroundColor);
             Graphics2D g2d = (Graphics2D) g;
-            //image.paintIcon(this, g2d, 10,10 );
+            //image.paintIcon(this, g2d, 20,20 );
             Font f = buttonfont.deriveFont(50);
             g.setFont(f);
             g.setColor(Color.WHITE);
@@ -528,8 +529,17 @@ public class MenuFrame extends JFrame{
                 popUp.dispose();
             }
         }
-    
+        
     
     }
+    class Listener8 implements ActionListener//Listener of badgeshop button
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                frame.setVisible(false);
+                new BadgeShopGUI();
+            }
+        }
+
 }
 
