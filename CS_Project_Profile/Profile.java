@@ -1,27 +1,19 @@
 package CS_Project_Profile;
 
-
-
-
-public class Profile 
-{
+public class Profile {
     private String name;
     private int streak;
     private String status;
-    //private Badges_Class? badges;
-    //private Friends_Class? friends;
+    // private Badges_Class? badges;
+    // private Friends_Class? friends;
     private String birthday;
     private int money;
     private int ID;
 
-    //Bu kısımda databaseden değerler classdaki değerlere atanacak. Fonksiyonlar lazım
+    // Bu kısımda databaseden değerler classdaki değerlere atanacak. Fonksiyonlar
+    // lazım
 
-
-
-
-
-
-    public Profile(int ID,String name, int streak, String status, String birthday,int money)
+    public Profile(int ID, String name, int streak, String status, String birthday, int money)
 
     {
         this.ID = ID;
@@ -32,46 +24,45 @@ public class Profile
         this.money = money;
     }
 
-
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public int getStreak()
-    {
+    public int getStreak() {
         return this.streak;
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
         return this.status;
     }
-    public int getMoney()
-    {
+
+    public int getMoney() {
         return money;
     }
     /*
-    public Badges getBadges()
-    {
-        return this.badges;
-    }
-    */
+     * public Badges getBadges()
+     * {
+     * return this.badges;
+     * }
+     */
 
     /*
-    public Friends getFriends()
-    {
-        return this.friends;
-    }
-    */
+     * public Friends getFriends()
+     * {
+     * return this.friends;
+     * }
+     */
 
-    public String getBirthday()
-    {
+    public String getBirthday() {
         return this.birthday;
     }
-    public int getID()
-    {
+
+    public int getID() {
         return this.ID;
+    }
+
+    public void setMoney(int newMoney) {
+        this.money = newMoney;
     }
 
 }

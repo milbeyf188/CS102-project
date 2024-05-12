@@ -4,27 +4,32 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.util.ArrayList;
+import CS_Project_Profile.*;
+import FaceDiaryLoginIlbey.src.loginandsignup.*;
 
 public class BadgeShopGUI extends JFrame {
     private JLabel titleLabel;
     private JButton backButton;
     private JPanel badgePanel;
     private JTextField moneyTextField;
-    public static ArrayList<Badge> badgeList;
+    static ArrayList<Badge> badgeList;
+    static MenuFrame menuFrame;
+    static Profile profile;
+    private static Controller cont = new Controller();
+    private int remainingMoney;
 
-    public BadgeShopGUI() {
+    public BadgeShopGUI(MenuFrame frame, Profile profile) {
         badgeList = new ArrayList<>();
+        menuFrame = frame;
+        this.profile = profile;
+        remainingMoney = profile.getMoney();
+        // Bu satıra ve üstündekine bak
 
         setTitle("Badge Shop");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-
         getContentPane().setBackground(new Color(173, 210, 246));
 
         titleLabel = new JLabel("Badge Shop", SwingConstants.CENTER);
@@ -41,7 +46,8 @@ public class BadgeShopGUI extends JFrame {
         backButton.setPreferredSize(new Dimension(50, 50));
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();// Bunun yerine önceki sayfaya dönme eklenecek
+                setVisible(false);
+                menuFrame.setVisible(true);
             }
         });
 
@@ -56,31 +62,35 @@ public class BadgeShopGUI extends JFrame {
         badgePanel.setOpaque(false);
         add(badgePanel, BorderLayout.CENTER);
 
-        BufferedImage moneyImage = loadImage("MoneyIcon.png", 30, 30);
+        ImageIcon moneyImage = new ImageIcon(getClass().getResource("/MainMenu/MoneyIcon.png"));
+        Image scaledMoneyImage = moneyImage.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        ImageIcon scaledMoneyIcon = new ImageIcon(scaledMoneyImage);
 
         String[] badgeFilenames = {
-                "\\Badge PNGs\\Bronze1.png",
-                "\\Badge PNGs\\Bronze2.png",
-                "\\Badge PNGs\\Bronze3.png",
-                "\\Badge PNGs\\Silver1.png",
-                "\\Badge PNGs\\Silver2.png",
-                "\\Badge PNGs\\Silver3.png",
-                "\\Badge PNGs\\Gold1.png",
-                "\\Badge PNGs\\Gold2.png",
-                "\\Badge PNGs\\Gold3.png",
-                "\\Badge PNGs\\Diamond1.png",
-                "\\Badge PNGs\\Diamond2.png",
-                "\\Badge PNGs\\Diamond3.png",
-                "\\Badge PNGs\\Immortal1.png",
-                "\\Badge PNGs\\Immortal2.png",
-                "\\Badge PNGs\\Immortal3.png"
+                "/MainMenu/Badge PNGs/Bronze1.png",
+                "/MainMenu/Badge PNGs/Bronze2.png",
+                "/MainMenu/Badge PNGs/Bronze3.png",
+                "/MainMenu/Badge PNGs/Silver1.png",
+                "/MainMenu/Badge PNGs/Silver2.png",
+                "/MainMenu/Badge PNGs/Silver3.png",
+                "/MainMenu/Badge PNGs/Gold1.png",
+                "/MainMenu/Badge PNGs/Gold2.png",
+                "/MainMenu/Badge PNGs/Gold3.png",
+                "/MainMenu/Badge PNGs/Diamond1.png",
+                "/MainMenu/Badge PNGs/Diamond2.png",
+                "/MainMenu/Badge PNGs/Diamond3.png",
+                "/MainMenu/Badge PNGs/Immortal1.png",
+                "/MainMenu/Badge PNGs/Immortal2.png",
+                "/MainMenu/Badge PNGs/Immortal3.png"
         };
 
-        for (int i = 0; i < badgeFilenames.length; i++) {
-            BufferedImage badgeImage = loadImage(badgeFilenames[i], 100, 100);
+        for (String badgeFilename : badgeFilenames) {
+            ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilename));
+            Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
+            ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+            int badgePrice = (badgePanel.getComponentCount() + 1) * 10;
 
-            int badgePrice = (i + 1) * 10; // Burada fiyat ayarlanıyor, değişebilir
-            JLabel moneyLabel = new JLabel(new ImageIcon(moneyImage));
+            JLabel moneyLabel = new JLabel(scaledMoneyIcon);
             JButton priceButton = new JButton("$" + badgePrice);
             priceButton.setForeground(Color.WHITE);
             priceButton.setBackground(Color.BLACK);
@@ -93,7 +103,7 @@ public class BadgeShopGUI extends JFrame {
 
             JPanel badgeWrapperPanel = new JPanel(new BorderLayout());
             badgeWrapperPanel.setOpaque(false);
-            badgeWrapperPanel.add(new JLabel(new ImageIcon(badgeImage)), BorderLayout.CENTER);
+            badgeWrapperPanel.add(new JLabel(scaledBadgeIcon), BorderLayout.CENTER);
             badgeWrapperPanel.add(badgeInfoPanel, BorderLayout.SOUTH);
 
             badgeInfoPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
@@ -101,18 +111,17 @@ public class BadgeShopGUI extends JFrame {
 
             priceButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    Badge badge = new Badge(badgePrice, badgeImage);
-                    if (buy(badge)) {
+                    if (buy(new Badge(badgePrice, badgeImage))) {
                         priceButton.setVisible(false);
                         moneyLabel.setIcon(null);
                         moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
                         moneyLabel.setText("Bought");
-
                     }
                 }
             });
         }
-        moneyTextField = new JTextField("Remaining Money: " + 10, 15); // Para burda gösterilecek(10 yerşne para)
+
+        moneyTextField = new JTextField("Remaining Money: " + remainingMoney, 15);
         moneyTextField.setEditable(false);
         moneyTextField.setFont(new Font("Arial", Font.BOLD, 18));
         moneyTextField.setHorizontalAlignment(JTextField.CENTER);
@@ -122,34 +131,23 @@ public class BadgeShopGUI extends JFrame {
         setVisible(true);
     }
 
-    private BufferedImage loadImage(String filename, int width, int height) {
-        try {
-            BufferedImage originalImage = ImageIO.read(new File(filename));
-            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g = resizedImage.createGraphics();
-            g.drawImage(originalImage, 0, 0, width, height, null);
-            g.dispose();
-            return resizedImage;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public boolean buy(Badge badge) {
-        if (10 < badge.getPrice()) { // Paraya göre yapılacak
-            // remaining money -= badge.getPrice() (Parayı al)
+        int badgePrice = badge.getPrice();
+        if (profile.getMoney() >= badgePrice) {
             badgeList.add(badge);
+            int profID = profile.getID();
+            remainingMoney = profile.getMoney() - badgePrice;
+            profile.setMoney(remainingMoney);
+            cont.setUserPoints(profID, remainingMoney);
             return true;
         } else {
             JOptionPane.showMessageDialog(this, "You don't have enough money to buy this badge!", "Error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
-
     }
 
     public static void main(String[] args) {
-        new BadgeShopGUI();
+        new BadgeShopGUI(menuFrame, profile);
     }
 }
