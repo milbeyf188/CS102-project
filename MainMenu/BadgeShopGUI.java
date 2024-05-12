@@ -93,7 +93,7 @@ public class BadgeShopGUI extends JFrame {
             ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[i]));
             Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
             ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-            int badgePrice = (badgePanel.getComponentCount() + 1) * 10;
+            int badgePrice = i * 10;
             allBadges[i] = new Badge(badgePrice, scaledBadgeIcon);
         }
 
@@ -101,7 +101,7 @@ public class BadgeShopGUI extends JFrame {
             ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[m]));
             Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
             ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-            int badgePrice = (badgePanel.getComponentCount() + 1) * 10;
+            int badgePrice = m * 10;
 
             JLabel moneyLabel = new JLabel(scaledMoneyIcon);
             if (badgeList.contains(new Badge(badgePrice, scaledBadgeIcon))) {
@@ -137,7 +137,6 @@ public class BadgeShopGUI extends JFrame {
                         for (int k = 1; k < allBadges.length; k++) {
                             if (allBadges[k] == tryBadge) {
                                 cont.badgeBought(profile.getID(), k);
-                                break;
                             }
                         }
 
