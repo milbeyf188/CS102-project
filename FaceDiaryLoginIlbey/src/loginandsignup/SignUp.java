@@ -67,7 +67,7 @@ public class SignUp extends javax.swing.JFrame
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 102));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("logo.png"))); 
 
         
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));

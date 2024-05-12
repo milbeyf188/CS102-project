@@ -94,7 +94,8 @@ public class MenuFrame extends JFrame{
         MoneyPanel moneyPanel = new MoneyPanel();
         moneyPanel.setPreferredSize(new Dimension(400, 100));
         add(moneyPanel,c);
-        RoundedButton button = new RoundedButton(300, 75, "Badge Shop","/MainMenu/Shopping Cart.png" );
+        RoundedButton button = new RoundedButton(300, 75, "Badge Shop",null );
+        button.addActionListener(new Listener8());
         c.gridx = 0;
         c.gridy = 4;
         c.weighty = 1;
@@ -201,11 +202,11 @@ public class MenuFrame extends JFrame{
     {
         public void paintComponent(Graphics g)
         {
-            ImageIcon image =  new ImageIcon(getClass().getResource("/MainMenu/FireImage.png"));//DENİZ KOD BURDA
+            //ImageIcon image =  new ImageIcon(getClass().getResource("/CS_Project_Profile/Imagess/ProjectImages/Ekran görüntüsü 2024-05-07 135630."));//DENİZ KOD BURDA
             super.paintComponent(g);
             setBackground(backgroundColor);
             Graphics2D g2d = (Graphics2D) g;
-            image.paintIcon(this, g2d, 10,10 );
+            //image.paintIcon(this, g2d, 20,20 );
             Font f = buttonfont.deriveFont(50);
             g.setFont(f);
             g.setColor(Color.WHITE);
@@ -288,7 +289,7 @@ public class MenuFrame extends JFrame{
             }
             else
             {
-            FDController con = new FDController();
+            Controller con = new Controller();
             ArrayList<String> search = con.getNamesArray();
             ArrayList<Integer> number = con.getIDArray();
             ArrayList<String> result = new ArrayList<String>();
@@ -350,6 +351,7 @@ public class MenuFrame extends JFrame{
         public void actionPerformed(ActionEvent event)//action listener for adding friends with ıd giver        
         {
             con.setFriend(profile.getID(), ID);
+            JOptionPane.showMessageDialog(frame, "User is added successfully", "Friend adding", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     class FriendButton extends JButton implements ActionListener
@@ -365,7 +367,7 @@ public class MenuFrame extends JFrame{
         }
         public void actionPerformed(ActionEvent e) {//yiğitin profil guisine gidecek
             Profile profile = new Profile(ID,con.getNameById(ID) , con.getUserStreakById(ID), con.getStatue(ID), con.getBirthday(ID),con.getUserPointsById(ID));
-            Profile_GUI profilepage =  new Profile_GUI(isuser, profile);
+            Profile_GUI profilepage =  new Profile_GUI(isuser, profile,frame);
             frame.setVisible(false);
             profilepage.setVisible(true);
         }
@@ -385,7 +387,7 @@ public class MenuFrame extends JFrame{
             setLayout(new GridLayout(0,1));
             if(results.size() == 0)
             {
-                JOptionPane.showMessageDialog(displayframe, "You haven't got any friends yet.");
+                JOptionPane.showMessageDialog(displayframe, "You haven't got such friend!");
             }
             for(int i = 0;i<results.size();i++)
             {
@@ -420,11 +422,124 @@ public class MenuFrame extends JFrame{
     {
         public void actionPerformed(ActionEvent event)
         {
-            RemoveFrame frame2 = new RemoveFrame(profile.getID());
-            frame2.setVisible(true);
-            frame.setVisible(false);
-
+           PopUp up = new PopUp(frame);
+           up.setVisible(true);
         }
     }
+    class PopUp extends JDialog
+    {
+        private JTextField searcharea;
+        private JButton cancel;
+        private JButton remove;
+        private ResultPanel result;
+        private JButton searchButton;
+        private PopUp popUp = this;
+        public PopUp(JFrame parent)
+        {
+            super(parent, "Custom Popup", true);
+            JPanel panel = new JPanel(new GridLayout(4,1));
+            searcharea = new JTextField(20);
+            panel.add(searcharea);
+            JPanel panel2 = new JPanel(new GridBagLayout());
+            GridBagConstraints a = new GridBagConstraints();
+            a.anchor = GridBagConstraints.CENTER;
+            searchButton = new JButton("search");
+            searchButton.addActionListener(new Listener6());
+            panel2.add(searchButton,a);
+            panel.add(panel2);
+            result = new ResultPanel();
+            panel.add(result);
+            JPanel panel3 = new JPanel(new GridBagLayout());
+            GridBagConstraints d = new GridBagConstraints();
+            d.anchor = GridBagConstraints.CENTER;
+            cancel = new JButton("Cancel");
+            cancel.addActionListener(new Listener7());
+            panel3.add(cancel,d);
+            panel.add(panel3);
+            getContentPane().add(panel);
+            setSize(new Dimension(400, 400));
+            setLocationRelativeTo(frame);
+            setLocation(300, 400);
+        }
+        class Listener6 implements ActionListener//Action listener for search button in removefriend popup
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+            result.removeAll();
+            if(searcharea.getText().length()==0)
+            {
+                JOptionPane.showMessageDialog(frame, "Searchbar cannot be empty", "Error", ERROR_MESSAGE);
+            }
+            ArrayList<Integer> friends = con.getFriendsArray(profile.getID());
+            ArrayList<Integer> results = new ArrayList<Integer>();
+            for(int i = 0;i<friends.size();i++)
+            {
+                if(con.getNameById(friends.get(i)).contains(searcharea.getText()))
+                {
+                    results.add(friends.get(i));
+                }
+            }
+            
+            
+            result.changeresult(results);
+            result.printusers();
+            popUp.setVisible(true);
+        }
+        }
+        class ResultPanel extends JPanel
+        {
+            private ArrayList<Integer> results;
+            public void changeresult(ArrayList<Integer> arr)
+            {
+                results = arr;
+            }
+            public void printusers()
+            {
+            if(results.size()==0)
+            {
+                JOptionPane.showMessageDialog(frame, "User cannot found!", "Error", ERROR_MESSAGE);
+                return;
+            }
+                setLayout(new GridLayout(0, 1));
+                for(int i = 0;i<results.size();i++)
+                {
+                    add(new RemoveButton(results.get(i),con.getNameById(results.get(i))));
+                }
+            }
+        }
+        class RemoveButton extends JButton implements ActionListener
+        {
+            private int ID;
+            public RemoveButton(int ID,String s)
+            {
+                super(s);
+                addActionListener(this);
+                this.ID = ID;
+            }
+            public void actionPerformed(ActionEvent event)
+            {
+                con.removeFriend(profile.getID(), ID);
+                JOptionPane.showMessageDialog(frame, "Friend removed successfully", "Friend removal",JOptionPane.INFORMATION_MESSAGE );
+            }
+        }
+        class Listener7 implements ActionListener//Action listener for closing pop with cancel button
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                popUp.dispose();
+            }
+        }
+        
+    
+    }
+    class Listener8 implements ActionListener//Listener of badgeshop button
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                frame.setVisible(false);
+                new BadgeShopGUI();
+            }
+        }
+
 }
 

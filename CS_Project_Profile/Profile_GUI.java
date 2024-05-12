@@ -6,8 +6,7 @@ import FaceDiaryLoginIlbey.src.loginandsignup.FDController;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import MainMenu.Badge;
-import MainMenu.BadgeShopGUI;
+import MainMenu.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,27 +15,29 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import FaceDiaryLoginIlbey.*;
+
 
 
 public class Profile_GUI extends JFrame
 {
+    protected Color backgroundColor = new Color(8, 32, 45);
     private JPanel badgesPanel;
+    private Profile profile;
     FDController cont = new FDController();
 
-    //public boolean friendOrUser = false;
+    //public boolean friendOrUser = true;
     //Controller cont = new Controller();
 
     //String statue = cont.getStatue(UserID?);
     //String userName = cont.getNameById(UserID?);
     //int streak = cont.getUserStreakById(/*UserID?);
     
-    public Profile_GUI(boolean friendOrUser , Profile profile ) {
+    public Profile_GUI(boolean friendOrUser , Profile profile ,JFrame Menuframe ) {
 
 
         
         
-
+        this.profile = profile;
         setTitle("Profile");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
@@ -44,7 +45,7 @@ public class Profile_GUI extends JFrame
         //setBackground(new Color(0, 0, 102));
 
         JPanel contentPane = new JPanel();
-        contentPane.setBackground(new Color(0, 0, 102)); // Panelin arka planını koyu mavi yapar
+        contentPane.setBackground(backgroundColor); // Panelin arka planını koyu mavi yapar
         setContentPane(contentPane);
 
         setLayout(new GridLayout(6, 1));
@@ -54,10 +55,52 @@ public class Profile_GUI extends JFrame
         JButton backButton = new JButton("Back");
         backButton.setBackground(Color.RED);
         backButton.setPreferredSize(new Dimension(120, 80)); // Geri tuşunun genişliğini ayarlar
+
+        backButton.addActionListener(new ActionListener() 
+            {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
+                    setVisible(false);
+                    Menuframe.setVisible(true);
+                        
+                }
+            });
+
+
+        
         JPanel Mainpanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        Mainpanel.setBackground(new Color(0, 0, 102));
+        Mainpanel.setBackground(backgroundColor);
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Geri tuşunu sola hizalar
         //backButton.setBackground(new Color(0, 0, 102));
+
+
+        if(friendOrUser == true)
+        {
+            JPanel changePasPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            changePasPanel.setBackground(backgroundColor);
+
+            JButton PasswordButton = new JButton("Change Password");
+            PasswordButton.setBackground(Color.GREEN);
+            PasswordButton.setPreferredSize(new Dimension(120, 80));
+
+            PasswordButton.addActionListener(new ActionListener() 
+            {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
+                    setVisible(false);
+                    createNewPanel();
+                        
+                }
+            });
+
+            changePasPanel.add(PasswordButton);
+            Mainpanel.add(changePasPanel);
+        }
+
+
+        
         backButtonPanel.add(backButton);
         Mainpanel.add(backButtonPanel);
     
@@ -69,7 +112,7 @@ public class Profile_GUI extends JFrame
 
         // 2. satır: İsim textbox'u
         JPanel NamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        NamePanel.setBackground(new Color(0, 0, 102));
+        NamePanel.setBackground(backgroundColor);
         JLabel NameLabel = new JLabel(profile.getName());
         NameLabel.setForeground(Color.WHITE);
         NameLabel.setFont(NameLabel.getFont().deriveFont(Font.PLAIN, 5 * NameLabel.getFont().getSize()));
@@ -78,11 +121,11 @@ public class Profile_GUI extends JFrame
 
         // 3. satır: Ateş image'i ve Streak yazısı
         JPanel streakPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        streakPanel.setBackground(new Color(0, 0, 102));
-        JLabel streakLabel = new JLabel("Streak" /*+ profile.getStreak()*/);
+        streakPanel.setBackground(backgroundColor);
+        JLabel streakLabel = new JLabel("Streak: " + profile.getStreak());
         streakLabel.setForeground(Color.WHITE);
         streakLabel.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 5 * streakLabel.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
-        ImageIcon fireIcon = new ImageIcon("C:\\Users\\gokkh\\Desktop\\NEW_WORKSPACE\\CS_Project_Profile\\Imagess\\ProjectImages\\Ekran görüntüsü 2024-05-07 135630.png"); // Ateş image dosyasının yolunu belirtin
+        ImageIcon fireIcon = new ImageIcon("/CS_Project_Profile/Imagess/ProjectImages/Ekran görüntüsü 2024-05-07 135630.png"); // Ateş image dosyasının yolunu belirtin
         JLabel fireLabel = new JLabel(fireIcon);
         streakPanel.add(fireLabel);
         streakPanel.add(streakLabel);
@@ -100,7 +143,7 @@ public class Profile_GUI extends JFrame
        if(friendOrUser == false)  //arkadaşın profili
         {
             badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            badgesPanel.setBackground(new Color(0, 0, 102));
+            badgesPanel.setBackground(backgroundColor);
             ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
             ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image dosyasının yolunu belirtin
             ImageIcon badge3Icon = new ImageIcon("badge3.png"); // Badge 3 image dosyasının yolunu belirtin
@@ -117,7 +160,7 @@ public class Profile_GUI extends JFrame
         else// Kendi profilimiz
         {
             JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            badgesPanel.setBackground(new Color(0, 0, 102));
+            badgesPanel.setBackground(backgroundColor);
 
 
 
@@ -213,9 +256,9 @@ public class Profile_GUI extends JFrame
 
         // 6. satır: Status textbox'u ve altındaki status message textbox'u
         JPanel statusPanel = new JPanel(new GridLayout(2, 1));
-        statusPanel.setBackground(new Color(0, 0, 102));
+        statusPanel.setBackground(backgroundColor);
         JLabel label1 = new JLabel("Status");
-        label1.setBackground(new Color(0, 0, 102));
+        label1.setBackground(backgroundColor);
         label1.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
         label1.setForeground(Color.WHITE); // Yazı rengini beyaz yapar
         label1.setHorizontalAlignment(JLabel.CENTER); // Metni ortalar
@@ -223,7 +266,7 @@ public class Profile_GUI extends JFrame
 
         if(friendOrUser == false) // arkadaşın profiline giriyorsak
         {
-            JLabel label2 = new JLabel("MESSAGE" /*profile.getStatus */);
+            JLabel label2 = new JLabel(profile.getStatus());
             label2.setForeground(Color.WHITE); // Yazı rengini beyaz yapıyoruz
             label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
             label2.setHorizontalAlignment(JLabel.CENTER); // Metni ortala
@@ -231,11 +274,11 @@ public class Profile_GUI extends JFrame
         }
         else //kendi profilimize giriyoruz yani statusu güncelleyebiliyoruz
         {
-            JTextField statusMessageTextBox = new JTextField("Status Message"  + profile.getStatus());
+            JTextField statusMessageTextBox = new JTextField(profile.getStatus());
             statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN, 5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
             JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            Mainpanel2.setBackground(new Color(0, 0, 102));
+            Mainpanel2.setBackground(backgroundColor);
             Mainpanel2.add(statusMessageTextBox);
             statusPanel.add(Mainpanel2);
 
@@ -344,4 +387,39 @@ public class Profile_GUI extends JFrame
         new Profile_GUI(true);
     }
     */
+
+     private void createNewPanel() 
+    {
+          
+        JFrame newFrame = new JFrame("Change Password");
+        newFrame.setLayout(new FlowLayout()); // İçerikleri düzenlemek için FlowLayout kullanılıyor
+
+        // Metin kutusu ekleniyor
+        JTextField textField = new JTextField(20); // 20 sütun genişliğinde bir metin kutusu
+        newFrame.add(textField); // Frame'e metin kutusu ekleniyor
+
+        // "Save" butonu ekleniyor
+        JButton saveButton = new JButton("Save");
+        saveButton.setBackground(new Color(0, 255, 0)); // Butonun arka plan rengi yeşil olarak ayarlanıyor
+
+        saveButton.addActionListener(new ActionListener() { // Butona basıldığında ne yapılacağını tanımlayan ActionListener
+            public void actionPerformed(ActionEvent e) {
+                String text = textField.getText(); // Metin kutusundaki metni alıyor
+                cont.changePassword(profile.getID(), text);
+                newFrame.setVisible(false);
+                setVisible(true);
+                 
+            }
+        });
+        newFrame.add(saveButton); // Frame'e buton ekleniyor
+
+        // Frame ayarları
+        newFrame.setSize(300, 100); // Frame'in boyutu ayarlanıyor
+        newFrame.setLocationRelativeTo(null); // Frame ekranın ortasında konumlandırılıyor
+        newFrame.setVisible(true); // Frame görünür hale getiriliyor
+        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+
+
+    }
 }
