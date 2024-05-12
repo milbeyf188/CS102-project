@@ -13,7 +13,7 @@ public class BadgeShopGUI extends JFrame {
     private JButton backButton;
     private JPanel badgePanel;
     private JTextField moneyTextField;
-    public static ArrayList<Badge> badgeList = new ArrayList<Badge>();
+    public static ArrayList<Integer> badgePriceList = new ArrayList<Integer>();
     public static MenuFrame menuFrame;
     static Profile profile;
     private static Controller cont = new Controller();
@@ -106,7 +106,7 @@ public class BadgeShopGUI extends JFrame {
             int badgePrice = m * 10;
 
             JLabel moneyLabel = new JLabel(scaledMoneyIcon);
-            if (badgeList.contains(new Badge(badgePrice, scaledBadgeIcon))) {
+            if (badgePriceList.contains(badgePrice)) {
                 moneyLabel.setText("Bought");
             }
             JButton priceButton = new JButton("$" + badgePrice);
@@ -161,7 +161,7 @@ public class BadgeShopGUI extends JFrame {
     public boolean buy(Badge badge) {
         int badgePrice = badge.getPrice();
         if (profile.getMoney() >= badgePrice) {
-            badgeList.add(badge);
+            badgePriceList.add(badge.getPrice());
             int profID = profile.getID();
             remainingMoney = profile.getMoney() - badgePrice;
             profile.setMoney(remainingMoney);
