@@ -91,6 +91,7 @@ public class BadgeShopGUI extends JFrame {
 
         Badge[] allBadges = new Badge[16];
         allBadges[0] = null;
+        
 
         for (int i = 1; i < badgeFilenames.length; i++) {
             ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[i]));
@@ -109,14 +110,15 @@ public class BadgeShopGUI extends JFrame {
             JLabel moneyLabel = new JLabel(scaledMoneyIcon);
             JButton priceButton = new JButton("$" + badgePrice);
 
-            for (int l = 0; l < badgePriceList.size(); l++) {
-                if (badgePriceList.get(l) == badgePrice) {
-                    priceButton.setVisible(false);
-                    moneyLabel.setIcon(null);
-                    moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
-                    moneyLabel.setText("Bought");
-                }
+   
+            if (cont.getBadgesArrayById(profile.getID())[m]) 
+            {
+                priceButton.setVisible(false);
+                moneyLabel.setIcon(null);
+                moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
+                moneyLabel.setText("Bought");
             }
+
             priceButton.setForeground(Color.WHITE);
             priceButton.setBackground(Color.BLACK);
             priceButton.setFont(new Font("Arial", Font.BOLD, 20));
