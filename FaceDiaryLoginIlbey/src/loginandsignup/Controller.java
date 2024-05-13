@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import CS_Project_Profile.*;
 
 
@@ -498,9 +500,48 @@ public class Controller
                     if (rs.next()) 
                     {
                         String existingSharedDays = rs.getString("SharedDays");
-                        if (existingSharedDays != null && !existingSharedDays.isEmpty()) 
+
+
+                        if (existingSharedDays != null && !existingSharedDays.isEmpty())
                         {
-                            sharedDay = existingSharedDays + "/" + sharedDay;
+                            if (existingSharedDays.contains(sharedDay))
+                            {
+                                return;
+                            }
+
+                            String[] a = existingSharedDays.split("/");
+
+                            String[] arr = new String[a.length + 1];
+
+                            long shared = Long.parseLong(sharedDay.replace("_",""));
+
+                            int i;
+
+                            for (i = a.length - 1; i >= 0; i--)
+                            {
+                                if(shared < Long.parseLong(a[i].replace("_","")))
+                                {
+                                    arr[i + 1] = a[i];
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            arr[i + 1] = sharedDay;
+
+                            for (int j = 0; j <= i; j++)
+                            {
+                                arr[j] = a[j];
+                            }
+
+                            sharedDay = arr[0];
+
+                            for (int j = 1; j < arr.length; j++)
+                            {
+                                sharedDay += "/" + arr[j];
+                            }
                         }
                     }
                 }

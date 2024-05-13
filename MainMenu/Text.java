@@ -214,6 +214,7 @@ public class Text extends JPanel
         frame.add(this);
         frame.setVisible(true);
         frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public String getText()
@@ -486,12 +487,13 @@ public class Text extends JPanel
 
             public void actionPerformed(ActionEvent e)
             {
+                Controller con = new Controller();
                 for (String people: GetSelected())
                 {
                     giveAccess(people);
-
-                    getPopUp().hide();
+                    con.shareDay(profile.getID(), con.getProfileByName(people).getID(), date[0] + "_" + date[1] + "_" + date[2]);
                 }
+                getPopUp().hide();
             }
         }
     }
