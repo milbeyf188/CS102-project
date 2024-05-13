@@ -111,7 +111,7 @@ public class Profile_GUI extends JFrame {
         add(NamePanel);
 
         // 3. satır: Ateş image'i ve Streak yazısı
-        if(!friendOrUser)
+        if(!friendOrUser && arr.length != 0)
         {
         JPanel panel = new JPanel(new GridLayout(1, 3));
         JPanel panel4 = new JPanel(new GridBagLayout());
