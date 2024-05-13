@@ -48,7 +48,7 @@ public class BadgeShopGUI extends JFrame {
         backButton.setOpaque(true);
         backButton.setPreferredSize(new Dimension(50, 50));
         backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {//BURASI DÜZELECEK
+            public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 menuFrame.setVisible(false);// Bunu denemek için koydum
                 new MenuFrame(profile);
