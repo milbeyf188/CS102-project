@@ -51,7 +51,7 @@ public class BadgeShopGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {//BURASI DÜZELECEK
                 setVisible(false);
                 menuFrame.setVisible(false);// Bunu denemek için koydum
-                menuFrame.setVisible(true);
+                new MenuFrame(profile);
             }
         });
 
