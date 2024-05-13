@@ -39,7 +39,11 @@ public class Profile_GUI extends JFrame {
 
         this.profile = profile;
         arr = cont.getSharedDaysArray(userid, profile.getID());
-        lastday = arr.length-1;
+        if(arr != null)
+        {
+            lastday = arr.length-1;
+        }
+        
         setTitle("Profile");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
@@ -110,7 +114,7 @@ public class Profile_GUI extends JFrame {
         add(NamePanel);
 
         // 3. satır: Ateş image'i ve Streak yazısı
-        if(!friendOrUser && arr.length != 0)
+        if(!friendOrUser && arr != null)
         {
         JPanel panel = new JPanel(new GridLayout(1, 3));
         JPanel panel4 = new JPanel(new GridBagLayout());
@@ -263,7 +267,7 @@ public class Profile_GUI extends JFrame {
          */
 
         // 6. satır: Status textbox'u ve altındaki status message textbox'u
-        JPanel statusPanel = new JPanel(new GridLayout(2, 1));
+        JPanel statusPanel = new JPanel(new GridLayout(3, 1));
         statusPanel.setBackground(backgroundColor);
         JLabel label1 = new JLabel("Status");
         label1.setBackground(backgroundColor);
@@ -271,7 +275,9 @@ public class Profile_GUI extends JFrame {
         label1.setForeground(Color.WHITE); // Yazı rengini beyaz yapar
         label1.setHorizontalAlignment(JLabel.CENTER); // Metni ortalar
         statusPanel.add(label1);
-
+        JPanel panel31 = new JPanel();
+        panel31.setBackground(backgroundColor);
+        statusPanel.add(panel31);
         if (friendOrUser == false) // arkadaşın profiline giriyorsak
         {
             JLabel label2 = new JLabel(profile.getStatus());
@@ -331,35 +337,8 @@ public class Profile_GUI extends JFrame {
      * }
      */
 
-    private ArrayList<Badge> bubbleSort(ArrayList<Badge> list) {
-        int n = list.size();
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (list.get(j).getPrice() > list.get(j + 1).getPrice()) {
-                    Badge temp = list.get(j);
-                    list.set(j, list.get(j + 1));
-                    list.set(j + 1, temp);
-                }
-            }
-        }
-        return list;
-    }
+    
 
-    public void displayBadgeList(ArrayList<Badge> badgeListToDisplay) {
-        if (badgeListToDisplay.size() < 3) {
-            for (int i = 0; i < badgeListToDisplay.size(); i++) {
-                badgesPanel.add(new JLabel(badgeListToDisplay.get(i).getPhoto()));
-
-            }
-
-            // display here
-        } else {
-            for (int i = 0; i < 3; i++) {
-                badgesPanel.add(new JLabel(badgeListToDisplay.get(i).getPhoto()));
-
-            }
-        }
-    }
 
     /*
      * public static void main(String[] args) {
