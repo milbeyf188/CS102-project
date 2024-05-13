@@ -439,9 +439,9 @@ public class MenuFrame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {// yiğitin profil guisine gidecek
-            Profile profile = new Profile(ID, con.getNameById(ID), con.getUserStreakById(ID), con.getStatue(ID),
+            Profile profile1 = new Profile(ID, con.getNameById(ID), con.getUserStreakById(ID), con.getStatue(ID),
                     con.getBirthday(ID), con.getUserPointsById(ID));
-            Profile_GUI profilepage = new Profile_GUI(isuser, profile, frame,profile.getID());
+            Profile_GUI profilepage = new Profile_GUI(isuser, profile1, frame,profile.getID());
             frame.setVisible(false);
             profilepage.setVisible(true);
         }
