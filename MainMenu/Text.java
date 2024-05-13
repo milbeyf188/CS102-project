@@ -446,7 +446,15 @@ public class Text extends JPanel
 
         public void  actionPerformed(ActionEvent e)
         {
-            if(JOptionPane.showConfirmDialog(this, "Are you sure you don't want to save") == 0)
+            if (setChangeable())
+            {
+                if(JOptionPane.showConfirmDialog(this, "Are you sure you don't want to save") == 0)
+                {
+                    MenuFrame.facediary.setVisible(true);
+                    frame.dispose();
+                }
+            }
+            else
             {
                 MenuFrame.facediary.setVisible(true);
                 frame.dispose();

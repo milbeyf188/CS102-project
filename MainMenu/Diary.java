@@ -1,10 +1,9 @@
 package MainMenu;
 
-
-
 import CS_Project_Profile.Profile;
+import FaceDiaryLoginIlbey.src.loginandsignup.Controller;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -176,5 +175,39 @@ public class Diary extends JPanel
         }
 
         return daysOf;
+    }
+
+    public int addStreak()
+    {
+        Controller con = new Controller();
+
+        Calendar yesterDate = Calendar.getInstance();
+        yesterDate.add(Calendar.DAY_OF_MONTH, -1);
+
+        boolean streaking = !new Text(yesterDate.get(Calendar.YEAR), yesterDate.get(Calendar.MONTH) + 1, yesterDate.get(Calendar.DAY_OF_MONTH), profile).getColor().equals(Color.RED);
+
+        if(!streaking){return -1;}
+
+        String yesterday = yesterDate.get(Calendar.YEAR) + "_" + (yesterDate.get(Calendar.MONTH) + 1) + "_" + yesterDate.get(Calendar.DAY_OF_MONTH);
+
+        if (con.getLastDay(profile.getID()) == null)
+        {
+            return 1;
+        }
+
+        return !con.getLastDay(profile.getID()).equals(yesterday)? 1: 0;
+    }
+
+    public static String getToday()
+    {
+        return currentDate.get(Calendar.YEAR) + "_" + (currentDate.get(Calendar.MONTH) + 1 )+ "_" + currentDate.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static String getYesterday()
+    {
+        Calendar yesterDate = Calendar.getInstance();
+        yesterDate.add(Calendar.DAY_OF_MONTH, -1);
+
+        return yesterDate.get(Calendar.YEAR) + "_" + (yesterDate.get(Calendar.MONTH) + 1 )+ "_" + yesterDate.get(Calendar.DAY_OF_MONTH);
     }
 }

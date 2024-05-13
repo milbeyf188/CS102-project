@@ -1,5 +1,9 @@
 package CS_Project_Profile;
 
+import FaceDiaryLoginIlbey.src.loginandsignup.Controller;
+import MainMenu.Diary;
+import MainMenu.MenuFrame;
+
 public class Profile {
     private String name;
     private int streak;
@@ -63,6 +67,30 @@ public class Profile {
 
     public void setMoney(int newMoney) {
         this.money = newMoney;
+    }
+
+    public void setStreak(){
+        Controller con = new Controller();
+
+        int isStreaking = MenuFrame.facediary.getDiary().addStreak();
+
+        if(isStreaking < 0)
+        {
+            this.streak = 0;
+            con.setStreak(getID(), 0);
+            return;
+        }
+        else if(isStreaking > 0)
+        {
+            streak++;
+            money += streak;
+            con.setStreak(getID(), streak);
+            con.setUserPoints(getID(), getMoney());
+            con.setLastDay(getID(), Diary.getYesterday());
+            return;
+        }
+
+        con.setLastDay(getID(), Diary.getYesterday());
     }
 
 }
