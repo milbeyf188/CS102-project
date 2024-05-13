@@ -50,6 +50,7 @@ public class BadgeShopGUI extends JFrame {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
+                menuFrame.setVisible(false);// Bunu denemek için koydum
                 menuFrame.setVisible(true);
             }
         });
