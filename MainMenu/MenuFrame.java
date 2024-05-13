@@ -638,6 +638,8 @@ public class MenuFrame extends JFrame{
     }
     class Listener9 implements ActionListener//Listener for groupdiary button
     {
+        checkBoxFrame check;
+
         public void actionPerformed(ActionEvent event)
         {
             ArrayList<String> arr = new ArrayList<String>();
@@ -645,96 +647,95 @@ public class MenuFrame extends JFrame{
             {
                 arr.add(con.getNameById(i));
             }
-           checkBoxFrame anan = new checkBoxFrame(arr, groupdiarybutton, new Dimension(0,0));
-           anan.setVisible(true);
+           
+           if (check != null) 
+           {
+                check.getPopUp().hide();
+                check = null;
+           }
+           else
+           {
+                check = new checkBoxFrame(arr, groupdiarybutton, new Dimension(0,0));
+                check.getPopUp().show();
+           }
         }
     }
-    class checkBoxFrame extends JFrame
-{
-    JPanel panel;
-    JScrollPane scrollPane;
-    ArrayList<JCheckBox> checkBoxes;
-    JComponent location;
-    Dimension offSet;
-    Timer timer;
-
-    checkBoxFrame(ArrayList<String> strings, JComponent component, Dimension offSet)
+class checkBoxFrame
     {
-        location = component;
-        this.offSet = offSet;
+        JPanel bigPanel = new JPanel();
+        JPanel panel = new JPanel();
+        JScrollPane scrollPane;
+        ArrayList<JCheckBox> checkBoxes;
+        JComponent location;
+        Dimension offSet;
+        Popup popup;
 
-        super.setSize(new Dimension(200,500));
-        panel = new JPanel();
-        panel.setPreferredSize(new Dimension(100, strings.size() > 5 ? 50: strings.size() * 10));
-        panel.setLayout(new GridLayout(0,1));
-        scrollPane = new JScrollPane(panel);
-        this.add(scrollPane);
+        PopupFactory factory;
 
-        checkBoxSetUp(strings);
-
-        panel.add(new ButtonListener());
-        setVisible(true);
-
-        timer = new Timer(1, new TimerListener(this));
-        timer.start();
-    }
-
-    private void checkBoxSetUp(ArrayList<String> strings)
-    {
-        checkBoxes = new ArrayList<>();
-        for (int i = 0; i < strings.size(); i++)
+        checkBoxFrame(ArrayList<String> strings, JComponent component, Dimension offSet)
         {
-            JCheckBox checkBox = new JCheckBox(strings.get(i));
-            panel.add(checkBox);
-            checkBoxes.add(checkBox);
+            PopupFactory factory = new PopupFactory();
+            setContent(strings, component, offSet);
+            popup = factory.getPopup(component, bigPanel, offSet.width, offSet.height);
         }
-    }
 
-    private ArrayList<String> GetSelected()
-    {
-        ArrayList<String> returns = new ArrayList<String>();
-
-        for (int i = 0; i < checkBoxes.size(); i++)
+        public void setContent(ArrayList<String> strings, JComponent component, Dimension offSet)
         {
-            if (checkBoxes.get(i).isSelected())
+            location = component;
+            this.offSet = offSet;
+
+            panel = new JPanel();
+            panel.setLayout(new GridLayout(0,1));
+            scrollPane = new JScrollPane(panel);
+            bigPanel.add(scrollPane);
+            checkBoxSetUp(strings);
+            panel.add(new ButtonListener());
+        }
+
+        public Popup getPopUp()
+        {
+            return popup;
+        }
+
+        private void checkBoxSetUp(ArrayList<String> strings)
+        {
+            checkBoxes = new ArrayList<>();
+            for (int i = 0; i < strings.size(); i++)
             {
-                returns.add(checkBoxes.get(i).getText());
+                JCheckBox checkBox = new JCheckBox(strings.get(i));
+                panel.add(checkBox);
+                checkBoxes.add(checkBox);
             }
         }
 
-        return returns;
-    }
-
-    class TimerListener implements ActionListener
-    {
-        JFrame frame;
-        TimerListener(JFrame frame)
+        private ArrayList<String> GetSelected()
         {
-            this.frame = frame;
+            ArrayList<String> returns = new ArrayList<String>();
+
+            for (int i = 0; i < checkBoxes.size(); i++)
+            {
+                if (checkBoxes.get(i).isSelected())
+                {
+                    returns.add(checkBoxes.get(i).getText());
+                }
+            }
+
+            return returns;
         }
 
-        public void actionPerformed(ActionEvent e)
+        class ButtonListener extends JButton implements ActionListener
         {
-            Point finalLocation = new Point(location.getLocation().x + (int)offSet.getWidth(), location.getLocation().y + (int)offSet.getHeight());
-            frame.setLocation(finalLocation);
-        }
-    }
+            ButtonListener()
+            {
+                super("give access");
+            }
 
-    class ButtonListener extends JButton implements ActionListener
-    {
-        ButtonListener()
-        {
-            super("Make Group Diary");
-            addActionListener(this);
-        }
-
-        public void actionPerformed(ActionEvent e)
-        {
-            diary.GroupDiary(GetSelected());
+            public void actionPerformed(ActionEvent e)
+            {
+                diary.GroupDiary(GetSelected());
+            }
         }
     }
-}
-
 
 }
 
