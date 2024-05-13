@@ -27,8 +27,7 @@ public class Profile_GUI extends JFrame {
     Controller cont = new Controller();
     private String[] arr;
     private int lastday;
-    
-
+    private JFrame frame1 = this;
     // public boolean friendOrUser = true;
     // Controller cont = new Controller();
 
@@ -201,28 +200,6 @@ public class Profile_GUI extends JFrame {
             JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             badgesPanel.setBackground(backgroundColor);
 
-            //ArrayList<Badge> sortedBadgeList = bubbleSort(BadgeShopGUI.badgeList);
-            //displayBadgeList(sortedBadgeList);
-
-            /*
-             * ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image
-             * dosyasının yolunu belirtin
-             * ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image
-             * dosyasının yolunu belirtin
-             * ImageIcon badge3Icon = new ImageIcon("badge3.png"); // Badge 3 image
-             * dosyasının yolunu belirtin
-             * JLabel badge1Label = new JLabel(badge1Icon);
-             * JLabel badge2Label = new JLabel(badge2Icon);
-             * JLabel badge3Label = new JLabel(badge3Icon);
-             * badgesPanel.add(badge1Label);
-             * badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek
-             * için
-             * badgesPanel.add(badge2Label);
-             * badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek
-             * için
-             * badgesPanel.add(badge3Label);
-             * 
-             */
             JButton editButton = new JButton("EDİT");
             editButton.addActionListener(new ActionListener() {
                 @Override
@@ -459,6 +436,9 @@ public class Profile_GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String displayedday = arr[lastday];
                 Text display = new Text(displayedday, profile);
+                frame1.setVisible(false);
+                JFrame frame = new JFrame();
+                display.setFrame(frame);
             }
 
         }
