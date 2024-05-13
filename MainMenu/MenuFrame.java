@@ -13,7 +13,7 @@ import CS_Project_Profile.*;
 import FaceDiaryLoginIlbey.src.loginandsignup.*;
 
 public class MenuFrame extends JFrame {
-    private Profile profile;
+    public static Profile profile;
     private JLabel month;
     private JPanel monthpanel;
 
