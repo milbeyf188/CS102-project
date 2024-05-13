@@ -149,7 +149,7 @@ public class Text extends JPanel
 
             while (scan.hasNextLine())
             {
-                if (scan.nextLine().equals(profile.getName()))
+                if (scan.nextLine().equals(friend))
                 {
                     hasGiven = true;
                     break;
@@ -185,7 +185,7 @@ public class Text extends JPanel
         {
             giveAccess(people.get(i));
 
-            Text friendText = new Text(date[0], date[1], date[2], new Controller().getProfilebyName());
+            Text friendText = new Text(date[0], date[1], date[2], new Controller().getProfileByName(people.get(i)));
 
             friendText.giveAccess(profile.getName());
             friendText.makeGroup();
