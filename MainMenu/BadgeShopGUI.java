@@ -110,14 +110,15 @@ public class BadgeShopGUI extends JFrame {
             JLabel moneyLabel = new JLabel(scaledMoneyIcon);
             JButton priceButton = new JButton("$" + badgePrice);
 
-            for (int l = 1; l < cont.getBadgesArrayById(profile.getID()).length; l++) {
-                if (cont.getBadgesArrayById(profile.getID())[l]) {
-                    priceButton.setVisible(false);
-                    moneyLabel.setIcon(null);
-                    moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
-                    moneyLabel.setText("Bought");
-                }
+   
+            if (cont.getBadgesArrayById(profile.getID())[m]) 
+            {
+                priceButton.setVisible(false);
+                moneyLabel.setIcon(null);
+                moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
+                moneyLabel.setText("Bought");
             }
+
             priceButton.setForeground(Color.WHITE);
             priceButton.setBackground(Color.BLACK);
             priceButton.setFont(new Font("Arial", Font.BOLD, 20));
