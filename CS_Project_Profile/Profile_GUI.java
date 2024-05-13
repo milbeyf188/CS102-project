@@ -1,5 +1,6 @@
 package CS_Project_Profile;
 
+import FaceDiaryLoginIlbey.src.loginandsignup.Controller;
 //import FaceDiaryLoginIlbey.*;
 import FaceDiaryLoginIlbey.src.loginandsignup.FDController;
 
@@ -18,9 +19,15 @@ import java.util.ArrayList;
 
 public class Profile_GUI extends JFrame {
     protected Color backgroundColor = new Color(8, 32, 45);
+    protected Color lightblue = new Color(62, 128, 168);
+    protected Font buttonfont = new Font("Messi", 0, 20);
     private JPanel badgesPanel;
     private Profile profile;
-    FDController cont = new FDController();
+    private JLabel streakLabel;
+    Controller cont = new Controller();
+    private String[] arr;
+    private int lastday;
+    
 
     // public boolean friendOrUser = true;
     // Controller cont = new Controller();
@@ -29,9 +36,11 @@ public class Profile_GUI extends JFrame {
     // String userName = cont.getNameById(UserID?);
     // int streak = cont.getUserStreakById(/*UserID?);
 
-    public Profile_GUI(boolean friendOrUser, Profile profile, JFrame Menuframe) {
+    public Profile_GUI(boolean friendOrUser, Profile profile, JFrame Menuframe,int userid) {
 
         this.profile = profile;
+        arr = cont.getSharedDaysArray(userid, profile.getID());
+        lastday = arr.length-1;
         setTitle("Profile");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
@@ -102,17 +111,30 @@ public class Profile_GUI extends JFrame {
         add(NamePanel);
 
         // 3. satır: Ateş image'i ve Streak yazısı
+        if(!friendOrUser)
+        {
         JPanel panel = new JPanel(new GridLayout(1, 3));
         JPanel panel4 = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        c.anchor = GridBagConstraints.CENTER;
+        c.gridy = 2;
         ButtonPanel buttonPanel = new ButtonPanel();
         panel4.setBackground(backgroundColor);
         panel4.add(buttonPanel,c);
+        JLabel label = new JLabel("Use these button to access " + profile.getName() +  "'s diaries.");
+        label.setVerticalAlignment(SwingConstants.TOP);
+        label.setBackground(lightblue);
+        label.setForeground(Color.WHITE);
+        label.setFont(buttonfont);
+        c.gridy = 0;
+        JPanel panel5 = new JPanel(new GridLayout(2, 1));
+        panel5.add(label);
+        panel5.setBackground(backgroundColor);
+        panel4.add(panel5,c);
         panel.add(panel4);
+        
         JPanel streakPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         streakPanel.setBackground(backgroundColor);
-        JLabel streakLabel = new JLabel("Streak: " + profile.getStreak());
+        streakLabel = new JLabel("Streak: " + profile.getStreak());
         streakLabel.setForeground(Color.WHITE);
         streakLabel.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 5 * streakLabel.getFont().getSize())); // Yazı
                                                                                                                 // büyüklüğünü
@@ -122,11 +144,29 @@ public class Profile_GUI extends JFrame {
         JLabel fireLabel = new JLabel(fireIcon);
         streakPanel.add(fireLabel);
         streakPanel.add(streakLabel);
-        panel.add(streakPanel);
         JPanel panel2 = new JPanel();
         panel2.setBackground(backgroundColor);
+        panel.add(streakPanel);
         panel.add(panel2);
         add(panel);
+        }
+        else
+        {
+        JPanel streakPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        streakPanel.setBackground(backgroundColor);
+        streakLabel = new JLabel("Streak: " + profile.getStreak());
+        streakLabel.setForeground(Color.WHITE);
+        streakLabel.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 5 * streakLabel.getFont().getSize())); // Yazı
+                                                                                                                // büyüklüğünü
+                                                                                                              // 5 kat
+                                                                                                                // artırır
+        ImageIcon fireIcon = new ImageIcon("/MainMenu/FireImage.png"); // Ateş image dosyasının yolunu belirtin
+        JLabel fireLabel = new JLabel(fireIcon);
+        streakPanel.add(fireLabel);
+        streakPanel.add(streakLabel);
+        add(streakPanel);
+        }
+        
 
         // 4. satır: Badges yazısı
         JLabel badgesLabel = new JLabel("Badges");
@@ -384,13 +424,58 @@ public class Profile_GUI extends JFrame {
     }
     class ButtonPanel extends JPanel
     {
+        private JButton textButton;
         public ButtonPanel()
         {
             setLayout(new GridLayout(1, 3));
-            add(new JButton("Prev day"));
-            add(new JButton("Text"));
-            add(new JButton("Next day"));
+            JButton prevButton = new JButton("Prev day");
+            prevButton.addActionListener(new Listener1());
+            add(prevButton);
+            textButton = new JButton(arr[lastday]);
+            textButton.addActionListener(new Listener2());
+            add(textButton);
+            JButton nexButton = new JButton("next day");
+            nexButton.addActionListener(new Listener3());
+            add(nexButton);
 
+        }
+        class Listener1 implements ActionListener//Action listener for prev button
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                if(lastday-1 >= 0)
+                {
+                    lastday--;
+                }
+                else
+                {
+                    lastday = arr.length-1;
+                }
+                textButton.setText(arr[lastday]);
+            }
+        }
+        class Listener2 implements ActionListener//Action listener for textbutton
+        {
+            public void actionPerformed(ActionEvent e) {
+                String displayedday = arr[lastday];
+                Text display = new Text(displayedday, profile);
+            }
+
+        }
+        class Listener3 implements ActionListener//action listener for next method;
+        {
+
+            public void actionPerformed(ActionEvent e) {
+                if(lastday + 1 < arr.length)
+                {
+                    lastday++;
+                }
+                else{
+                    lastday = 0;
+                }
+                textButton.setText(arr[lastday]);
+            }
+            
         }
     }
 

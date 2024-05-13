@@ -26,6 +26,7 @@ public class Test
         //con.shareDay(11, 3, "2021_02_09");
         //System.out.println(con.getSharedDaysArray(3,11));
         con.setUserPoints(6,1000);
+        con.setUserPoints(5, 100);
 
         
     }
