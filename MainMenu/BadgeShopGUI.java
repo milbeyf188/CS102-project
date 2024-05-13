@@ -48,7 +48,7 @@ public class BadgeShopGUI extends JFrame {
         backButton.setOpaque(true);
         backButton.setPreferredSize(new Dimension(50, 50));
         backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {//BURASI DÜZELECEK
                 setVisible(false);
                 menuFrame.setVisible(true);
             }

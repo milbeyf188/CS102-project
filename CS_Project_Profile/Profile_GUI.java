@@ -102,19 +102,31 @@ public class Profile_GUI extends JFrame {
         add(NamePanel);
 
         // 3. satır: Ateş image'i ve Streak yazısı
+        JPanel panel = new JPanel(new GridLayout(1, 3));
+        JPanel panel4 = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.CENTER;
+        ButtonPanel buttonPanel = new ButtonPanel();
+        panel4.setBackground(backgroundColor);
+        panel4.add(buttonPanel,c);
+        panel.add(panel4);
         JPanel streakPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         streakPanel.setBackground(backgroundColor);
         JLabel streakLabel = new JLabel("Streak: " + profile.getStreak());
         streakLabel.setForeground(Color.WHITE);
         streakLabel.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 5 * streakLabel.getFont().getSize())); // Yazı
                                                                                                                 // büyüklüğünü
-                                                                                                                // 5 kat
+                                                                                                              // 5 kat
                                                                                                                 // artırır
         ImageIcon fireIcon = new ImageIcon("/MainMenu/FireImage.png"); // Ateş image dosyasının yolunu belirtin
         JLabel fireLabel = new JLabel(fireIcon);
         streakPanel.add(fireLabel);
         streakPanel.add(streakLabel);
-        add(streakPanel);
+        panel.add(streakPanel);
+        JPanel panel2 = new JPanel();
+        panel2.setBackground(backgroundColor);
+        panel.add(panel2);
+        add(panel);
 
         // 4. satır: Badges yazısı
         JLabel badgesLabel = new JLabel("Badges");
@@ -149,8 +161,8 @@ public class Profile_GUI extends JFrame {
             JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             badgesPanel.setBackground(backgroundColor);
 
-            ArrayList<Badge> sortedBadgeList = bubbleSort(BadgeShopGUI.badgeList);
-            displayBadgeList(sortedBadgeList);
+            //ArrayList<Badge> sortedBadgeList = bubbleSort(BadgeShopGUI.badgeList);
+            //displayBadgeList(sortedBadgeList);
 
             /*
              * ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image
@@ -257,8 +269,7 @@ public class Profile_GUI extends JFrame {
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN,
                     5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
             JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            Mainpanel2.setBackground(backgroundColor);
-            Mainpanel2.add(statusMessageTextBox);
+            //Mainpanel2.setBackground(b3);
             statusPanel.add(Mainpanel2);
 
             // Burada Yeni statusu kaydetmemiz lazım
@@ -371,4 +382,17 @@ public class Profile_GUI extends JFrame {
         newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
+    class ButtonPanel extends JPanel
+    {
+        public ButtonPanel()
+        {
+            setLayout(new GridLayout(1, 3));
+            add(new JButton("Prev day"));
+            add(new JButton("Text"));
+            add(new JButton("Next day"));
+
+        }
+    }
+
+
 }
