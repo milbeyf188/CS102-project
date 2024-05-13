@@ -172,14 +172,14 @@ public class Profile_GUI extends JFrame {
         
 
         // 4. satır: Badges yazısı
-        JLabel badgesLabel = new JLabel("Badges");
+       JLabel badgesLabel = new JLabel("Badges");
 
         badgesLabel.setHorizontalAlignment(JLabel.CENTER); // Badges yazısını ortalar
         badgesLabel.setFont(badgesLabel.getFont().deriveFont(Font.PLAIN, 5 * badgesLabel.getFont().getSize())); // 5 kat
         badgesLabel.setForeground(Color.WHITE);
         add(badgesLabel);
 
-        boolean[] badges = cont.getBadgesArrayById(profile.getID());
+        boolean[] badges = cont.getBadgesArrayById(userid);
         String[] badgeFilenames = {
                 "",
                 "/MainMenu/Badge PNGs/Bronze1.png",
@@ -200,6 +200,7 @@ public class Profile_GUI extends JFrame {
         };
 
         badgesPanel = new JPanel();
+        badgesPanel.setBackground(backgroundColor);
 
         int counter = 0;
         ArrayList<Integer> results = new ArrayList<Integer>();
@@ -211,12 +212,12 @@ public class Profile_GUI extends JFrame {
         }
         if (counter <= 3 && counter > 0) {
             badgesPanel.setLayout(new GridLayout(1, counter));
-            badgesPanel.setBackground(backgroundColor);
+            badgesPanel.setPreferredSize(new Dimension(420, 140));
             ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
             for (int j = 0; j < counter; j++) {
                 ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(j)]));
-                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 120, Image.SCALE_SMOOTH);
+                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
                 ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
                 badgesPanel.add(new JLabel(scaledBadgeIcon));
             }
@@ -224,19 +225,18 @@ public class Profile_GUI extends JFrame {
 
         else if (counter > 3) {
             badgesPanel.setLayout(new GridLayout(1, 3));
-            badgesPanel.setBackground(backgroundColor);
+            badgesPanel.setPreferredSize(new Dimension(140,420));
             ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
             for (int k = 0; k < 3; k++) {
                 ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(k)]));
-                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 120, Image.SCALE_SMOOTH);
+                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
                 ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
                 badgesPanel.add(new JLabel(scaledBadgeIcon));
             }
         }
 
         add(badgesPanel);
-
         /*
          * private void createNewPanel()
          * {
