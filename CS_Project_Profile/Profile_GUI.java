@@ -381,7 +381,7 @@ public class Profile_GUI extends JFrame {
 
         // "Save" butonu ekleniyor
         JButton saveButton = new JButton("Save");
-        saveButton.setBackground(new Color(0, 255, 0)); // Butonun arka plan rengi yeşil olarak ayarlanıyor
+        saveButton.setBackground(new Color(0, 255, 0)); // Butonun arka plan rengi yeşil olarak ayarlanıyorR
 
         saveButton.addActionListener(new ActionListener() { // Butona basıldığında ne yapılacağını tanımlayan
                                                             // ActionListener
