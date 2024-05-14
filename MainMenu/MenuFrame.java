@@ -338,15 +338,17 @@ public class MenuFrame extends JFrame {
             setLayout(new GridLayout(7, 1));
 
             FriendButton button4 = new FriendButton(profile.getName(), profile.getID(), true);
-            button4.setBackground(Color.GREEN);
+            button4.setBackground(lightblue);
             button4.setPreferredSize(new Dimension(75, 25));
             button4.setFont(buttonfont);
             add(button4);// button to return our profile
             JPanel panel = new JPanel(new GridLayout(1, 2));
+            panel.setBackground(new Color(235,200,178));
             searchfriend = new JTextField(30);
             panel.add(searchfriend);
             add(panel);
             JPanel panel5 = new JPanel(new GridBagLayout());
+            panel5.setBackground(new Color(235,200,178));
             GridBagConstraints con1 = new GridBagConstraints();
             con1.anchor = GridBagConstraints.CENTER;
             button1 = new JButton("Search Friend");//button for searching friend
@@ -356,6 +358,7 @@ public class MenuFrame extends JFrame {
 
             friendPanel2 = new FriendPanel2();
             scrollPane2 = new JScrollPane(friendPanel2);// searching among friends
+            scrollPane2.setBackground(new Color(235,200,178));
             scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             add(scrollPane2);
             add(panel5);
@@ -373,11 +376,14 @@ public class MenuFrame extends JFrame {
             Listener3 listener3 = new Listener3();
             button3.addActionListener(listener3);
             JPanel panel4 = new JPanel(new GridBagLayout());
+            panel4.setBackground(new Color(235,200,178));
             GridBagConstraints a = new GridBagConstraints();
             a.anchor = GridBagConstraints.CENTER;
             panel2.add(button3, a);
             resultpanel = new ResultPanel();// result area for adding friends
+            resultpanel.setBackground(new Color(235,200,178));
             scrollPane = new JScrollPane();
+            scrollPane.setBackground(new Color(235,200,178));
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             add(scrollPane);
             add(panel4);
@@ -464,7 +470,7 @@ public class MenuFrame extends JFrame {
             super(name);
             this.ID = ID;
             addActionListener(this);
-            setBackground(Color.PINK);
+            setBackground(lightblue);
         }
 
         public void actionPerformed(ActionEvent event)// action listener for adding friends with ıd giver
@@ -495,7 +501,7 @@ public class MenuFrame extends JFrame {
             this.ID = id;
             this.isuser = isuser;
             addActionListener(this);
-            setBackground(Color.PINK);
+            setBackground(lightblue);
         }
 
         public void actionPerformed(ActionEvent e) {// yiğitin profil guisine gidecek
@@ -517,6 +523,7 @@ public class MenuFrame extends JFrame {
 
         public void printusers() {
             displayframe = frame;
+            setBackground(new Color(235,200,178));
             setLayout(new GridLayout(0, 1));
             if (results.size() == 0) {
                 JOptionPane.showMessageDialog(displayframe, "You haven't got such friend!");
@@ -565,6 +572,7 @@ public class MenuFrame extends JFrame {
         public PopUp(JFrame parent) {
             super(parent, "Remove Friend", true);
             JPanel panel = new JPanel(new GridLayout(4, 1));
+            panel.setBackground(new Color(235,200,178));
             searcharea = new JTextField(20);
             panel.add(searcharea);
             JPanel panel2 = new JPanel(new GridBagLayout());
