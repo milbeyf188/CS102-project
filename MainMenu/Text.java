@@ -322,10 +322,10 @@ public class Text extends JPanel
         {
             StyledDocument doc = textArea.getStyledDocument();
             Style style = textArea.addStyle("", null);
-            StyleConstants.setForeground(style, new Color((int)(Math.random() * 160 + 40), (int)(Math.random() * 160 + 40), (int)(Math.random() * 160 + 40)));
 
             for(int i = 0; i < people.size(); i++)
             {
+                StyleConstants.setForeground(style, new Color((int)(Math.random() * 160 + 40), (int)(Math.random() * 160 + 40), (int)(Math.random() * 160 + 40)));
 
                 try{
                         Scanner accessScanner = new Scanner(new File(MenuFrame.pathString + "\\" +
