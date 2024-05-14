@@ -309,6 +309,12 @@ public class Profile_GUI extends JFrame {
             JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
             //Mainpanel2.setBackground(b3);
 
+
+            int textWidth = 200; // İstenen genişlik
+            int textHeight = statusMessageTextBox.getHeight(); // Mevcut yükseklik
+            Dimension textFieldSize = new Dimension(textWidth, textHeight);
+            statusMessageTextBox.setPreferredSize(textFieldSize);
+
             Mainpanel2.add(statusMessageTextBox);
             
             statusPanel.add(Mainpanel2);
