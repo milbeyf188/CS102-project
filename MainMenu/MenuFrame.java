@@ -131,7 +131,7 @@ public class MenuFrame extends JFrame {
             add(badgesPanel);
             MoneyPanel moneyPanel = new MoneyPanel();
             
-            moneyPanel.setBounds(460, 150, 200, 200);
+            moneyPanel.setBounds(510, 200, 80, 100);
             add(moneyPanel);
             RoundedButton button = new RoundedButton(300, 75, "Badge Shop", null);
             button.addActionListener(new Listener8());
@@ -259,6 +259,7 @@ public class MenuFrame extends JFrame {
             ImageIcon moneyimage= new ImageIcon(getClass().getResource("/MainMenu/MoneyIcon.png"));
             Image scaledMoneyImage = moneyimage.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             ImageIcon scaledBadgeIcon = new ImageIcon(scaledMoneyImage);
+            setBackground(backgroundColor);
             setLayout(new GridLayout(2, 1));
             JLabel label = new JLabel(scaledBadgeIcon);
             label.setHorizontalAlignment(SwingConstants.CENTER);
