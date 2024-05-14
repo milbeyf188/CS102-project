@@ -190,7 +190,7 @@ public class Profile_GUI extends JFrame {
         //Profile biz userId arkadaş
         //friendOrUser
 
-        if(friendOrUser)
+        if(!friendOrUser)
         {
             boolean[] badges = cont.getBadgesArrayById(profile.getID());
             String[] badgeFilenames = {
