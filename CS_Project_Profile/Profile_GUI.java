@@ -34,7 +34,7 @@ public class Profile_GUI extends JFrame {
     private String[] arr;
     private int lastday;
     private JFrame frame1 = this;
-    JTextArea statusMessageTextBox;
+    JTextField statusMessageTextBox;
     // public boolean friendOrUser = true;
     // Controller cont = new Controller();
 
@@ -81,7 +81,8 @@ public class Profile_GUI extends JFrame {
 
         JPanel Mainpanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         Mainpanel.setBackground(backgroundColor);
-        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Geri tuşunu sola hizalar
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        backButtonPanel.setBackground(backgroundColor);// Geri tuşunu sola hizalar
         // backButton.setBackground(new Color(0, 0, 102));
 
         if (friendOrUser == true) {
@@ -299,27 +300,22 @@ public class Profile_GUI extends JFrame {
         statusPanel.add(label1);
         if (friendOrUser == false) // arkadaşın profiline giriyorsak
         {
-            JLabel label2 = new JLabel(cont.getStatue(userid));
+            JLabel label2 = new JLabel(cont.getStatue(profile.getID()));
             label2.setForeground(Color.WHITE); // Yazı rengini beyaz yapıyoruz
-            label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
+            label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, streakLabel.getFont().getSize()));
             label2.setHorizontalAlignment(JLabel.CENTER); // Metni ortala
             statusPanel.add(label2);
         } else // kendi profilimize giriyoruz yani statusu güncelleyebiliyoruz
         {
-            statusMessageTextBox = new JTextArea(cont.getStatue(userid));
-            //statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
+            statusMessageTextBox = new JTextField(cont.getStatue(userid));
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN,
                     5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
-            //Mainpanel2.setBackground(b3);
-
-/*            int textWidth = 200; // İstenen genişlik
-            int textHeight = statusMessageTextBox.getHeight(); // Mevcut yükseklik
-            Dimension textFieldSize = new Dimension(textWidth, textHeight);*/
-            //statusMessageTextBox.setPreferredSize(textFieldSize);
+            statusMessageTextBox.setBackground(MenuFrame.backgroundColor);
+            statusMessageTextBox.setForeground(Color.WHITE);
             statusMessageTextBox.getDocument().addDocumentListener(new TextListener());
+            statusMessageTextBox.setHorizontalAlignment(SwingConstants.CENTER);
+            statusMessageTextBox.setBorder(null);
             statusPanel.add(statusMessageTextBox);
-
-            // Burada Yeni statusu kaydetmemiz lazım
 
         }
 
