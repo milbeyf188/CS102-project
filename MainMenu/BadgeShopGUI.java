@@ -13,7 +13,7 @@ public class BadgeShopGUI extends JFrame {
     private JButton backButton;
     private JPanel badgePanel;
     private JTextField moneyTextField;
-    public ArrayList<Integer> badgePriceList = new ArrayList<Integer>();
+    public static ArrayList<Integer> badgePriceList = new ArrayList<Integer>();
     public static MenuFrame menuFrame;
     static Profile profile;
     private static Controller cont = new Controller();
@@ -48,7 +48,7 @@ public class BadgeShopGUI extends JFrame {
         backButton.setOpaque(true);
         backButton.setPreferredSize(new Dimension(50, 50));
         backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {//BURASI DÜZELECEK
+            public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 menuFrame.setVisible(false);// Bunu denemek için koydum
                 new MenuFrame(profile);
@@ -107,12 +107,16 @@ public class BadgeShopGUI extends JFrame {
             int badgePrice = m * 10;
 
             JLabel moneyLabel = new JLabel(scaledMoneyIcon);
+            JButton priceButton = new JButton("$" + badgePrice);
+
             for (int l = 0; l < badgePriceList.size(); l++) {
                 if (badgePriceList.get(l) == badgePrice) {
+                    priceButton.setVisible(false);
+                    moneyLabel.setIcon(null);
+                    moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
                     moneyLabel.setText("Bought");
                 }
             }
-            JButton priceButton = new JButton("$" + badgePrice);
             priceButton.setForeground(Color.WHITE);
             priceButton.setBackground(Color.BLACK);
             priceButton.setFont(new Font("Arial", Font.BOLD, 20));
@@ -172,8 +176,7 @@ public class BadgeShopGUI extends JFrame {
             moneyTextField.setText("Remaining Money: " + remainingMoney);
             return true;
         } else {
-            JOptionPane.showMessageDialog(this, "You don't have enough money to buy this badge!", "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "You don't have enough money to buy this badge!", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
