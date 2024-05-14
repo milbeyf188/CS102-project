@@ -572,7 +572,7 @@ public class Controller
     
     public String[] getSharedDaysArray(int userID, int friendID)
     {
-        String sharedDays = null;
+        String sharedDays = "";
         try (Connection con = DriverManager.getConnection(url, userName, password)) 
         {
             String query = "SELECT SharedDays FROM friends WHERE UserID = ? AND FriendID = ?";
@@ -590,7 +590,7 @@ public class Controller
             System.out.println("Error retrieving shared days: " + e.getMessage());
         }
 
-        return sharedDays.split("/");
+        return sharedDays != null? sharedDays.split("/"): null;
     }
 
     public String getLastDay(int userId) 

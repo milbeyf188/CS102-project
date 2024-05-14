@@ -681,7 +681,7 @@ public class MenuFrame extends JFrame {
 
         class ButtonListener extends JButton implements ActionListener {
             ButtonListener() {
-                super("give access");
+                super("Make Group");
                 this.addActionListener(this);
             }
 

@@ -2,11 +2,12 @@ package MainMenu;
 
 import CS_Project_Profile.Profile;
 import FaceDiaryLoginIlbey.src.loginandsignup.Controller;
-import FaceDiaryLoginIlbey.src.loginandsignup.FDController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -22,15 +23,22 @@ public class Text extends JPanel
 {
     private ArrayList<String> text = new ArrayList<String>();
     private ArrayList<String> people = new ArrayList<String>();
+
     private File textFile;
     private File accessedPeopleFile;
+
     private boolean changeable;
-    private JTextPane textArea;
     private int[] date = new int[3];
-    private JFrame frame;
     private boolean isSpecial;
     private boolean isGroup;
     private Profile profile;
+
+    private JFrame frame;
+    private JTextPane textArea;
+    private JScrollPane textPanel;
+    private JButton backButton;
+    private JButton saveButton;
+    private JButton accessButton;
 
     public Text(int year, int month, int day, Profile profile)
     {
@@ -92,13 +100,19 @@ public class Text extends JPanel
 
         textArea = new JTextPane();
         textArea.setText(getText());
-        textArea.setPreferredSize(new Dimension(800,600));
         textArea.setEditable(setChangeable());
-        JScrollPane scrollbar = new JScrollPane(textArea);
-        add(scrollbar);
-        add(new buttonListener());
-        add(new specialButtonListener());
-        add(new accessButton());
+        textPanel = new JScrollPane(textArea);
+
+        this.setLayout(null);
+
+        backButton = new BackButtonListener();
+        saveButton = new SaveButtonListener();
+        accessButton = new accessButton();
+
+        add(backButton);
+        add(textPanel);
+        add(saveButton);
+        add(accessButton);
     }
 
     public Text(String date, Profile profile)
@@ -212,8 +226,9 @@ public class Text extends JPanel
     {
         this.frame  = frame;
         frame.add(this);
+        frame.addComponentListener(new resizeListener(this));
         frame.setVisible(true);
-        frame.pack();
+        frame.setSize(new Dimension(1000,800));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -351,9 +366,9 @@ public class Text extends JPanel
         return Color.GRAY;
     }
 
-    class buttonListener extends JButton implements ActionListener
+    class SaveButtonListener extends JButton implements ActionListener
     {
-        public buttonListener()
+        public SaveButtonListener()
         {
             super("Save");
             super.setAlignmentY(BOTTOM_ALIGNMENT);
@@ -364,7 +379,7 @@ public class Text extends JPanel
         {
             setDayText(textArea.getText());
             MenuFrame.facediary.setVisible(true);
-    //        MenuFrame.facediary.getDiary().updateColor();
+            MenuFrame.facediary.getDiary().updateCalendar();
             frame.dispose();
         }
     }
@@ -373,13 +388,13 @@ public class Text extends JPanel
     {
         public specialButtonListener()
         {
-            super(isSpecial ? "Unmake It Special": "Make It Special");
+            super(isSpecial ? "Undo marking": "Mark as a special day");
             super.addActionListener(this);            
         }
 
         public void actionPerformed(ActionEvent e)
         {
-            super.setText(changeSpeciality() ? "Unmake It Special": "Make It Special");
+            super.setText(changeSpeciality() ? "Undo marking": "Mark as a special day");
         }
     }
 
@@ -393,6 +408,7 @@ public class Text extends JPanel
             super.setAlignmentY(TOP_ALIGNMENT);
             super.addActionListener(this);
         }
+
 
         public void actionPerformed(ActionEvent e)
         {
@@ -415,6 +431,25 @@ public class Text extends JPanel
 
                 frame = new checkBoxFrame(friends,this,new Dimension(100,100));
                 frame.getPopUp().show();
+            }
+        }
+    }
+
+    class BackButtonListener extends JButton implements  ActionListener
+    {
+        BackButtonListener()
+        {
+            super("<--");
+            addActionListener(this);
+            super.setBackground(Color.RED);
+        }
+
+        public void  actionPerformed(ActionEvent e)
+        {
+            if(JOptionPane.showConfirmDialog(this, "Are you sure you don't want to save") == 0)
+            {
+                MenuFrame.facediary.setVisible(true);
+                frame.dispose();
             }
         }
     }
@@ -442,6 +477,7 @@ public class Text extends JPanel
             panel.setLayout(new GridLayout(0,1));
             scrollPane = new JScrollPane(panel);
             bigPanel.add(scrollPane);
+            bigPanel.add(new specialButtonListener());
             checkBoxSetUp(strings);
             panel.add(new ButtonListener());
         }
@@ -496,5 +532,39 @@ public class Text extends JPanel
                 getPopUp().hide();
             }
         }
+    }
+
+    class resizeListener implements ComponentListener
+    {
+
+        JPanel text;
+
+        resizeListener(JPanel panel)
+        {
+            text = panel;
+        }
+
+        public void componentResized(ComponentEvent e)
+        {
+            text.setBounds(0,0,frame.getWidth(),frame.getHeight());
+            backButton.setBounds(0,0,100,25);
+            saveButton.setBounds(text.getWidth() - 110, text.getHeight() - 80,100,50);
+            textPanel.setBounds(0,25, text.getWidth(), text.getHeight() - 100);
+            accessButton.setBounds(text.getWidth() - 80 ,0,70,25);
+        }
+
+        @Override
+        public void componentMoved(ComponentEvent e) {}
+        @Override
+        public void componentShown(ComponentEvent e)
+        {
+            text.setBounds(0,0,frame.getWidth(),frame.getHeight());
+            backButton.setBounds(0,0,100,25);
+            saveButton.setBounds(text.getWidth() - 110, text.getHeight() - 80,100,50);
+            textPanel.setBounds(0,25, text.getWidth(), text.getHeight() - 100);
+            accessButton.setBounds(text.getWidth() - 80 ,0,70,25);
+        }
+        @Override
+        public void componentHidden(ComponentEvent e) {}
     }
 }
