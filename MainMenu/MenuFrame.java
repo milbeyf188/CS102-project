@@ -130,7 +130,7 @@ public class MenuFrame extends JFrame {
             add(badgesPanel);
             MoneyPanel moneyPanel = new MoneyPanel();
             
-            moneyPanel.setBounds(420, 170, 200, 200);
+            moneyPanel.setBounds(460, 150, 200, 200);
             add(moneyPanel);
             RoundedButton button = new RoundedButton(300, 75, "Badge Shop", null);
             button.addActionListener(new Listener8());
@@ -321,7 +321,8 @@ public class MenuFrame extends JFrame {
 
             g.setFont(f);
             g.setColor(Color.DARK_GRAY);
-            g.drawString(String.valueOf(profile.getStreak()), 20, 58);
+            String streak = String.valueOf(profile.getStreak());
+            g.drawString(streak, 35 - streak.length() * 5, 58);
         }
     }
 
