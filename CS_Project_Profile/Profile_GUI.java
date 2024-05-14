@@ -308,6 +308,9 @@ public class Profile_GUI extends JFrame {
                     5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
             JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
             //Mainpanel2.setBackground(b3);
+
+            Mainpanel2.add(statusMessageTextBox);
+            
             statusPanel.add(Mainpanel2);
 
             // Burada Yeni statusu kaydetmemiz lazım
