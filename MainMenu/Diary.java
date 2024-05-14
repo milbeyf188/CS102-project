@@ -3,8 +3,9 @@ package MainMenu;
 
 
 import CS_Project_Profile.Profile;
+import FaceDiaryLoginIlbey.src.loginandsignup.Controller;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -176,5 +177,22 @@ public class Diary extends JPanel
         }
 
         return daysOf;
+    }
+
+    public boolean addStreak()
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+
+        Calendar yesterDate = new GregorianCalendar(cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+
+        boolean streaking = !new Text(yesterDate.get(Calendar.DAY_OF_MONTH), yesterDate.get(Calendar.MONTH), yesterDate.get(Calendar.YEAR), profile).getColor().equals(Color.RED);
+
+        if(!streaking){return false;}
+
+        String yesterday = yesterDate.get(Calendar.YEAR) + "_" + yesterDate.get(Calendar.MONTH) + "_" + yesterDate.get(Calendar.DAY_OF_MONTH);
+
+        return !new Controller().getLastDay(profile.getID()).equals(yesterday);
     }
 }
