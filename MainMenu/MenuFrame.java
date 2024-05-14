@@ -33,7 +33,7 @@ public class MenuFrame extends JFrame {
     private MenuFrame frame = this;
 
     protected Color lightblue = new Color(62, 128, 168);
-    protected Color backgroundColor = new Color(8, 32, 45);
+    public static final Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
 
     public MenuFrame(Profile profile) {
@@ -72,14 +72,19 @@ public class MenuFrame extends JFrame {
             c.anchor = GridBagConstraints.NORTHWEST;
             JButton buttonprev = new JButton("Prev month");
             buttonprev.addActionListener(new Listener2());
+            buttonprev.setForeground(backgroundColor);
+            buttonprev.setBackground(Color.YELLOW);
             JButton buttonnext = new JButton("Next month");
             buttonnext.addActionListener(new Listener1());
+            buttonnext.setForeground(backgroundColor);
+            buttonnext.setBackground(Color.YELLOW);
             panel.add(buttonprev);
 
             monthpanel = new JPanel();
             monthpanel.setLayout(new BorderLayout());
+            monthpanel.setBackground(MenuFrame.backgroundColor);
             month = new JLabel(diary.getMonth() + " / " + diary.getYear(), (int) JLabel.CENTER_ALIGNMENT);
-
+            month.setForeground(Color.WHITE);
             monthpanel.add(month, BorderLayout.CENTER);
             panel.add(monthpanel);// Month will be displayed
             panel.add(buttonnext);
@@ -117,7 +122,7 @@ public class MenuFrame extends JFrame {
             button4.setBounds(600, 600, 300, 75);
             add(button4);
             StreakPanel streakPanel = new StreakPanel();
-            streakPanel.setBounds(600, 0, 200, 100);
+            streakPanel.setBounds(400, 0, 200, 100);
             //streakPanel.setPreferredSize(new Dimension(200, 100));
 
             c.anchor = GridBagConstraints.NORTH;
@@ -267,11 +272,12 @@ public class MenuFrame extends JFrame {
             Image scaledfireImage = fireimage.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
             ImageIcon scaledfireicon = new ImageIcon(scaledfireImage);
             Graphics2D g2d = (Graphics2D) g;
-            scaledfireicon.paintIcon(this, g2d, 20,20 );
-            Font f = buttonfont.deriveFont(50);
+            scaledfireicon.paintIcon(this, g2d, 0,0 );
+            Font f = new Font("Courier", Font.BOLD | Font.ITALIC ,30);
+
             g.setFont(f);
-            g.setColor(Color.WHITE);
-            g.drawString(String.valueOf(profile.getStreak()), 100, 50);
+            g.setColor(Color.DARK_GRAY);
+            g.drawString(String.valueOf(profile.getStreak()), 20, 58);
         }
     }
 

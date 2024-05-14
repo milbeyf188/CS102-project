@@ -39,7 +39,8 @@ public class Diary extends JPanel
         textFolder.mkdirs();
         this.frame = frame;
 
-        this.setLayout(new GridLayout(6,7));
+        this.setLayout(new GridLayout(7,7));
+        this.setBackground(MenuFrame.backgroundColor);
 
         showMonth(currentDate.get(Calendar.MONTH), currentDate.get(Calendar.YEAR));
     }
@@ -82,13 +83,26 @@ public class Diary extends JPanel
         for(int i = 0; i < Calendar.DAY_OF_WEEK; i++) 
         {
             JLabel dayLabel = new JLabel(DAYS[i], (int)JLabel.CENTER_ALIGNMENT);
+            dayLabel.setForeground(Color.WHITE);
             dayLabel.setSize(10, 100);
             add(dayLabel);
         }
 
+        if(timeToShow.get(Calendar.DAY_OF_WEEK) == 1)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                JPanel panel = new JPanel();
+                panel.setBackground(MenuFrame.backgroundColor);
+                add(panel);
+            }
+        }
+
         for(int i = 2; i < timeToShow.get(Calendar.DAY_OF_WEEK); i++) 
         {
-            add(new JPanel());
+            JPanel panel = new JPanel();
+            panel.setBackground(MenuFrame.backgroundColor);
+            add(panel);
         }
 
         for(int i = 1; i < timeToShow.getActualMaximum(Calendar.DAY_OF_MONTH) + 1; i++)
@@ -98,9 +112,11 @@ public class Diary extends JPanel
             add(button);
         }
 
-        for(int i = 0; i < 35 - timeToShow.getActualMaximum(Calendar.DAY_OF_MONTH) - timeToShow.get(Calendar.DAY_OF_WEEK); i++ )
+        for(int i = 0; i < 42 - timeToShow.getActualMaximum(Calendar.DAY_OF_MONTH) - (timeToShow.get(Calendar.DAY_OF_WEEK) != 1? timeToShow.get(Calendar.DAY_OF_WEEK): 6); i++ )
         {
-            add(new JPanel());
+            JPanel panel = new JPanel();
+            panel.setBackground(MenuFrame.backgroundColor);
+            add(panel);
         }
     }
 

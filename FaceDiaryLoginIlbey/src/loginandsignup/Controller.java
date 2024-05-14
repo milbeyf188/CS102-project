@@ -597,7 +597,7 @@ public class Controller
 
                                 int i;
 
-                                for (i = a.length - 1; i >= 0; i--)
+                                for (i = a.length - 1; i >= 1; i--)
                                 {
                                     if (shared <= Long.parseLong(a[i].replace("_", "")))
                                     {
