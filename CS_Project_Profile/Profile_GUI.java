@@ -187,8 +187,13 @@ public class Profile_GUI extends JFrame {
         badgesLabel.setForeground(Color.WHITE);
         add(badgesLabel);
 
-        boolean[] badges = cont.getBadgesArrayById(userid);
-        String[] badgeFilenames = {
+        //Profile biz userId arkadaş
+        //friendOrUser
+
+        if(!friendOrUser)
+        {
+            boolean[] badges = cont.getBadgesArrayById(profile.getID());
+            String[] badgeFilenames = {
                 "",
                 "/MainMenu/Badge PNGs/Bronze1.png",
                 "/MainMenu/Badge PNGs/Bronze2.png",
@@ -205,46 +210,111 @@ public class Profile_GUI extends JFrame {
                 "/MainMenu/Badge PNGs/Immortal1.png",
                 "/MainMenu/Badge PNGs/Immortal2.png",
                 "/MainMenu/Badge PNGs/Immortal3.png"
-        };
+            };
 
-        badgesPanel = new JPanel();
-        badgesPanel.setBackground(backgroundColor);
+            badgesPanel = new JPanel();
+            badgesPanel.setBackground(backgroundColor);
 
-        int counter = 0;
-        ArrayList<Integer> results = new ArrayList<Integer>();
-        for (int i = badges.length - 1; i > 0; i--) {
-            if (badges[i]) {
-                counter++;
-                results.add(i);
+            int counter = 0;
+            ArrayList<Integer> results = new ArrayList<Integer>();
+            for (int i = badges.length - 1; i > 0; i--) {
+                if (badges[i]) {
+                    counter++;
+                    results.add(i);
+                }
             }
-        }
-        if (counter <= 3 && counter > 0) {
-            badgesPanel.setLayout(new GridLayout(1, counter));
-            badgesPanel.setPreferredSize(new Dimension(420, 140));
-            ArrayList<JLabel> labels = new ArrayList<JLabel>();
+            if (counter <= 3 && counter > 0) {
+                badgesPanel.setLayout(new GridLayout(1, counter));
+                badgesPanel.setPreferredSize(new Dimension(420, 140));
+                ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
-            for (int j = 0; j < counter; j++) {
-                ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(j)]));
-                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
-                ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-                badgesPanel.add(new JLabel(scaledBadgeIcon));
+                for (int j = 0; j < counter; j++) {
+                    ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(j)]));
+                    Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
+                    ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+                    badgesPanel.add(new JLabel(scaledBadgeIcon));
+                }
             }
-        }
 
-        else if (counter > 3) {
-            badgesPanel.setLayout(new GridLayout(1, 3));
-            badgesPanel.setPreferredSize(new Dimension(140,420));
-            ArrayList<JLabel> labels = new ArrayList<JLabel>();
+            else if (counter > 3) {
+                badgesPanel.setLayout(new GridLayout(1, 3));
+                badgesPanel.setPreferredSize(new Dimension(140,420));
+                ArrayList<JLabel> labels = new ArrayList<JLabel>();
 
-            for (int k = 0; k < 3; k++) {
-                ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(k)]));
-                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
-                ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-                badgesPanel.add(new JLabel(scaledBadgeIcon));
+                for (int k = 0; k < 3; k++) {
+                    ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(k)]));
+                    Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
+                    ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+                    badgesPanel.add(new JLabel(scaledBadgeIcon));
+                }
             }
+
+            add(badgesPanel);
         }
 
-        add(badgesPanel);
+        else 
+        {
+            boolean[] badges = cont.getBadgesArrayById(userid);
+            String[] badgeFilenames = {
+                "",
+                "/MainMenu/Badge PNGs/Bronze1.png",
+                "/MainMenu/Badge PNGs/Bronze2.png",
+                "/MainMenu/Badge PNGs/Bronze3.png",
+                "/MainMenu/Badge PNGs/Silver1.png",
+                "/MainMenu/Badge PNGs/Silver2.png",
+                "/MainMenu/Badge PNGs/Silver3.png",
+                "/MainMenu/Badge PNGs/Gold1.png",
+                "/MainMenu/Badge PNGs/Gold2.png",
+                "/MainMenu/Badge PNGs/Gold3.png",
+                "/MainMenu/Badge PNGs/Diamond1.png",
+                "/MainMenu/Badge PNGs/Diamond2.png",
+                "/MainMenu/Badge PNGs/Diamond3.png",
+                "/MainMenu/Badge PNGs/Immortal1.png",
+                "/MainMenu/Badge PNGs/Immortal2.png",
+                "/MainMenu/Badge PNGs/Immortal3.png"
+            };
+
+            badgesPanel = new JPanel();
+            badgesPanel.setBackground(backgroundColor);
+
+            int counter = 0;
+            ArrayList<Integer> results = new ArrayList<Integer>();
+            for (int i = badges.length - 1; i > 0; i--) {
+                if (badges[i]) {
+                    counter++;
+                    results.add(i);
+                }
+            }
+            if (counter <= 3 && counter > 0) {
+                badgesPanel.setLayout(new GridLayout(1, counter));
+                badgesPanel.setPreferredSize(new Dimension(420, 140));
+                ArrayList<JLabel> labels = new ArrayList<JLabel>();
+
+                for (int j = 0; j < counter; j++) {
+                    ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(j)]));
+                    Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
+                    ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+                    badgesPanel.add(new JLabel(scaledBadgeIcon));
+                }
+            }
+
+            else if (counter > 3) {
+                badgesPanel.setLayout(new GridLayout(1, 3));
+                badgesPanel.setPreferredSize(new Dimension(140,420));
+                ArrayList<JLabel> labels = new ArrayList<JLabel>();
+
+                for (int k = 0; k < 3; k++) {
+                    ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(k)]));
+                    Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
+                    ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+                    badgesPanel.add(new JLabel(scaledBadgeIcon));
+                }
+            }
+
+            add(badgesPanel);
+        }
+
+        
         /*
          * private void createNewPanel()
          * {
