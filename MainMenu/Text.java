@@ -47,6 +47,7 @@ public class Text extends JPanel
     private JButton backButton;
     private JButton saveButton;
     private JButton accessButton;
+    private JLabel dateLabel;
 
     public Text(int year, int month, int day, Profile profile)
     {
@@ -107,6 +108,8 @@ public class Text extends JPanel
         isSpecial = text.get(0).substring(0,1).equals("1");
         isGroup = text.get(0).substring(1).equals("1");
 
+        dateLabel = new JLabel( day + "/" + month + "/" + year);
+        dateLabel.setVerticalAlignment(SwingConstants.TOP);
         textArea = new JTextPane();
         textArea.setText(getText());
         textArea.setEditable(setChangeable());
@@ -125,6 +128,7 @@ public class Text extends JPanel
             add(accessButton);
         }
 
+        add(dateLabel);
         add(backButton);
         add(textPanel);
 
@@ -679,6 +683,7 @@ public class Text extends JPanel
             backButton.setBounds(0,0,100,25);
             saveButton.setBounds(text.getWidth() - 110, text.getHeight() - 80,100,50);
             textPanel.setBounds(0,25, text.getWidth(), text.getHeight() - 100);
+            dateLabel.setBounds(130,5,100,50);
 
             if(accessButton != null){
                 accessButton.setBounds(text.getWidth() - 80 ,0,70,25);
@@ -694,6 +699,7 @@ public class Text extends JPanel
             backButton.setBounds(0,0,100,25);
             saveButton.setBounds(text.getWidth() - 110, text.getHeight() - 80,100,50);
             textPanel.setBounds(0,25, text.getWidth(), text.getHeight() - 100);
+            dateLabel.setBounds(130,5,100,50);
 
             if(accessButton != null){
                 accessButton.setBounds(text.getWidth() - 80 ,0,70,25);
