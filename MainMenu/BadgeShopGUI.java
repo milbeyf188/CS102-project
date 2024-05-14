@@ -97,7 +97,7 @@ public class BadgeShopGUI extends JFrame {
             ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[i]));
             Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
             ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-            int badgePrice = i * 10;
+            int badgePrice = (int) Math.pow(i, 4);
             allBadges[i] = new Badge(badgePrice, scaledBadgeIcon);
         }
 
