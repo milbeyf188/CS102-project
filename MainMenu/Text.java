@@ -115,6 +115,7 @@ public class Text extends JPanel
         textArea.setEditable(setChangeable());
         textPanel = new JScrollPane(textArea);
 
+        setText(getText());
         setShownText();
 
         this.setLayout(null);
