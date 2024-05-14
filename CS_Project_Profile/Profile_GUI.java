@@ -282,7 +282,7 @@ public class Profile_GUI extends JFrame {
          */
 
         // 6. satır: Status textbox'u ve altındaki status message textbox'u
-        JPanel statusPanel = new JPanel(new GridLayout(3, 1));
+        JPanel statusPanel = new JPanel(new GridLayout(2, 1));
         statusPanel.setBackground(backgroundColor);
         JLabel label1 = new JLabel("Status");
         label1.setBackground(backgroundColor);
@@ -295,14 +295,14 @@ public class Profile_GUI extends JFrame {
         statusPanel.add(panel31);
         if (friendOrUser == false) // arkadaşın profiline giriyorsak
         {
-            JLabel label2 = new JLabel(profile.getStatus());
+            JLabel label2 = new JLabel(cont.getStatue(userid));
             label2.setForeground(Color.WHITE); // Yazı rengini beyaz yapıyoruz
             label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
             label2.setHorizontalAlignment(JLabel.CENTER); // Metni ortala
             statusPanel.add(label2);
         } else // kendi profilimize giriyoruz yani statusu güncelleyebiliyoruz
         {
-            JTextField statusMessageTextBox = new JTextField(profile.getStatus());
+            JTextField statusMessageTextBox = new JTextField(cont.getStatue(userid));
             statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN,
                     5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
