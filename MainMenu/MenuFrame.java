@@ -338,6 +338,7 @@ public class MenuFrame extends JFrame {
             setLayout(new GridLayout(7, 1));
 
             FriendButton button4 = new FriendButton(profile.getName(), profile.getID(), true);
+            button4.setBackground(Color.GREEN);
             button4.setPreferredSize(new Dimension(75, 25));
             button4.setFont(buttonfont);
             add(button4);// button to return our profile
@@ -349,6 +350,7 @@ public class MenuFrame extends JFrame {
             GridBagConstraints con1 = new GridBagConstraints();
             con1.anchor = GridBagConstraints.CENTER;
             button1 = new JButton("Search Friend");//button for searching friend
+            button1.setBackground(Color.LIGHT_GRAY);
             button1.addActionListener(new Listener4());
             panel.add(button1, con1);
 
@@ -367,6 +369,7 @@ public class MenuFrame extends JFrame {
             panel2.add(searchadd);
             add(panel2);
             JButton button3 = new JButton("Find a new Friend");
+            button3.setBackground(Color.LIGHT_GRAY);
             Listener3 listener3 = new Listener3();
             button3.addActionListener(listener3);
             JPanel panel4 = new JPanel(new GridBagLayout());
@@ -461,6 +464,7 @@ public class MenuFrame extends JFrame {
             super(name);
             this.ID = ID;
             addActionListener(this);
+            setBackground(Color.PINK);
         }
 
         public void actionPerformed(ActionEvent event)// action listener for adding friends with ıd giver
@@ -491,6 +495,7 @@ public class MenuFrame extends JFrame {
             this.ID = id;
             this.isuser = isuser;
             addActionListener(this);
+            setBackground(Color.PINK);
         }
 
         public void actionPerformed(ActionEvent e) {// yiğitin profil guisine gidecek
@@ -567,6 +572,7 @@ public class MenuFrame extends JFrame {
             a.anchor = GridBagConstraints.CENTER;
             searchButton = new JButton("search");
             searchButton.addActionListener(new Listener6());
+            searchButton.setBackground(Color.LIGHT_GRAY);
             panel2.add(searchButton, a);
             panel.add(panel2);
             result = new ResultPanel();
@@ -629,6 +635,7 @@ public class MenuFrame extends JFrame {
 
             public RemoveButton(int ID, String s) {
                 super(s);
+                setBackground(Color.LIGHT_GRAY);
                 addActionListener(this);
                 this.ID = ID;
             }
@@ -743,6 +750,7 @@ public class MenuFrame extends JFrame {
             ButtonListener() {
                 super("Make Group");
                 this.addActionListener(this);
+                setBackground(Color.LIGHT_GRAY);
             }
 
             public void actionPerformed(ActionEvent e) {
