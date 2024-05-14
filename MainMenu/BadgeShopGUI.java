@@ -105,7 +105,7 @@ public class BadgeShopGUI extends JFrame {
             ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[m]));
             Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
             ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-            int badgePrice = m * 10;
+            int badgePrice = (int) Math.pow(m, 3);
 
             JLabel moneyLabel = new JLabel(scaledMoneyIcon);
             JButton priceButton = new JButton("$" + badgePrice);
