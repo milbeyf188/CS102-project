@@ -302,8 +302,8 @@ public class Profile_GUI extends JFrame {
             statusPanel.add(label2);
         } else // kendi profilimize giriyoruz yani statusu güncelleyebiliyoruz
         {
-            JTextField statusMessageTextBox = new JTextField(cont.getStatue(userid));
-            statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
+            JTextArea statusMessageTextBox = new JTextArea(cont.getStatue(userid));
+            //statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN,
                     5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
             JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
