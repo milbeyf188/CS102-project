@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Text extends JPanel
 {
@@ -52,6 +50,9 @@ public class Text extends JPanel
 
     public Text(int year, int month, int day, Profile profile)
     {
+        File textFolder = new File(MenuFrame.pathString + "\\" + profile.getName());
+        textFolder.mkdirs();
+
         textFile = new File(MenuFrame.pathString + "\\" + profile.getName() + "\\" + year +  "_" + month + "_" + day);
         accessedPeopleFile = new File(textFile.getAbsolutePath() + "access");
 
@@ -274,6 +275,15 @@ public class Text extends JPanel
             Text friendText = new Text(date[0], date[1], date[2], new Controller().getProfileByName(people.get(i)));
 
             friendText.giveAccess(profile.getName());
+
+            for (int j = 0; j < people.size(); j++)
+            {
+                if (i != j)
+                {
+                    friendText.giveAccess(people.get(j));
+                }
+            }
+
             friendText.makeGroup();
         }
     }
@@ -670,7 +680,9 @@ public class Text extends JPanel
             saveButton.setBounds(text.getWidth() - 110, text.getHeight() - 80,100,50);
             textPanel.setBounds(0,25, text.getWidth(), text.getHeight() - 100);
 
-            accessButton.setBounds(text.getWidth() - 80 ,0,70,25);
+            if(accessButton != null){
+                accessButton.setBounds(text.getWidth() - 80 ,0,70,25);
+            }
         }
 
         @Override
@@ -682,7 +694,10 @@ public class Text extends JPanel
             backButton.setBounds(0,0,100,25);
             saveButton.setBounds(text.getWidth() - 110, text.getHeight() - 80,100,50);
             textPanel.setBounds(0,25, text.getWidth(), text.getHeight() - 100);
-            accessButton.setBounds(text.getWidth() - 80 ,0,70,25);
+
+            if(accessButton != null){
+                accessButton.setBounds(text.getWidth() - 80 ,0,70,25);
+            }
         }
         @Override
         public void componentHidden(ComponentEvent e) {}
