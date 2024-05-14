@@ -452,6 +452,7 @@ public class Text extends JPanel
         {
             super("Save");
             super.setAlignmentY(BOTTOM_ALIGNMENT);
+            setBackground(Color.GREEN);
             super.addActionListener(this);
         }
 
@@ -512,6 +513,7 @@ public class Text extends JPanel
         accessButton()
         {
             super("...");
+            setBackground(Color.MAGENTA);
             super.addActionListener(this);
         }
 
