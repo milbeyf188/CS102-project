@@ -53,7 +53,7 @@ public class Profile_GUI extends JFrame {
         
         setTitle("Profile");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 800);
+        setSize(1000, 800);
         // getContentPane().setBackground(new Color(0, 0, 102));
         // setBackground(new Color(0, 0, 102));
 

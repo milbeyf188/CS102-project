@@ -782,8 +782,8 @@ public class MenuFrame extends JFrame {
             {
                 Diary.currentDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),
                         Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-                diary.updateCalendar();
             }
+            diary.updateCalendar();
         }
     }
 
