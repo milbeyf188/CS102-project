@@ -305,7 +305,7 @@ public class MenuFrame extends JFrame {
             button4.setFont(buttonfont);
             add(button4);// button to return our profile
             JPanel panel = new JPanel(new GridLayout(1, 2));
-            panel.add(new JLabel("Enter a name for searching in your friends!"));
+            panel.add(new JLabel("Enter a name "));
             searchfriend = new JTextField(30);
             panel.add(searchfriend);
             add(panel);
@@ -321,7 +321,7 @@ public class MenuFrame extends JFrame {
             scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             add(scrollPane2);
             JPanel panel2 = new JPanel(new GridLayout(1, 2));
-            panel2.add(new JLabel("Enter a name for searching among users to add friend!"));
+            panel2.add(new JLabel("Enter a name "));
 
             searchadd = new JTextField(30);
             panel2.add(searchadd);
