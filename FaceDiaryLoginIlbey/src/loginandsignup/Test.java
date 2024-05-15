@@ -28,6 +28,7 @@ public class Test
         con.setLastDay(5,"2111_11_04");
         con.setUserPoints(2,1000);
         con.setUserPoints(14, 1000);
+        con.setUserPoints(17,1000);
 
         
     }

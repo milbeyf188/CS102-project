@@ -94,9 +94,12 @@ public class MenuFrame extends JFrame{
         c.gridy = 2;
         c.weightx = 0;
         c.weighty = 1;
-        JPanel badgesPanel = new JPanel();//a panel to add badges
-        badgesPanel.setPreferredSize(new Dimension(400, 200));
-        add(badgesPanel,c);
+        JPanel badgepanel = new JPanel();
+        badgepanel.setBackground(backgroundColor);
+        badgepanel.setPreferredSize(new Dimension(400, 200));
+        badgePanel badgesPanel = new badgePanel();//a panel to add badges
+        badgepanel.add(badgesPanel);
+        add(badgepanel,c);
         c.gridx = 0;
         c.gridy = 3;
         c.weightx = 0;
@@ -181,6 +184,7 @@ public class MenuFrame extends JFrame{
     };
         private void createcomponents()
         {
+        setBackground(backgroundColor);
         int counter = 0;
         ArrayList<Integer> results = new ArrayList<Integer>();
         for(int i = badges.length-1;i>0;i--)
@@ -207,13 +211,14 @@ public class MenuFrame extends JFrame{
             for(int i = 0;i<counter;i++)
             {
                 ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(i)]));
-                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
                 ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-                labels.get(i).setIcon(scaledBadgeIcon);
+                add(new JLabel(scaledBadgeIcon));
             }
         }
         else if(counter > 3)
         {
+            setLayout(new GridLayout(1, 3));
             ArrayList<JLabel> labels = new ArrayList<JLabel>();
             for(int i = 0;i<3;i++)
             {
@@ -222,9 +227,9 @@ public class MenuFrame extends JFrame{
             for(int i = 0;i<3;i++)
             {
                 ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(i)]));
-                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
                 ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-                labels.get(i).setIcon(scaledBadgeIcon);
+                add(new JLabel(scaledBadgeIcon));
             }
         }
     }
