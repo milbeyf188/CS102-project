@@ -154,7 +154,7 @@ public class MenuFrame extends JFrame {
             c.anchor = GridBagConstraints.NORTH;
             add(streakPanel);
             FriendPanel friendPanel = new FriendPanel();
-            friendPanel.setBounds(1100, 0, 430, 800);
+            friendPanel.setBounds(1100, 0, 430, 775);
             c.gridx = 2;
             c.gridheight = 5;
             c.anchor = GridBagConstraints.NORTHEAST;
@@ -293,13 +293,14 @@ public class MenuFrame extends JFrame {
     // proper actionlistener should be implemented
     class StreakPanel extends JPanel {
         public void paintComponent(Graphics g) {
-            // ImageIcon image = new
-            // ImageIcon(getClass().getResource("/CS_Project_Profile/Imagess/ProjectImages/Ekran
-            // görüntüsü 2024-05-07 135630."));//DENİZ KOD BURDA
+            
             super.paintComponent(g);
             setBackground(backgroundColor);
+            ImageIcon fireimage = new ImageIcon(getClass().getResource("/MainMenu/FirePhoto.png"));
+            Image scaledfireImage = fireimage.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+            ImageIcon scaledfireicon = new ImageIcon(scaledfireImage);
             Graphics2D g2d = (Graphics2D) g;
-            // image.paintIcon(this, g2d, 20,20 );
+            scaledfireicon.paintIcon(this, g2d, 20,20 );
             Font f = buttonfont.deriveFont(50);
             g.setFont(f);
             g.setColor(Color.WHITE);
@@ -318,7 +319,9 @@ public class MenuFrame extends JFrame {
             button4.setFont(buttonfont);
             add(button4);// button to return our profile
             JPanel panel = new JPanel(new GridLayout(1, 2));
-            panel.add(new JLabel("Enter a name "));
+            JLabel label3 = new JLabel("Enter a name:");
+            label3.setFont(buttonfont);
+            panel.add(label3);
             searchfriend = new JTextField(30);
             panel.add(searchfriend);
             add(panel);
@@ -336,7 +339,9 @@ public class MenuFrame extends JFrame {
             scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             add(scrollPane2);
             JPanel panel2 = new JPanel(new GridLayout(1, 2));
-            panel2.add(new JLabel("Enter a name "));
+            JLabel label1 = new JLabel("Enter a name:");
+            label1.setFont(buttonfont);
+            panel2.add(label1);
 
             searchadd = new JTextField(30);
             panel2.add(searchadd);
