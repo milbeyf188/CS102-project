@@ -28,7 +28,7 @@ public class MenuFrame extends JFrame {
     private FriendPanel2 friendPanel2;
     private JScrollPane scrollPane;
     private JScrollPane scrollPane2;
-    private static Controller con = new Controller();
+    public static Controller con = new Controller();
 
     private MenuFrame frame = this;
 
@@ -91,16 +91,9 @@ public class MenuFrame extends JFrame {
             panel.setBounds(0, 0, 400, 100);//Alperen Gardaşım
             this.add(panel);
             //diary.setPreferredSize(new Dimension(400, 300));
-            c.gridx = 0;
-            c.gridy = 1;
-            c.weightx = 0;
-            c.weighty = 1;
             diary.setBounds(0, 100,400,400);
             this.add(diary);
-            c.gridx = 0;
-            c.gridy = 2;
-            c.weightx = 0;
-            c.weighty = 1;
+            
             JPanel badgepanel = new JPanel();
             badgepanel.setBackground(backgroundColor);
             //badgepanel.setPreferredSize(new Dimension(400, 200));
@@ -108,10 +101,6 @@ public class MenuFrame extends JFrame {
             badgesPanel.setBounds(0, 500, 420, 200);
             badgepanel.add(badgesPanel);
             add(badgesPanel);
-            c.gridx = 0;
-            c.gridy = 3;
-            c.weightx = 0;
-            c.weighty = 1;
             MoneyPanel moneyPanel = new MoneyPanel();
             //moneyPanel.setPreferredSize(new Dimension(400, 100));
             moneyPanel.setBounds(0, 700, 400, 100);
@@ -119,27 +108,14 @@ public class MenuFrame extends JFrame {
             RoundedButton button = new RoundedButton(300, 75, "Badge Shop", null);
             button.addActionListener(new Listener8());
             button.setBounds(600, 200, 300, 75);
-            c.gridx = 0;
-            c.gridy = 4;
-            c.weighty = 1;
-            c.weightx = 1;
             add(button);
-            c.gridx = 1;
-            c.gridy = 1;
+            
             c.anchor = GridBagConstraints.WEST;
             groupdiarybutton = new RoundedButton(300, 75, "New Group Diary", null);
             groupdiarybutton.addActionListener(new Listener9());
             groupdiarybutton.setBounds(600, 400, 300, 75);
-            c.gridx = 1;
-            c.gridy = 2;
-            c.weighty = 0;
-            c.weightx = 0;
             c.anchor = GridBagConstraints.NORTHWEST;
             add(groupdiarybutton, c);
-            c.gridx = 1;
-            c.gridy = 3;
-            c.weightx = 0;
-            c.weighty = 0;
             RoundedButton button4 = new RoundedButton(300, 75, "Remove Friend", null);
             button4.addActionListener(new Listener5());
             button4.setBounds(600, 600, 300, 75);
@@ -147,16 +123,11 @@ public class MenuFrame extends JFrame {
             StreakPanel streakPanel = new StreakPanel();
             streakPanel.setBounds(600, 0, 200, 100);
             //streakPanel.setPreferredSize(new Dimension(200, 100));
-            c.gridx = 1;
-            c.gridy = 0;
-            c.weightx = 1;
-            c.weighty = 1;
+
             c.anchor = GridBagConstraints.NORTH;
             add(streakPanel);
             FriendPanel friendPanel = new FriendPanel();
             friendPanel.setBounds(1100, 0, 430, 775);
-            c.gridx = 2;
-            c.gridheight = 5;
             c.anchor = GridBagConstraints.NORTHEAST;
             c.fill = GridBagConstraints.VERTICAL;
             add(friendPanel);
@@ -326,13 +297,13 @@ public class MenuFrame extends JFrame {
             panel.add(searchfriend);
             add(panel);
             JPanel panel5 = new JPanel(new GridBagLayout());
-            GridBagConstraints con = new GridBagConstraints();
-            con.anchor = GridBagConstraints.CENTER;
+            GridBagConstraints con1 = new GridBagConstraints();
+            con1.anchor = GridBagConstraints.CENTER;
             button1 = new JButton("Search");
             
             button1.addActionListener(new Listener4());
             
-            panel5.add(button1, con);
+            panel5.add(button1, con1);
             add(panel5);
             friendPanel2 = new FriendPanel2();
             scrollPane2 = new JScrollPane(friendPanel2);// searching among friends
@@ -358,7 +329,11 @@ public class MenuFrame extends JFrame {
             scrollPane = new JScrollPane();
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             add(scrollPane);
-            button1.doClick();
+            if(con.getFriendsArray(profile.getID()).size() != 0)
+            {
+                button1.doClick();
+            }
+            
 
         }
     }
@@ -439,9 +414,19 @@ public class MenuFrame extends JFrame {
 
         public void actionPerformed(ActionEvent event)// action listener for adding friends with ıd giver
         {
+            ArrayList<Integer> friends = con.getFriendsArray(profile.getID());
+            if(friends.contains(ID))
+            {
+                JOptionPane.showMessageDialog(frame, "This user is already your friend", "Friend adding",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
             con.setFriend(profile.getID(), ID);
             JOptionPane.showMessageDialog(frame, "User is added successfully", "Friend adding",
-                    JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.INFORMATION_MESSAGE);
+            }
+            
         }
     }
 
