@@ -1,7 +1,5 @@
 package MainMenu;
 
-
-
 import CS_Project_Profile.Profile;
 import FaceDiaryLoginIlbey.src.loginandsignup.Controller;
 
@@ -179,20 +177,37 @@ public class Diary extends JPanel
         return daysOf;
     }
 
-    public boolean addStreak()
+    public int addStreak()
     {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, -1);
+        Controller con = new Controller();
 
-        Calendar yesterDate = new GregorianCalendar(cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        Calendar yesterDate = Calendar.getInstance();
+        yesterDate.add(Calendar.DAY_OF_MONTH, -1);
 
-        boolean streaking = !new Text(yesterDate.get(Calendar.DAY_OF_MONTH), yesterDate.get(Calendar.MONTH), yesterDate.get(Calendar.YEAR), profile).getColor().equals(Color.RED);
+        boolean streaking = !new Text(yesterDate.get(Calendar.YEAR), yesterDate.get(Calendar.MONTH) + 1, yesterDate.get(Calendar.DAY_OF_MONTH), profile).getColor().equals(Color.RED);
 
-        if(!streaking){return false;}
+        if(!streaking){return -1;}
 
-        String yesterday = yesterDate.get(Calendar.YEAR) + "_" + yesterDate.get(Calendar.MONTH) + "_" + yesterDate.get(Calendar.DAY_OF_MONTH);
+        String yesterday = yesterDate.get(Calendar.YEAR) + "_" + (yesterDate.get(Calendar.MONTH) + 1) + "_" + yesterDate.get(Calendar.DAY_OF_MONTH);
 
-        return !new Controller().getLastDay(profile.getID()).equals(yesterday);
+        if (con.getLastDay(profile.getID()) == null)
+        {
+            return 1;
+        }
+
+        return !con.getLastDay(profile.getID()).equals(yesterday)? 1: 0;
+    }
+
+    public static String getToday()
+    {
+        return currentDate.get(Calendar.YEAR) + "_" + (currentDate.get(Calendar.MONTH) + 1 )+ "_" + currentDate.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static String getYesterday()
+    {
+        Calendar yesterDate = Calendar.getInstance();
+        yesterDate.add(Calendar.DAY_OF_MONTH, -1);
+
+        return yesterDate.get(Calendar.YEAR) + "_" + (yesterDate.get(Calendar.MONTH) + 1 )+ "_" + yesterDate.get(Calendar.DAY_OF_MONTH);
     }
 }

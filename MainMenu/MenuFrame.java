@@ -44,6 +44,9 @@ public class MenuFrame extends JFrame {
 
         this.profile = profile;
         diary = new Diary(profile, this);// Diary burda çağrılıyor
+
+        profile.setStreak();
+
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setName("Main menu");

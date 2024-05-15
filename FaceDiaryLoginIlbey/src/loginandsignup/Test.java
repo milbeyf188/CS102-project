@@ -14,7 +14,7 @@ public class Test
         System.out.println(con.getStatue(1));
         con.setUserPoints(2,1000);
         System.out.println(con.getUserPointsById(2));
-        con.setStreak(4,15);
+        con.setStreak(4,15);/*
         System.out.println(con.getUserStreakById(4));
         con.setStatue(4, "Ben Dördüncüyüm");
         System.out.println(con.getNamesArray()); */
@@ -25,7 +25,7 @@ public class Test
         //con.badgeBought(6,9);
         //con.shareDay(11, 3, "2021_02_09");
         //System.out.println(con.getSharedDaysArray(3,11));
-        con.setUserPoints(6,1000);
+        //con.setUserPoints(6,1000);
 
         
     }
