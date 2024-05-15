@@ -27,10 +27,7 @@ public class Test
         //System.out.println(con.getSharedDaysArray(3,11));
         con.setLastDay(5,"2111_11_04");
         con.setUserPoints(2,1000);
-        con.setUserPoints(16, 1000);
-        con.setUserPoints(17, 1000);
-        con.setUserPoints(18,1000);
-        
+        con.setUserPoints(14, 1000);
 
         
     }
