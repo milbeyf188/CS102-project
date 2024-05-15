@@ -46,7 +46,7 @@ public class Profile_GUI extends JFrame {
         
         setTitle("Profile");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 800);
+        setSize(600, 400);
         // getContentPane().setBackground(new Color(0, 0, 102));
         // setBackground(new Color(0, 0, 102));
 
@@ -175,52 +175,67 @@ public class Profile_GUI extends JFrame {
         JLabel badgesLabel = new JLabel("Badges");
 
         badgesLabel.setHorizontalAlignment(JLabel.CENTER); // Badges yazısını ortalar
-        badgesLabel.setFont(badgesLabel.getFont().deriveFont(Font.PLAIN, 5 * badgesLabel.getFont().getSize())); // Yazı
-                                                                                                                // büyüklüğünü
-                                                                                                                // 5 kat
-                                                                                                                // artırır
+        badgesLabel.setFont(badgesLabel.getFont().deriveFont(Font.PLAIN, 5 * badgesLabel.getFont().getSize())); // 5 kat
         badgesLabel.setForeground(Color.WHITE);
         add(badgesLabel);
 
-        // 5. satır: 3 tane resim image
-        if (friendOrUser == false) // arkadaşın profili
-        {
-            badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            badgesPanel.setBackground(backgroundColor);
-            ImageIcon badge1Icon = new ImageIcon("badge1.png"); // Badge 1 image dosyasının yolunu belirtin
-            ImageIcon badge2Icon = new ImageIcon("badge2.png"); // Badge 2 image dosyasının yolunu belirtin
-            ImageIcon badge3Icon = new ImageIcon("badge3.png"); // Badge 3 image dosyasının yolunu belirtin
-            JLabel badge1Label = new JLabel(badge1Icon);
-            JLabel badge2Label = new JLabel(badge2Icon);
-            JLabel badge3Label = new JLabel(badge3Icon);
-            badgesPanel.add(badge1Label);
-            badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
-            badgesPanel.add(badge2Label);
-            badgesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Boşluk eklemek için
-            badgesPanel.add(badge3Label);
-            add(badgesPanel);
-        } else// Kendi profilimiz
-        {
-            JPanel badgesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            badgesPanel.setBackground(backgroundColor);
+        boolean[] badges = cont.getBadgesArrayById(profile.getID());
+        String[] badgeFilenames = {
+                "",
+                "/MainMenu/Badge PNGs/Bronze1.png",
+                "/MainMenu/Badge PNGs/Bronze2.png",
+                "/MainMenu/Badge PNGs/Bronze3.png",
+                "/MainMenu/Badge PNGs/Silver1.png",
+                "/MainMenu/Badge PNGs/Silver2.png",
+                "/MainMenu/Badge PNGs/Silver3.png",
+                "/MainMenu/Badge PNGs/Gold1.png",
+                "/MainMenu/Badge PNGs/Gold2.png",
+                "/MainMenu/Badge PNGs/Gold3.png",
+                "/MainMenu/Badge PNGs/Diamond1.png",
+                "/MainMenu/Badge PNGs/Diamond2.png",
+                "/MainMenu/Badge PNGs/Diamond3.png",
+                "/MainMenu/Badge PNGs/Immortal1.png",
+                "/MainMenu/Badge PNGs/Immortal2.png",
+                "/MainMenu/Badge PNGs/Immortal3.png"
+        };
 
-            JButton editButton = new JButton("EDİT");
-            editButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Edit butonuna tıklandığında badgePanel'i gizle ve yeniPanel'i göster
-                    setVisible(false);
-                    createNewPanel();
+        badgesPanel = new JPanel();
 
-                }
-            });
-
-            editButton.setBackground(Color.GREEN);
-            editButton.setPreferredSize(new Dimension(120, 80)); // Geri tuşunun genişliğini ayarlar
-            badgesPanel.add(editButton);
-
-            add(badgesPanel);
+        int counter = 0;
+        ArrayList<Integer> results = new ArrayList<Integer>();
+        for (int i = badges.length - 1; i > 0; i--) {
+            if (badges[i]) {
+                counter++;
+                results.add(i);
+            }
         }
+        if (counter <= 3 && counter > 0) {
+            badgesPanel.setLayout(new GridLayout(1, counter));
+            badgesPanel.setBackground(backgroundColor);
+            ArrayList<JLabel> labels = new ArrayList<JLabel>();
+
+            for (int j = 0; j < counter; j++) {
+                ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(j)]));
+                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 120, Image.SCALE_SMOOTH);
+                ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+                badgesPanel.add(new JLabel(scaledBadgeIcon));
+            }
+        }
+
+        else if (counter > 3) {
+            badgesPanel.setLayout(new GridLayout(1, 3));
+            badgesPanel.setBackground(backgroundColor);
+            ArrayList<JLabel> labels = new ArrayList<JLabel>();
+
+            for (int k = 0; k < 3; k++) {
+                ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(k)]));
+                Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 120, Image.SCALE_SMOOTH);
+                ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+                badgesPanel.add(new JLabel(scaledBadgeIcon));
+            }
+        }
+
+        add(badgesPanel);
 
         /*
          * private void createNewPanel()
