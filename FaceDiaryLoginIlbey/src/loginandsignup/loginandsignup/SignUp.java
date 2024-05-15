@@ -1,4 +1,4 @@
-package FaceDiaryLoginIlbey.src.loginandsignup;
+package loginandsignup;
 
 
 import java.sql.Connection;
@@ -67,7 +67,7 @@ public class SignUp extends javax.swing.JFrame
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 102));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("logo.png"))); 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/logo.png"))); // NOI18N
 
         
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -162,17 +162,15 @@ public class SignUp extends javax.swing.JFrame
         this.dispose();
     }
 
-    private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) 
-    {
+    private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {
         String fullName, email, query;
         char[] password;
         String url, userName, SPass;
         url = "jdbc:MySQL://localhost:3306/facediary";
         userName = "root";
         SPass = "";
-       
-        try 
-        {
+        BigInteger bigInteger = new BigInteger("1000000000000000"); 
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(url, userName, SPass);
             Statement st = con.createStatement();
@@ -195,25 +193,11 @@ public class SignUp extends javax.swing.JFrame
                 email = emailAddress.getText();
                 password = pass.getPassword();
     
-                
-                String checkEmailQuery = "SELECT COUNT(*) AS count FROM userinfo WHERE eMail = ?";
-                try (PreparedStatement checkEmailStmt = con.prepareStatement(checkEmailQuery)) 
-                {
-                    checkEmailStmt.setString(1, email);
-                    ResultSet emailResult = checkEmailStmt.executeQuery();
-                    emailResult.next();
-                    int emailCount = emailResult.getInt("count");
-                    if (emailCount > 0) 
-                    {
-                        JOptionPane.showMessageDialog(new JFrame(), "This email is already in use", "Error", JOptionPane.ERROR_MESSAGE);
-                        return; 
-                    }
-                }
     
+                
                 int nextUserId = 1; 
                 String getMaxIdQuery = "SELECT MAX(ID) AS maxId FROM userinfo";
-                try (ResultSet rs = st.executeQuery(getMaxIdQuery)) 
-                {
+                try (ResultSet rs = st.executeQuery(getMaxIdQuery)) {
                     if (rs.next()) 
                     {
                         int maxId = rs.getInt("maxId");
@@ -221,7 +205,8 @@ public class SignUp extends javax.swing.JFrame
                     }
                 }
     
-                query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints, Streak, Statue, X,Badges,Birthday) VALUES (?,? ,?,?, ?, ?, ?, ? , ? , ?)";
+                
+                query = "INSERT INTO userinfo(ID, Name, eMail, password, UserPoints, Streak, Statue, X,Badges) VALUES (? ,?,?, ?, ?, ?, ? , ? , ?)";
                 try (PreparedStatement pst = con.prepareStatement(query)) 
                 {
                     pst.setInt(1, nextUserId);
@@ -232,8 +217,7 @@ public class SignUp extends javax.swing.JFrame
                     pst.setInt(6,0);
                     pst.setString(7,"New User" );
                     pst.setInt(8,0);
-                    pst.setString(9,"1000000000000000");
-                    pst.setString(10,"11.05.1933");
+                    pst.setString(9,"100000000000000");
                     pst.executeUpdate();
                 }
     
@@ -242,6 +226,7 @@ public class SignUp extends javax.swing.JFrame
                 emailAddress.setText("");
                 pass.setText("");
     
+                
                 JOptionPane.showMessageDialog(null, "New account has been created successfully!");
             }
         } 
