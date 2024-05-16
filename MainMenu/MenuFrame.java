@@ -22,13 +22,13 @@ public class MenuFrame extends JFrame {
     public static String pathString;
     public static MenuFrame facediary;
     private RoundedButton groupdiarybutton;
-    private JTextField searchfriend;
+    private JTextField searchfriend;//a text field of searhing among friends
     private JTextField searchadd;
     private ResultPanel resultpanel;
     private FriendPanel2 friendPanel2;
     private JScrollPane scrollPane;
     private JScrollPane scrollPane2;
-    private JButton searchButton;//searchbutton of removefriend pop up
+    private JButton searchButton;//searchbutton of removefriend popup
     public static Controller con = new Controller();
 
     private MenuFrame frame = this;
@@ -381,6 +381,7 @@ public class MenuFrame extends JFrame {
 
             if(con.getFriendsArray(profile.getID()).size() != 0)
             {
+                searchfriend.setText("");
                 button1.doClick();
             }
             
@@ -476,6 +477,7 @@ public class MenuFrame extends JFrame {
             JOptionPane.showMessageDialog(frame, "User is added successfully", "Friend adding",
                 JOptionPane.INFORMATION_MESSAGE);
             }
+            searchfriend.setText("");
             button1.doClick();
         }
     }
@@ -552,11 +554,9 @@ public class MenuFrame extends JFrame {
     class PopUp extends JDialog {
         private JTextField searcharea;
         private JButton cancel;
-        private JButton remove;
         private ResultPanel result;
         
         private PopUp popUp = this;
-
         public PopUp(JFrame parent) {
             super(parent, "Remove Friend", true);
             JPanel panel = new JPanel(new GridLayout(4, 1));
@@ -637,8 +637,11 @@ public class MenuFrame extends JFrame {
                 con.removeFriend(profile.getID(), ID);
                 JOptionPane.showMessageDialog(frame, "Friend removed successfully", "Friend removal",
                         JOptionPane.INFORMATION_MESSAGE);
+                        searchfriend.setText("");
                         button1.doClick();
-                        searchButton.doClick();
+                        popUp.dispose();
+
+                        
             }
         }
 
