@@ -35,7 +35,24 @@ public class MenuFrame extends JFrame {
     protected Color lightblue = new Color(62, 128, 168);
     public static final Color backgroundColor = new Color(8, 32, 45);
     protected Font buttonfont = new Font("Messi", 0, 30);
-
+    String[] badgeFilenames = {
+        "",
+        "/MainMenu/Badge PNGs/Bronze1.png",
+        "/MainMenu/Badge PNGs/Bronze2.png",
+        "/MainMenu/Badge PNGs/Bronze3.png",
+        "/MainMenu/Badge PNGs/Silver1.png",
+        "/MainMenu/Badge PNGs/Silver2.png",
+        "/MainMenu/Badge PNGs/Silver3.png",
+        "/MainMenu/Badge PNGs/Gold1.png",
+        "/MainMenu/Badge PNGs/Gold2.png",
+        "/MainMenu/Badge PNGs/Gold3.png",
+        "/MainMenu/Badge PNGs/Diamond1.png",
+        "/MainMenu/Badge PNGs/Diamond2.png",
+        "/MainMenu/Badge PNGs/Diamond3.png",
+        "/MainMenu/Badge PNGs/Immortal1.png",
+        "/MainMenu/Badge PNGs/Immortal2.png",
+        "/MainMenu/Badge PNGs/Immortal3.png"
+};
     public MenuFrame(Profile profile) {
         facediary = this;
         File myfile = new File("FaceDiary");
@@ -97,14 +114,23 @@ public class MenuFrame extends JFrame {
             
             JPanel badgepanel = new JPanel();
             badgepanel.setBackground(backgroundColor);
-            //badgepanel.setPreferredSize(new Dimension(400, 200));
+            boolean[] badges = con.getBadgesArrayById(profile.getID());
+            int counter = 0;
+            for(int i = 1;i<badges.length;i++)
+            {
+                if(badges[i])
+                {
+                    counter++;
+                }
+            }
+            int panelnumber = (int)Math.ceil(counter / 3.0);
             badgePanel badgesPanel = new badgePanel();// a panel to add badges
-            badgesPanel.setBounds(0, 330, 420, 200);
+            badgesPanel.setBounds(0, 330, 420,panelnumber*85);
             badgepanel.add(badgesPanel);
             add(badgesPanel);
             MoneyPanel moneyPanel = new MoneyPanel();
-            //moneyPanel.setPreferredSize(new Dimension(400, 100));
-            moneyPanel.setBounds(0, 530, 400, 100);
+            
+            moneyPanel.setBounds(420, 170, 200, 200);
             add(moneyPanel);
             RoundedButton button = new RoundedButton(300, 75, "Badge Shop", null);
             button.addActionListener(new Listener8());
@@ -170,6 +196,7 @@ public class MenuFrame extends JFrame {
         private void createcomponents() {
             setBackground(backgroundColor);
             int counter = 0;
+            int index = 0;
             ArrayList<Integer> results = new ArrayList<Integer>();
             for (int i = badges.length - 1; i > 0; i--) {
                 if (badges[i]) {
@@ -177,38 +204,49 @@ public class MenuFrame extends JFrame {
                     results.add(i);
                 }
             }
-            if (counter == 0) {
+            index = results.size()-1;
+            if(results.size() == 0)
+            {
                 return;
-            } else if (counter <= 3) {
-                setLayout(new GridLayout(1, counter));
-                ArrayList<JLabel> labels = new ArrayList<JLabel>();
-
-                for (int i = 0; i < counter; i++) {
-                    labels.add(new JLabel());
+            }
+            int panelnumber = (int)Math.ceil(counter / 3.0);
+            setLayout(new GridLayout(panelnumber,1));
+            ArrayList<JPanel> panels = new ArrayList<JPanel>();
+            for(int i = 0;i<panelnumber;i++)
+            {
+                panels.add(new JPanel());
+            }
+            for(int c = 0;c<panelnumber;c++)
+            {
+                if(counter >= 3)
+                {
+                    adjust(panels.get(c), index,3 , results);
+                    counter -= 3;
+                    index -= 3;
+                    add(panels.get(c));
                 }
-                for (int i = 0; i < counter; i++) {
-                    ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(i)]));
-                    Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
-                    ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-                    add(new JLabel(scaledBadgeIcon));
-                }
-            } else if (counter > 3) {
-                setLayout(new GridLayout(1, 3));
-                ArrayList<JLabel> labels = new ArrayList<JLabel>();
-                for (int i = 0; i < 3; i++) {
-                    labels.add(new JLabel());
-                }
-                for (int i = 0; i < 3; i++) {
-                    ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(i)]));
-                    Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
-                    ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
-                    add(new JLabel(scaledBadgeIcon));
+                else
+                {
+                    adjust(panels.get(c), index, counter, results);
+                    counter = 0;
+                    index = 0;
+                    add(panels.get(c));
                 }
             }
         }
 
     }
-
+    public void adjust(JPanel panel,int lastindex,int number,ArrayList<Integer> results)
+    {
+                panel.setLayout(new GridLayout(1, number));
+                panel.setBackground(backgroundColor);
+                for (int i = lastindex; i > lastindex-number; i--) {
+                    ImageIcon badgeImage = new ImageIcon(getClass().getResource(badgeFilenames[results.get(i)]));
+                    Image scaledBadgeImage = badgeImage.getImage().getScaledInstance(100, 85, Image.SCALE_SMOOTH);
+                    ImageIcon scaledBadgeIcon = new ImageIcon(scaledBadgeImage);
+                    panel.add(new JLabel(scaledBadgeIcon));
+                }
+    }
     /*
      * overrides Jpanel class to add money image and display money amount of user in
      * main menu
@@ -216,14 +254,20 @@ public class MenuFrame extends JFrame {
 
     class MoneyPanel extends JPanel {
         public void paintComponent(Graphics g) {
-            ImageIcon image = new ImageIcon(getClass().getResource("/MainMenu/Money Image.png"));
-            super.paintComponent(g);
-            setBackground(backgroundColor);
-            Graphics2D g2d = (Graphics2D) g;
-            image.paintIcon(this, g2d, 10, 10);
-            g.setFont(new Font("Comic sans", 0, 30));
-            g.setColor(Color.WHITE);
-            g.drawString(String.valueOf(profile.getMoney()), 100, 50);
+            ImageIcon moneyimage= new ImageIcon(getClass().getResource("/MainMenu/MoneyIcon.png"));
+            Image scaledMoneyImage = moneyimage.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            ImageIcon scaledBadgeIcon = new ImageIcon(scaledMoneyImage);
+            setLayout(new GridLayout(2, 1));
+            JLabel label = new JLabel(scaledBadgeIcon);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            label.setVerticalAlignment(SwingConstants.BOTTOM);
+            add(label);
+            JLabel label2 = new JLabel(String.valueOf(profile.getMoney()));
+            label2.setForeground(Color.WHITE);
+            label2.setFont(buttonfont);
+            label2.setHorizontalAlignment(SwingConstants.CENTER);
+            label2.setVerticalAlignment(SwingConstants.TOP);
+            add(label2);
         }
 
     }
