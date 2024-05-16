@@ -415,6 +415,7 @@ public class Profile_GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String displayedday = arr[lastday];
                 Text display = new Text(displayedday, profile);
+                display.setFriendText(frame1);
                 frame1.setVisible(false);
                 JFrame frame = new JFrame();
                 display.setFrame(frame);

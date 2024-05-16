@@ -13,11 +13,17 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Text extends JPanel
 {
@@ -29,6 +35,7 @@ public class Text extends JPanel
 
     private File textFile;
     private File accessedPeopleFile;
+    private boolean justLooking = false;
 
     private boolean changeable;
     private int[] date = new int[3];
@@ -99,18 +106,23 @@ public class Text extends JPanel
         isSpecial = text.get(0).substring(0,1).equals("1");
         isGroup = text.get(0).substring(1).equals("1");
 
-        setShownText();
-
         textArea = new JTextPane();
         textArea.setText(getText());
         textArea.setEditable(setChangeable());
         textPanel = new JScrollPane(textArea);
 
+        setShownText();
+
         this.setLayout(null);
 
         backButton = new BackButtonListener();
         saveButton = new SaveButtonListener();
-        accessButton = new accessButton();
+
+        if (!isGroup)
+        {
+            accessButton = new accessButton();
+            add(accessButton);
+        }
 
         add(backButton);
         add(textPanel);
@@ -119,13 +131,16 @@ public class Text extends JPanel
         {
             add(saveButton);
         }
-        add(accessButton);
     }
 
     public void setFriendText(JFrame frame)
     {
         remove(saveButton);
-        remove(accessButton);
+
+        if (accessButton != null)
+        {
+            remove(accessButton);
+        }
         textPanel.remove(textArea);
 
         JLabel label = new JLabel(getText());
@@ -133,6 +148,8 @@ public class Text extends JPanel
         textPanel.add(label);
 
         frameToOpen = frame;
+
+        justLooking = true;
     }
 
     public Text(String date, Profile profile)
@@ -303,6 +320,10 @@ public class Text extends JPanel
     {
         if(isGroup && !setChangeable())
         {
+            StyledDocument doc = textArea.getStyledDocument();
+            Style style = textArea.addStyle("", null);
+            StyleConstants.setForeground(style, new Color((int)(Math.random() * 160 + 40), (int)(Math.random() * 160 + 40), (int)(Math.random() * 160 + 40)));
+
             for(int i = 0; i < people.size(); i++)
             {
 
@@ -314,7 +335,6 @@ public class Text extends JPanel
                         {
                             if (accessScanner.nextLine().equals(profile.getName()))
                             {
-                                text.add("\n" + people.get(i) + "\n");
 
                                 try{
                                     Scanner peopleScanner = new Scanner(new File(MenuFrame.pathString + "\\" +
@@ -322,15 +342,21 @@ public class Text extends JPanel
 
                                     if (peopleScanner.nextLine().substring(1).equals("1"))
                                     {
+                                        if (peopleScanner.hasNextLine())
+                                        {
+                                            doc.insertString(doc.getLength(),"\n" + people.get(i) + ":      ", style);
+                                        }
                                         while(peopleScanner.hasNextLine())
                                         {
-                                            text.add(peopleScanner.nextLine());
+                                            doc.insertString(doc.getLength(), peopleScanner.nextLine() + "\n", style);
                                         }
                                     }
                                 }
                                 catch (FileNotFoundException e)
                                 {
                                     continue;
+                                } catch (BadLocationException e) {
+                                    throw new RuntimeException(e);
                                 }
 
                             }
@@ -464,7 +490,7 @@ public class Text extends JPanel
 
         public void  actionPerformed(ActionEvent e)
         {
-            if (setChangeable())
+            if (setChangeable() && !justLooking)
             {
                 if(JOptionPane.showConfirmDialog(this, "Are you sure you don't want to save") == 0)
                 {
@@ -515,7 +541,7 @@ public class Text extends JPanel
                     friends.add(con.getNameById(friendIDs.get(i)));
                 }
 
-                checkFrame = new checkBoxFrame(friends,new Dimension(accessButton.getX(), accessButton.getY()));
+                checkFrame = new checkBoxFrame(friends,new Dimension(accessButton.getX() - 100, accessButton.getY() + 50));
                 checkFrame.getPopUp().show();
             }
         }
@@ -543,9 +569,9 @@ public class Text extends JPanel
             panel.setLayout(new GridLayout(0,1));
             scrollPane = new JScrollPane(panel);
             bigPanel.add(scrollPane);
-            bigPanel.add(new specialButtonListener());
             checkBoxSetUp(strings);
             panel.add(new ButtonListener());
+            panel.add(new specialButtonListener());
         }
 
         public Popup getPopUp()
