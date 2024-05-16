@@ -6,6 +6,10 @@ import FaceDiaryLoginIlbey.src.loginandsignup.FDController;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import MainMenu.*;
 
@@ -13,6 +17,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +34,7 @@ public class Profile_GUI extends JFrame {
     private String[] arr;
     private int lastday;
     private JFrame frame1 = this;
+    JTextField statusMessageTextBox;
     // public boolean friendOrUser = true;
     // Controller cont = new Controller();
 
@@ -74,7 +81,8 @@ public class Profile_GUI extends JFrame {
 
         JPanel Mainpanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         Mainpanel.setBackground(backgroundColor);
-        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Geri tuşunu sola hizalar
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        backButtonPanel.setBackground(backgroundColor);// Geri tuşunu sola hizalar
         // backButton.setBackground(new Color(0, 0, 102));
 
         if (friendOrUser == true) {
@@ -282,52 +290,60 @@ public class Profile_GUI extends JFrame {
          */
 
         // 6. satır: Status textbox'u ve altındaki status message textbox'u
-        JPanel statusPanel = new JPanel(new GridLayout(2, 1));
+        JPanel statusPanel = new JPanel(new GridLayout(0, 1));
         statusPanel.setBackground(backgroundColor);
         JLabel label1 = new JLabel("Status");
         label1.setBackground(backgroundColor);
-        label1.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
+        label1.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, streakLabel.getFont().getSize()));
         label1.setForeground(Color.WHITE); // Yazı rengini beyaz yapar
         label1.setHorizontalAlignment(JLabel.CENTER); // Metni ortalar
         statusPanel.add(label1);
-        JPanel panel31 = new JPanel();
-        panel31.setBackground(backgroundColor);
-        statusPanel.add(panel31);
         if (friendOrUser == false) // arkadaşın profiline giriyorsak
         {
-            JLabel label2 = new JLabel(cont.getStatue(userid));
+            JLabel label2 = new JLabel(cont.getStatue(profile.getID()));
             label2.setForeground(Color.WHITE); // Yazı rengini beyaz yapıyoruz
-            label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, 1 * streakLabel.getFont().getSize()));
+            label2.setFont(streakLabel.getFont().deriveFont(Font.PLAIN, streakLabel.getFont().getSize()));
             label2.setHorizontalAlignment(JLabel.CENTER); // Metni ortala
             statusPanel.add(label2);
         } else // kendi profilimize giriyoruz yani statusu güncelleyebiliyoruz
         {
-            JTextArea statusMessageTextBox = new JTextArea(cont.getStatue(userid));
-            //statusMessageTextBox.setHorizontalAlignment(JTextField.CENTER); // Status message textbox'unu ortalar
+            statusMessageTextBox = new JTextField(cont.getStatue(userid));
             statusMessageTextBox.setFont(statusMessageTextBox.getFont().deriveFont(Font.PLAIN,
                     5 * statusMessageTextBox.getFont().getSize())); // Yazı büyüklüğünü 5 kat artırır
-            JPanel Mainpanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            //Mainpanel2.setBackground(b3);
-
-
-            int textWidth = 200; // İstenen genişlik
-            int textHeight = statusMessageTextBox.getHeight(); // Mevcut yükseklik
-            Dimension textFieldSize = new Dimension(textWidth, textHeight);
-            statusMessageTextBox.setPreferredSize(textFieldSize);
-
-            Mainpanel2.add(statusMessageTextBox);
-            
-            statusPanel.add(Mainpanel2);
-
-            // Burada Yeni statusu kaydetmemiz lazım
-            String newStatus = statusMessageTextBox.getText();
-            cont.setStatue(profile.getID(), newStatus);
+            statusMessageTextBox.setBackground(MenuFrame.backgroundColor);
+            statusMessageTextBox.setForeground(Color.WHITE);
+            statusMessageTextBox.getDocument().addDocumentListener(new TextListener());
+            statusMessageTextBox.setHorizontalAlignment(SwingConstants.CENTER);
+            statusMessageTextBox.setBorder(null);
+            statusPanel.add(statusMessageTextBox);
 
         }
 
         add(statusPanel);
 
         setVisible(true);
+    }
+
+    class TextListener implements DocumentListener
+    {
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            String newStatus = statusMessageTextBox.getText();
+            cont.setStatue(profile.getID(), newStatus);
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            String newStatus = statusMessageTextBox.getText();
+            cont.setStatue(profile.getID(), newStatus);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            String newStatus = statusMessageTextBox.getText();
+            cont.setStatue(profile.getID(), newStatus);
+        }
     }
 
     /*
