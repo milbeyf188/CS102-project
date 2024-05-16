@@ -501,7 +501,6 @@ public class Controller
                     {
                         String existingSharedDays = rs.getString("SharedDays");
 
-
                         if (existingSharedDays != null && !existingSharedDays.isEmpty())
                         {
                             if (existingSharedDays.contains(sharedDay))
@@ -565,6 +564,83 @@ public class Controller
             }
         } 
         catch (SQLException e) 
+        {
+            System.out.println("Error updating shared day: " + e.getMessage());
+        }
+    }
+
+    public void UnshareDay(int userID, int friendID, String sharedDay)
+    {
+        try (Connection con = DriverManager.getConnection(url, userName, password))
+        {
+            String query = "SELECT SharedDays FROM friends WHERE UserID = ? AND FriendID = ?";
+            try (PreparedStatement pstSelect = con.prepareStatement(query))
+            {
+                pstSelect.setInt(1, userID);
+                pstSelect.setInt(2, friendID);
+                try (ResultSet rs = pstSelect.executeQuery())
+                {
+                    if (rs.next())
+                    {
+                        String existingSharedDays = rs.getString("SharedDays");
+
+                        if (existingSharedDays != null && !existingSharedDays.isEmpty())
+                        {
+
+                            if (existingSharedDays.contains(sharedDay))
+                            {
+                                String[] a = existingSharedDays.split("/");
+
+                                String[] arr = new String[a.length - 1];
+
+                                long shared = Long.parseLong(sharedDay.replace("_", ""));
+
+                                int i;
+
+                                for (i = a.length - 1; i >= 0; i--)
+                                {
+                                    if (shared <= Long.parseLong(a[i].replace("_", "")))
+                                    {
+                                        arr[i - 1] = a[i];
+                                    } else
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                for (int j = 0; j <= i - 1; j++) {
+                                    arr[j] = a[j];
+                                }
+
+                                sharedDay = arr[0];
+
+                                for (int j = 1; j < arr.length; j++) {
+                                    sharedDay += "/" + arr[j];
+                                }
+                            } else {return;}
+                        }
+                    }
+                }
+            }
+
+            query = "UPDATE friends SET SharedDays = ? WHERE UserID = ? AND FriendID = ?";
+            try (PreparedStatement pstUpdate = con.prepareStatement(query))
+            {
+                pstUpdate.setString(1, sharedDay);
+                pstUpdate.setInt(2, userID);
+                pstUpdate.setInt(3, friendID);
+                int rowsAffected = pstUpdate.executeUpdate();
+                if (rowsAffected > 0)
+                {
+                    System.out.println("Shared day updated successfully.");
+                }
+                else
+                {
+                    System.out.println("No rows were updated. Check if the friendship exists.");
+                }
+            }
+        }
+        catch (SQLException e)
         {
             System.out.println("Error updating shared day: " + e.getMessage());
         }

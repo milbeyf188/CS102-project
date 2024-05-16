@@ -24,6 +24,9 @@ public class Text extends JPanel
     private ArrayList<String> text = new ArrayList<String>();
     private ArrayList<String> people = new ArrayList<String>();
 
+    JFrame frameToOpen = MenuFrame.facediary;
+    PopupFactory popupMenu;
+
     private File textFile;
     private File accessedPeopleFile;
 
@@ -111,8 +114,25 @@ public class Text extends JPanel
 
         add(backButton);
         add(textPanel);
-        add(saveButton);
+
+        if (setChangeable())
+        {
+            add(saveButton);
+        }
         add(accessButton);
+    }
+
+    public void setFriendText(JFrame frame)
+    {
+        remove(saveButton);
+        remove(accessButton);
+        textPanel.remove(textArea);
+
+        JLabel label = new JLabel(getText());
+
+        textPanel.add(label);
+
+        frameToOpen = frame;
     }
 
     public Text(String date, Profile profile)
@@ -151,6 +171,41 @@ public class Text extends JPanel
         else
         {
             System.out.println("not changeable");
+        }
+    }
+
+    public void takeAccess(String friend)
+    {
+        try {
+            Scanner scan = new Scanner(accessedPeopleFile);
+
+            boolean hasGiven = false;
+
+            while (scan.hasNextLine())
+            {
+                if (scan.nextLine().equals(friend))
+                {
+                    hasGiven = true;
+                    break;
+                }
+            }
+
+            if (hasGiven)
+            {
+                people.remove(friend);
+
+                try {
+                    Files.write(Paths.get(accessedPeopleFile.getAbsolutePath()), people, StandardCharsets.UTF_8);
+                }
+                catch(IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -398,43 +453,6 @@ public class Text extends JPanel
         }
     }
 
-    class accessButton extends JButton implements ActionListener
-    {
-        checkBoxFrame frame;
-
-        accessButton()
-        {
-            super("...");
-            super.setAlignmentY(TOP_ALIGNMENT);
-            super.addActionListener(this);
-        }
-
-
-        public void actionPerformed(ActionEvent e)
-        {
-            if(frame != null)
-            {
-                frame.getPopUp().hide();
-                frame = null;
-            }
-            else
-            {
-                Controller con = new Controller();
-                ArrayList<Integer> friendIDs = con.getFriendsArray(profile.getID());
-
-                ArrayList<String> friends = new ArrayList<>();
-
-                for (int i = 0; i < friendIDs.size(); i++)
-                {
-                    friends.add(con.getNameById(friendIDs.get(i)));
-                }
-
-                frame = new checkBoxFrame(friends,this,new Dimension(100,100));
-                frame.getPopUp().show();
-            }
-        }
-    }
-
     class BackButtonListener extends JButton implements  ActionListener
     {
         BackButtonListener()
@@ -450,17 +468,59 @@ public class Text extends JPanel
             {
                 if(JOptionPane.showConfirmDialog(this, "Are you sure you don't want to save") == 0)
                 {
-                    MenuFrame.facediary.setVisible(true);
+                    frameToOpen.setVisible(true);
                     frame.dispose();
                 }
             }
             else
             {
-                MenuFrame.facediary.setVisible(true);
+                frameToOpen.setVisible(true);
                 frame.dispose();
             }
         }
     }
+
+    class accessButton extends JButton implements ActionListener
+    {
+        checkBoxFrame checkFrame;
+
+        accessButton()
+        {
+            super("...");
+            super.addActionListener(this);
+        }
+
+        public Popup getPopUp()
+        {
+           return checkFrame.getPopUp();
+        }
+
+
+        public void actionPerformed(ActionEvent e)
+        {
+            if(checkFrame != null)
+            {
+                checkFrame.getPopUp().hide();
+                checkFrame = null;
+            }
+            else
+            {
+                Controller con = new Controller();
+                ArrayList<Integer> friendIDs = con.getFriendsArray(profile.getID());
+
+                ArrayList<String> friends = new ArrayList<>();
+
+                for (int i = 0; i < friendIDs.size(); i++)
+                {
+                    friends.add(con.getNameById(friendIDs.get(i)));
+                }
+
+                checkFrame = new checkBoxFrame(friends,new Dimension(accessButton.getX(), accessButton.getY()));
+                checkFrame.getPopUp().show();
+            }
+        }
+    }
+
 
     class checkBoxFrame
     {
@@ -470,16 +530,14 @@ public class Text extends JPanel
         ArrayList<JCheckBox> checkBoxes;
         Popup popup;
 
-        PopupFactory factory;
-
-        checkBoxFrame(ArrayList<String> strings, JComponent component, Dimension offSet)
+        checkBoxFrame(ArrayList<String> strings, Dimension offSet)
         {
-            PopupFactory factory = new PopupFactory();
-            setContent(strings, component, offSet);
-            popup = factory.getPopup(component, bigPanel, offSet.width, offSet.height);
+            popupMenu = new PopupFactory();
+            setContent(strings);
+            popup = popupMenu.getPopup(accessButton, bigPanel, offSet.width, offSet.height);
         }
 
-        public void setContent(ArrayList<String> strings, JComponent component, Dimension offSet)
+        public void setContent(ArrayList<String> strings)
         {
             panel = new JPanel();
             panel.setLayout(new GridLayout(0,1));
@@ -501,6 +559,12 @@ public class Text extends JPanel
             for (int i = 0; i < strings.size(); i++)
             {
                 JCheckBox checkBox = new JCheckBox(strings.get(i));
+
+                if (people.contains(strings.get(i)))
+                {
+                    checkBox.setSelected(true);
+                }
+
                 panel.add(checkBox);
                 checkBoxes.add(checkBox);
             }
@@ -521,11 +585,26 @@ public class Text extends JPanel
             return returns;
         }
 
+        private ArrayList<String> GetUnSelected()
+        {
+            ArrayList<String> returns = new ArrayList<String>();
+
+            for (int i = 0; i < checkBoxes.size(); i++)
+            {
+                if (!checkBoxes.get(i).isSelected())
+                {
+                    returns.add(checkBoxes.get(i).getText());
+                }
+            }
+
+            return returns;
+        }
+
         class ButtonListener extends JButton implements ActionListener
         {
             ButtonListener()
             {
-                super("give access");
+                super("Give/Take access");
                 this.addActionListener(this);
             }
 
@@ -536,6 +615,11 @@ public class Text extends JPanel
                 {
                     giveAccess(people);
                     con.shareDay(profile.getID(), con.getProfileByName(people).getID(), date[0] + "_" + date[1] + "_" + date[2]);
+                }
+                for (String people: GetUnSelected())
+                {
+                    takeAccess(people);
+                    con.UnshareDay(profile.getID(), con.getProfileByName(people).getID(), date[0] + "_" + date[1] + "_" + date[2]);
                 }
                 getPopUp().hide();
             }
@@ -558,6 +642,7 @@ public class Text extends JPanel
             backButton.setBounds(0,0,100,25);
             saveButton.setBounds(text.getWidth() - 110, text.getHeight() - 80,100,50);
             textPanel.setBounds(0,25, text.getWidth(), text.getHeight() - 100);
+
             accessButton.setBounds(text.getWidth() - 80 ,0,70,25);
         }
 
