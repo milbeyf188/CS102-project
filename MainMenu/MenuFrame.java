@@ -18,7 +18,7 @@ public class MenuFrame extends JFrame {
     private JPanel monthpanel;
 
     private Diary diary;
-    private JButton button1;
+    private JButton button1;//search button for searchin among friends
     public static String pathString;
     public static MenuFrame facediary;
     private RoundedButton groupdiarybutton;
@@ -28,6 +28,7 @@ public class MenuFrame extends JFrame {
     private FriendPanel2 friendPanel2;
     private JScrollPane scrollPane;
     private JScrollPane scrollPane2;
+    private JButton searchButton;//searchbutton of removefriend pop up
     public static Controller con = new Controller();
 
     private MenuFrame frame = this;
@@ -253,7 +254,8 @@ public class MenuFrame extends JFrame {
      */
 
     class MoneyPanel extends JPanel {
-        public void paintComponent(Graphics g) {
+            public MoneyPanel()
+            {
             ImageIcon moneyimage= new ImageIcon(getClass().getResource("/MainMenu/MoneyIcon.png"));
             Image scaledMoneyImage = moneyimage.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             ImageIcon scaledBadgeIcon = new ImageIcon(scaledMoneyImage);
@@ -268,7 +270,9 @@ public class MenuFrame extends JFrame {
             label2.setHorizontalAlignment(SwingConstants.CENTER);
             label2.setVerticalAlignment(SwingConstants.TOP);
             add(label2);
-        }
+            }
+            
+        
 
     }
 
@@ -336,17 +340,13 @@ public class MenuFrame extends JFrame {
             button4.setFont(buttonfont);
             add(button4);// button to return our profile
             JPanel panel = new JPanel(new GridLayout(1, 2));
-
-            //JLabel label3 = new JLabel("Enter a name:");
-            //label3.setFont(buttonfont);
-            //panel.add(label3);
             searchfriend = new JTextField(30);
             panel.add(searchfriend);
             add(panel);
             JPanel panel5 = new JPanel(new GridBagLayout());
             GridBagConstraints con1 = new GridBagConstraints();
             con1.anchor = GridBagConstraints.CENTER;
-            button1 = new JButton("Search Friend");
+            button1 = new JButton("Search Friend");//button for searching friend
             button1.addActionListener(new Listener4());
             panel.add(button1, con1);
 
@@ -474,7 +474,7 @@ public class MenuFrame extends JFrame {
             JOptionPane.showMessageDialog(frame, "User is added successfully", "Friend adding",
                 JOptionPane.INFORMATION_MESSAGE);
             }
-            
+            button1.doClick();
         }
     }
 
@@ -539,7 +539,7 @@ public class MenuFrame extends JFrame {
         }
     }
 
-    class Listener5 implements ActionListener// Action listener of removeframe buttton
+    class Listener5 implements ActionListener// Action listener of removefriend buttton
     {
         public void actionPerformed(ActionEvent event) {
             PopUp up = new PopUp(frame);
@@ -552,7 +552,7 @@ public class MenuFrame extends JFrame {
         private JButton cancel;
         private JButton remove;
         private ResultPanel result;
-        private JButton searchButton;
+        
         private PopUp popUp = this;
 
         public PopUp(JFrame parent) {
@@ -635,6 +635,8 @@ public class MenuFrame extends JFrame {
                 con.removeFriend(profile.getID(), ID);
                 JOptionPane.showMessageDialog(frame, "Friend removed successfully", "Friend removal",
                         JOptionPane.INFORMATION_MESSAGE);
+                        button1.doClick();
+                        searchButton.doClick();
             }
         }
 
