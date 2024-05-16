@@ -625,7 +625,7 @@ public class MenuFrame extends JFrame {
                 check.getPopUp().hide();
                 check = null;
             } else {
-                check = new checkBoxFrame(arr, groupdiarybutton, new Dimension(0, 0));
+                check = new checkBoxFrame(arr, groupdiarybutton);
                 check.getPopUp().show();
             }
         }
@@ -642,15 +642,14 @@ public class MenuFrame extends JFrame {
 
         PopupFactory factory;
 
-        checkBoxFrame(ArrayList<String> strings, JComponent component, Dimension offSet) {
+        checkBoxFrame(ArrayList<String> strings, JComponent component) {
             PopupFactory factory = new PopupFactory();
-            setContent(strings, component, offSet);
-            popup = factory.getPopup(component, bigPanel, offSet.width, offSet.height);
+            setContent(strings, component);
+            popup = factory.getPopup(component, bigPanel, groupdiarybutton.getX() + 100, groupdiarybutton.getY() + 100);
         }
 
-        public void setContent(ArrayList<String> strings, JComponent component, Dimension offSet) {
+        public void setContent(ArrayList<String> strings, JComponent component) {
             location = component;
-            this.offSet = offSet;
 
             panel = new JPanel();
             panel.setLayout(new GridLayout(0, 1));

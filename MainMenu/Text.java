@@ -367,7 +367,6 @@ public class Text extends JPanel
                 {
                     continue;
                 }
-
             }
         }
     }
