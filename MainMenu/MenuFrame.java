@@ -83,27 +83,23 @@ public class MenuFrame extends JFrame {
             monthpanel.add(month, BorderLayout.CENTER);
             panel.add(monthpanel);// Month will be displayed
             panel.add(buttonnext);
-            panel.setPreferredSize(new Dimension(400, 50));
             
-            
-            
-            
-            panel.setBounds(0, 0, 400, 100);//Alperen Gardaşım
+            panel.setBounds(0, 0, 400, 30);//Alperen Gardaşım
             this.add(panel);
             //diary.setPreferredSize(new Dimension(400, 300));
-            diary.setBounds(0, 100,400,400);
+            diary.setBounds(0, 30,400,300);
             this.add(diary);
             
             JPanel badgepanel = new JPanel();
             badgepanel.setBackground(backgroundColor);
             //badgepanel.setPreferredSize(new Dimension(400, 200));
             badgePanel badgesPanel = new badgePanel();// a panel to add badges
-            badgesPanel.setBounds(0, 500, 420, 200);
+            badgesPanel.setBounds(0, 330, 420, 200);
             badgepanel.add(badgesPanel);
             add(badgesPanel);
             MoneyPanel moneyPanel = new MoneyPanel();
             //moneyPanel.setPreferredSize(new Dimension(400, 100));
-            moneyPanel.setBounds(0, 700, 400, 100);
+            moneyPanel.setBounds(0, 530, 400, 100);
             add(moneyPanel);
             RoundedButton button = new RoundedButton(300, 75, "Badge Shop", null);
             button.addActionListener(new Listener8());
@@ -290,45 +286,47 @@ public class MenuFrame extends JFrame {
             button4.setFont(buttonfont);
             add(button4);// button to return our profile
             JPanel panel = new JPanel(new GridLayout(1, 2));
-            JLabel label3 = new JLabel("Enter a name:");
-            label3.setFont(buttonfont);
-            panel.add(label3);
+
+            //JLabel label3 = new JLabel("Enter a name:");
+            //label3.setFont(buttonfont);
+            //panel.add(label3);
             searchfriend = new JTextField(30);
             panel.add(searchfriend);
             add(panel);
             JPanel panel5 = new JPanel(new GridBagLayout());
             GridBagConstraints con1 = new GridBagConstraints();
             con1.anchor = GridBagConstraints.CENTER;
-            button1 = new JButton("Search");
-            
+            button1 = new JButton("Search Friend");
             button1.addActionListener(new Listener4());
-            
-            panel5.add(button1, con1);
-            add(panel5);
+            panel.add(button1, con1);
+
             friendPanel2 = new FriendPanel2();
             scrollPane2 = new JScrollPane(friendPanel2);// searching among friends
             scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             add(scrollPane2);
-            JPanel panel2 = new JPanel(new GridLayout(1, 2));
-            JLabel label1 = new JLabel("Enter a name:");
-            label1.setFont(buttonfont);
-            panel2.add(label1);
+            add(panel5);
 
+            //JLabel label1 = new JLabel("Find a new Friend");
+            //label1.setFont(buttonfont);
+            //panel2.add(label1);
+
+            JPanel panel2 = new JPanel(new GridLayout(1, 2));
             searchadd = new JTextField(30);
             panel2.add(searchadd);
             add(panel2);
-            JButton button3 = new JButton("Search");
+            JButton button3 = new JButton("Find a new Friend");
             Listener3 listener3 = new Listener3();
             button3.addActionListener(listener3);
             JPanel panel4 = new JPanel(new GridBagLayout());
             GridBagConstraints a = new GridBagConstraints();
             a.anchor = GridBagConstraints.CENTER;
-            panel4.add(button3, a);
-            add(panel4);
+            panel2.add(button3, a);
             resultpanel = new ResultPanel();// result area for adding friends
             scrollPane = new JScrollPane();
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             add(scrollPane);
+            add(panel4);
+
             if(con.getFriendsArray(profile.getID()).size() != 0)
             {
                 button1.doClick();
