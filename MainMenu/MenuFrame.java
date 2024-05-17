@@ -365,7 +365,7 @@ public class MenuFrame extends JFrame {
                 ArrayList<String> result = new ArrayList<String>();
                 ArrayList<Integer> numberresult = new ArrayList<Integer>();
                 for (int i = 0; i < search.size(); i++) {
-                    if (search.get(i).contains(searchadd.getText())) {
+                    if (search.get(i).contains(searchadd.getText()) && number.get(i) != profile.getID()) {
                         result.add(search.get(i));
                         numberresult.add(number.get(i));
                     }
@@ -508,7 +508,7 @@ public class MenuFrame extends JFrame {
         private PopUp popUp = this;
 
         public PopUp(JFrame parent) {
-            super(parent, "Custom Popup", true);
+            super(parent, "Remove Friend", true);
             JPanel panel = new JPanel(new GridLayout(4, 1));
             searcharea = new JTextField(20);
             panel.add(searcharea);
