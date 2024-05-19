@@ -30,6 +30,7 @@ public class Text extends JPanel
 
     JFrame frameToOpen = MenuFrame.facediary;
     PopupFactory popupMenu;
+    private Timer timer = new Timer(500, new TimerListener());
 
     private File textFile;
     private File accessedPeopleFile;
@@ -39,6 +40,7 @@ public class Text extends JPanel
     private int[] date = new int[3];
     private boolean isSpecial;
     private boolean isGroup;
+    private boolean shown = false;
     private Profile profile;
 
     private JFrame frame;
@@ -112,7 +114,6 @@ public class Text extends JPanel
         dateLabel.setVerticalAlignment(SwingConstants.TOP);
         textArea = new JTextPane();
         textArea.setText(getText());
-        textArea.setEditable(setChangeable());
         textPanel = new JScrollPane(textArea);
 
         setText(getText());
@@ -122,10 +123,12 @@ public class Text extends JPanel
 
         backButton = new BackButtonListener();
         saveButton = new SaveButtonListener();
+        timer.start();
 
         if (!isGroup)
         {
             accessButton = new accessButton();
+
             add(accessButton);
         }
 
@@ -234,6 +237,11 @@ public class Text extends JPanel
 
     public void giveAccess(String friend)
     {
+        if (friend.equals(profile.getName()))
+        {
+            return;
+        }
+
         try {
             Scanner scan = new Scanner(accessedPeopleFile);
 
@@ -270,7 +278,7 @@ public class Text extends JPanel
     public void setGroup(ArrayList<String> people)
     {
         isGroup = true;
-        text.set(0, isSpecial + "1");
+        text.set(0, (isSpecial? 0: 1) + "1");
         setDayText(textArea.getText());
 
         for(int i = 0; i < people.size(); i++)
@@ -290,11 +298,19 @@ public class Text extends JPanel
             }
 
             friendText.makeGroup();
+
+            if(accessButton != null){
+                remove(accessButton);
+            }
         }
     }
 
     public void makeGroup()
     {
+        if(accessButton != null){
+            remove(accessButton);
+        }
+
         if(text.get(0).substring(1).equals("0"))
         {
             text.set(0, text.get(0).substring(0,1) + "1");
@@ -333,8 +349,9 @@ public class Text extends JPanel
 
     public void setShownText()
     {
-        if(isGroup && !setChangeable())
+        if(isGroup && !setChangeable() && !shown)
         {
+            shown = true;
             StyledDocument doc = textArea.getStyledDocument();
             Style style = textArea.addStyle("", null);
 
@@ -414,12 +431,23 @@ public class Text extends JPanel
         if(Diary.currentDate.compareTo(new GregorianCalendar(date[0], date[1] - 1, date[2])) == 0)
         {
             changeable = true;
+
+            if (saveButton != null)
+            {
+                add(saveButton);
+            }
         }
         else
         {
             changeable = false;
+
+            if (saveButton != null)
+            {
+                remove(saveButton);
+            }
         }
 
+        textArea.setEditable(changeable);
         return changeable;
     }
 
@@ -445,6 +473,7 @@ public class Text extends JPanel
 
         if(isGroup)
         {
+
             return Color.MAGENTA;
         }
 
@@ -708,5 +737,39 @@ public class Text extends JPanel
         }
         @Override
         public void componentHidden(ComponentEvent e) {}
+    }
+
+    class TimerListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                Scanner scan = new Scanner(textFile);
+                isGroup = scan.nextLine().substring(1).equals("1");
+                scan.close();
+
+                if (isGroup)
+                {
+                    makeGroup();
+
+                    if (!shown)
+                    {
+                        Scanner scaner = new Scanner(accessedPeopleFile);
+
+                        people.clear();
+                        while(scaner.hasNextLine())
+                        {
+                            people.add(scaner.nextLine());
+                        }
+                    }
+                    setText(getText());
+                    setShownText();
+                }
+            }
+            catch (FileNotFoundException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 }

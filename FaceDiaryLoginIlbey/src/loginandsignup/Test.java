@@ -11,11 +11,11 @@ public class Test
         System.out.println(con.getUserPointsById(1));
         System.out.println(con.getUserStreakById(3));
         con.setStatue(1, "Bugün hava kötü 123");
-        System.out.println(con.getStatue(1));
-        con.setUserPoints(2,1000);
+        System.out.println(con.getStatue(1));*/
+        con.setUserPoints(3,100000);/*
         System.out.println(con.getUserPointsById(2));
-        con.setStreak(4,15);/*
-        System.out.println(con.getUserStreakById(4));
+        con.setStreak(2,18);
+        /*System.out.println(con.getUserStreakById(4));
         con.setStatue(4, "Ben Dördüncüyüm");
         System.out.println(con.getNamesArray()); */
         //con.setFriend(11, 3);
