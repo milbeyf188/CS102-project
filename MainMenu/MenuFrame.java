@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.*;
 import CS_Project_Profile.*;
@@ -32,6 +34,7 @@ public class MenuFrame extends JFrame {
     public static Controller con = new Controller();
 
     private MenuFrame frame = this;
+    private Timer timer = new Timer(1000, new TimerListener());
 
     protected Color lightblue = new Color(62, 128, 168);
     public static final Color backgroundColor = new Color(8, 32, 45);
@@ -61,6 +64,7 @@ public class MenuFrame extends JFrame {
         pathString = myfile.getAbsolutePath();
         this.profile = profile;
         diary = new Diary(profile, this);// Diary burda çağrılıyor
+        timer.start();
 
         profile.setStreak();
 
@@ -764,6 +768,21 @@ public class MenuFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 diary.GroupDiary(GetSelected());
                 getPopUp().hide();
+            }
+        }
+    }
+
+    class TimerListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            if (GregorianCalendar.getInstance().get(GregorianCalendar.MONTH) != diary.currentDate.get(GregorianCalendar.MONTH) ||
+                    GregorianCalendar.getInstance().get(GregorianCalendar.DAY_OF_MONTH) != diary.currentDate.get(GregorianCalendar.DAY_OF_MONTH) ||
+                    GregorianCalendar.getInstance().get(GregorianCalendar.YEAR) != diary.currentDate.get(GregorianCalendar.YEAR))
+            {
+                Diary.currentDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),
+                        Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                diary.updateCalendar();
             }
         }
     }
